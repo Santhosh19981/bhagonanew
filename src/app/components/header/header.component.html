@@ -1,1 +1,79 @@
-<p>header works!</p>
+<!-- HEADER -->
+<header class="w-full bg-white shadow-md fixed top-0 left-0 z-50">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+
+    <!-- Logo -->
+    <div class="flex items-center">
+      <img src="../../../assets/home-logo.png" alt="Logo" class="h-10 w-auto">
+    </div>
+
+    <!-- Menu (Desktop) -->
+    <nav class="hidden md:flex space-x-8 font-medium text-gray-700">
+      <a href="#" class="hover:text-orange-500 transition">Home</a>
+      <a href="#" class="hover:text-orange-500 transition">About</a>
+      <a href="#" class="hover:text-orange-500 transition">Events</a>
+      <a href="#" class="hover:text-orange-500 transition">Gallery</a>
+      <a href="#" class="hover:text-orange-500 transition">Contact</a>
+    </nav>
+
+    <!-- Animated Button -->
+<div class="flex items-center gap-4 justify-center">
+
+ <div class="relative flex">
+      <svg class="flex-1 w-5 h-5 fill-current" viewbox="0 0 24 24">
+        <path
+          d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
+      </svg>
+      <span
+        class="absolute -right-3 -top-3 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">5
+      </span>
+    </div>
+
+    <div class="hidden md:flex">
+      <button
+        class="ml-2 [transition:all_0.3s] active:[box-shadow:0px_2px_5px_rgba(0,_0,_0,_0.2)] active:scale-[0.95] bg-[linear-gradient(to_bottom,_#fa8231_0%,_#ff5050_100%)] border-none flex group items-center justify-center pl-2 pr-[1.8em] py-1.5 rounded-[22px] text-[8px] text-white">
+        <div class="svg-wrapper-1">
+          <div
+            class="flex items-center justify-center lg:h-8 lg:w-8 md:h-6 md:w-6 p-1 rounded-[50%] bg-[#fff] mr-[0.5em] [transition:all_0.3s]">
+            <img src="https://venus-scocu-assets.s3.amazonaws.com/3876336973376457" class="h-full">
+          </div>
+        </div><span class="[transition:all_0.3s] block font-medium ml-[0.2em] lg:text-sm md:text-[10px] text-xs">Book
+          Services</span>
+      </button>
+    </div>
+</div>
+   
+
+    <!-- Mobile Menu Button -->
+    <button id="menuBtn" class="md:hidden focus:outline-none">
+      <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu"
+    class="hidden flex-col bg-white shadow-md md:hidden px-4 pb-4 space-y-3 font-medium text-gray-700">
+    <a href="#" class="hover:text-orange-500 transition">Home</a>
+    <a href="#" class="hover:text-orange-500 transition">About</a>
+    <a href="#" class="hover:text-orange-500 transition">Events</a>
+    <a href="#" class="hover:text-orange-500 transition">Gallery</a>
+    <a href="#" class="hover:text-orange-500 transition">Contact</a>
+
+    <a href="#"
+      class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-5 py-2 rounded-full shadow-md hover:scale-105 transition-transform duration-300">
+      Book Now
+    </a>
+  </div>
+</header>
+
+<!-- Simple Script for Mobile Toggle -->
+<script>
+  const btn = document.getElementById("menuBtn");
+  const menu = document.getElementById("mobileMenu");
+
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>
