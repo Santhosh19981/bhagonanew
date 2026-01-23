@@ -1,69 +1,146 @@
 <!-- HEADER -->
-<header class="w-full bg-white shadow-md fixed top-0 left-0 z-50">
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+<header class="w-full bg-white/95 backdrop-blur-md shadow-sm fixed top-0 left-0 z-50 border-b border-gray-100">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
 
     <!-- Logo -->
-    <div class="flex items-center">
-      <img src="../../../assets/home-logo.png" alt="Logo" class="h-10 w-auto">
-    </div>
+    <a routerLink="/home" class="flex items-center cursor-pointer">
+      <img src="../../../assets/home-logo.png" alt="Logo"
+        class="h-9 md:h-10 w-auto hover:opacity-80 transition-opacity">
+    </a>
 
     <!-- Menu (Desktop) -->
-    <nav class="hidden md:flex space-x-8 font-medium text-gray-700">
-      <a href="#" class="hover:text-orange-500 transition">Home</a>
-      <a href="#" class="hover:text-orange-500 transition">About</a>
-      <a href="#" class="hover:text-orange-500 transition">Events</a>
-      <a href="#" class="hover:text-orange-500 transition">Gallery</a>
-      <a href="#" class="hover:text-orange-500 transition">Contact</a>
+    <nav class="hidden md:flex space-x-8 font-bold text-[#e87f2c] uppercase tracking-widest text-[10px]">
+      <a routerLink="/home" routerLinkActive="text-gray-900"
+        class="hover:text-gray-900 transition-colors py-1.5">Home</a>
+      <a routerLink="/events" routerLinkActive="text-gray-900"
+        class="hover:text-gray-900 transition-colors py-1.5">Events</a>
+      <a routerLink="/services" routerLinkActive="text-gray-900"
+        class="hover:text-gray-900 transition-colors py-1.5">Services</a>
+      <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" routerLinkActive="text-gray-900"
+        class="hover:text-gray-900 transition-colors py-1.5">Orders</a>
     </nav>
 
-    <!-- Animated Button -->
-<div class="flex items-center gap-4 justify-center">
+    <!-- Right Side Actions -->
+    <div class="flex items-center gap-4">
+      <div routerLink="/cart" class="relative flex cursor-pointer hover:scale-105 transition-transform">
+        <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-700" viewbox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <span
+          class="absolute -right-2 -top-2 rounded-full bg-[#e87f2c] w-4 h-4 md:w-5 md:h-5 text-white font-black text-[9px] md:text-[10px] flex items-center justify-center">{{cartCount}}
+        </span>
+      </div>
 
- <div class="relative flex">
-      <svg class="flex-1 w-5 h-5 fill-current" viewbox="0 0 24 24">
-        <path
-          d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
-      </svg>
-      <span
-        class="absolute -right-3 -top-3 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">5
-      </span>
-    </div>
+      <div class="hidden md:flex items-center gap-4">
+        <!-- Auth Button -->
+        <ng-container *ngIf="!authService.isLoggedIn(); else userProfile">
+          <button routerLink="/login"
+            class="text-[#e87f2c] border-2 border-[#e87f2c] hover:bg-[#e87f2c] hover:text-white px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
+            Login
+          </button>
+        </ng-container>
+        <ng-template #userProfile>
+          <div class="relative group">
+            <div
+              class="flex items-center gap-3 bg-gray-50 hover:bg-white px-4 py-1.5 rounded-full border border-gray-100 hover:border-[#e87f2c]/30 transition-all cursor-pointer shadow-sm hover:shadow-md">
+              <div
+                class="w-8 h-8 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-xs font-black shadow-inner">
+                {{authService.currentUserValue?.name?.charAt(0)}}
+              </div>
+              <div class="flex flex-col">
+                <span
+                  class="text-[9px] font-black text-gray-900 uppercase leading-tight tracking-wide">{{authService.currentUserValue?.name}}</span>
+                <span class="text-[7px] font-bold text-[#e87f2c] uppercase tracking-tighter">Verified Account</span>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-3 w-3 text-gray-400 group-hover:text-[#e87f2c] transition-colors" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
 
-    <div class="hidden md:flex">
-      <button
-        class="ml-2 [transition:all_0.3s] active:[box-shadow:0px_2px_5px_rgba(0,_0,_0,_0.2)] active:scale-[0.95] bg-[linear-gradient(to_bottom,_#fa8231_0%,_#ff5050_100%)] border-none flex group items-center justify-center pl-2 pr-[1.8em] py-1.5 rounded-[22px] text-[8px] text-white">
-        <div class="svg-wrapper-1">
-          <div
-            class="flex items-center justify-center lg:h-8 lg:w-8 md:h-6 md:w-6 p-1 rounded-[50%] bg-[#fff] mr-[0.5em] [transition:all_0.3s]">
-            <img src="https://venus-scocu-assets.s3.amazonaws.com/3876336973376457" class="h-full">
+            <!-- Dropdown on Hover -->
+            <div
+              class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden">
+              <div class="p-4 bg-gray-50 border-b border-gray-100">
+                <p class="text-[10px] font-black text-gray-900 mb-0.5">{{authService.currentUserValue?.name}}</p>
+                <p class="text-[8px] text-gray-400 font-bold truncate">{{authService.currentUserValue?.email ||
+                  authService.currentUserValue?.mobile}}</p>
+              </div>
+              <div class="p-2">
+                <button (click)="logout()"
+                  class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 text-red-500 hover:text-red-600 transition-colors group/logout text-left">
+                  <div
+                    class="w-7 h-7 bg-red-100 text-red-500 rounded-lg flex items-center justify-center group-hover/logout:bg-red-200 transition-colors flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                  </div>
+                  <span class="text-[10px] font-black uppercase tracking-widest">Logout</span>
+                </button>
+              </div>
+            </div>
           </div>
-        </div><span class="[transition:all_0.3s] block font-medium ml-[0.2em] lg:text-sm md:text-[10px] text-xs">Book
-          Services</span>
+        </ng-template>
+
+        <button routerLink="/services"
+          class="bg-[#e87f2c] hover:bg-[#af6429] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center gap-2">
+          <span class="lg:block hidden">Book Services</span>
+          <span class="lg:hidden">Book</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="menuBtn" class="md:hidden focus:outline-none p-1">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
       </button>
     </div>
-</div>
-   
-
-    <!-- Mobile Menu Button -->
-    <button id="menuBtn" class="md:hidden focus:outline-none">
-      <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
   </div>
 
   <!-- Mobile Menu -->
   <div id="mobileMenu"
-    class="hidden flex-col bg-white shadow-md md:hidden px-4 pb-4 space-y-3 font-medium text-gray-700">
-    <a href="#" class="hover:text-orange-500 transition">Home</a>
-    <a href="#" class="hover:text-orange-500 transition">About</a>
-    <a href="#" class="hover:text-orange-500 transition">Events</a>
-    <a href="#" class="hover:text-orange-500 transition">Gallery</a>
-    <a href="#" class="hover:text-orange-500 transition">Contact</a>
+    class="hidden flex-col bg-white border-t border-gray-100 md:hidden px-6 py-5 space-y-4 font-bold text-[#e87f2c] text-[13px] uppercase tracking-widest shadow-lg">
+    <a routerLink="/home" class="hover:text-gray-900 transition py-2">Home</a>
+    <a routerLink="/events" class="hover:text-gray-900 transition py-2">Events</a>
+    <a routerLink="/services" class="hover:text-gray-900 transition py-2">Services</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/order-history"
+      class="hover:text-gray-900 transition py-2">Orders</a>
 
-    <a href="#"
-      class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-5 py-2 rounded-full shadow-md hover:scale-105 transition-transform duration-300">
-      Book Now
+    <ng-container *ngIf="!authService.isLoggedIn(); else mobileUser">
+      <a routerLink="/login" class="hover:text-gray-900 transition py-2">Login</a>
+    </ng-container>
+    <ng-template #mobileUser>
+      <div class="flex items-center justify-between p-4 bg-orange-50/30 rounded-2xl border border-orange-100/50 mb-2">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-base font-black shadow-md border-2 border-white">
+            {{authService.currentUserValue?.name?.charAt(0)}}
+          </div>
+          <div class="flex flex-col">
+            <p class="text-sm font-black text-gray-900 leading-tight">{{authService.currentUserValue?.name}}</p>
+            <p class="text-[10px] text-gray-400 font-bold tracking-tight">{{authService.currentUserValue?.email ||
+              authService.currentUserValue?.mobile}}</p>
+          </div>
+        </div>
+        <button (click)="logout()" class="p-2 bg-red-100 text-red-500 rounded-xl active:bg-red-200 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      </div>
+    </ng-template>
+
+    <a routerLink="/services"
+      class="bg-[#e87f2c] text-white px-5 py-3.5 rounded-xl shadow-md text-center font-black text-[13px]">
+      Book Service
     </a>
   </div>
 </header>

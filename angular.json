@@ -31,10 +31,10 @@
                 "input": "public"
               },
               {
-    "glob": "**/*",
-    "input": "src/assets",
-    "output": "assets/"
-  }
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets/"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -52,10 +52,13 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "15kB",
+                  "maximumError": "20kB"
                 }
               ],
+              "optimization": {
+                "fonts": false
+              },
               "outputHashing": "all"
             },
             "development": {

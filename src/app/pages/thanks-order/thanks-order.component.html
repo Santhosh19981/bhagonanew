@@ -1,1 +1,108 @@
-<p>thanks-order works!</p>
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4 flex items-center justify-center overflow-hidden">
+    <!-- Confetti Simulation Elements (Pure CSS) -->
+    <div class="confetti-container absolute inset-0 pointer-events-none">
+        <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" class="confetti" [style.left.px]="(i*100) % 1000"></div>
+    </div>
+
+    <div class="max-w-3xl w-full bg-white/90 backdrop-blur-3xl rounded-[4rem] p-10 md:p-16 shadow-2xl border border-white/50 text-center relative z-10"
+        data-aos="zoom-in">
+        <!-- Success Animation Container -->
+        <div
+            class="w-40 h-40 bg-green-50 rounded-full flex justify-center items-center mx-auto mb-12 overflow-hidden relative shadow-inner">
+            <div class="absolute inset-0 bg-green-500/10 animate-[ping_3s_infinite] rounded-full"></div>
+            <div class="absolute inset-4 bg-green-500/10 animate-[pulse_2s_infinite] rounded-full"></div>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-24 w-24 text-green-500 relative z-10 animate-[bounce_2s_infinite]" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 main-font mb-6 leading-tight">It's Official! <br> <span
+                class="text-[#e87f2c]">See You Soon.</span></h1>
+        <p class="text-xl text-gray-500 font-medium mb-12 max-w-lg mx-auto leading-relaxed">Your culinary experience
+            starts now. We've notified our team and sent the digital receipt to your inbox.</p>
+
+        <!-- Dynamic Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
+            <div
+                class="bg-gray-50/50 p-8 rounded-[3rem] border border-gray-100 shadow-sm group hover:bg-white transition-all">
+                <p
+                    class="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em] mb-3 group-hover:text-[#e87f2c]">
+                    Occasion Date</p>
+                <p class="text-2xl font-black text-gray-800">{{bookingData.eventDate}}</p>
+                <div
+                    class="w-10 h-1 bg-[#e87f2c] rounded-full mt-4 mx-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+            <div
+                class="bg-gray-50/50 p-8 rounded-[3rem] border border-gray-100 shadow-sm group hover:bg-white transition-all">
+                <p
+                    class="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em] mb-3 group-hover:text-[#e87f2c]">
+                    Reference Code</p>
+                <div class="flex items-center justify-center gap-2">
+                    <p class="text-2xl font-black text-gray-800">#BHG-92834</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                </div>
+                <div
+                    class="w-10 h-1 bg-[#e87f2c] rounded-full mt-4 mx-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <button routerLink="/order-history"
+                class="w-full py-6 bg-gray-900 text-white rounded-[2.5rem] font-black text-lg shadow-2xl shadow-gray-400/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+                Track My Experience
+            </button>
+            <button routerLink="/home"
+                class="w-full py-6 bg-white text-[#e87f2c] border-2 border-orange-100 rounded-[2.5rem] font-black text-lg hover:bg-orange-50 hover:scale-[1.02] active:scale-95 transition-all">
+                Plan Another Event
+            </button>
+        </div>
+
+        <p class="text-gray-400 text-[10px] mt-16 font-black uppercase tracking-[0.5em] italic">Bhagona Premium
+            Concierge • 24/7 Support</p>
+    </div>
+</div>
+
+<style>
+    .confetti {
+        width: 10px;
+        height: 10px;
+        background: #e87f2c;
+        position: absolute;
+        top: -10px;
+        border-radius: 2px;
+        animation: fall 3s linear infinite;
+    }
+
+    .confetti:nth-child(even) {
+        background: #af6429;
+        width: 7px;
+        height: 12px;
+    }
+
+    .confetti:nth-child(3n) {
+        background: #ffd700;
+        width: 12px;
+        height: 6px;
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+</style>

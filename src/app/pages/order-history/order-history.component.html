@@ -1,1 +1,146 @@
-<p>order-history works!</p>
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <h1 class="text-5xl font-bold text-gray-900 main-font mb-4">My <span class="text-[#e87f2c]">Orders</span>
+            </h1>
+            <p class="text-xl text-gray-500 font-medium">Capture the magic of your past and future events.</p>
+        </div>
+
+        <!-- Refined Tabs -->
+        <div class="flex justify-center mb-16" data-aos="fade-up">
+            <div class="bg-white/70 backdrop-blur-2xl p-2 rounded-[3rem] shadow-xl border border-white/50 flex gap-2">
+                <button (click)="activeTab = 'upcoming'"
+                    [class]="activeTab === 'upcoming' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
+                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    Upcoming
+                </button>
+                <button (click)="activeTab = 'processing'"
+                    [class]="activeTab === 'processing' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
+                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    Active
+                </button>
+                <button (click)="activeTab = 'completed'"
+                    [class]="activeTab === 'completed' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
+                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    Past
+                </button>
+            </div>
+        </div>
+
+        <!-- Orders Grid Style -->
+        <div class="grid gap-10">
+            <div *ngFor="let order of filteredOrders"
+                class="bg-white/80 backdrop-blur-xl rounded-[4rem] p-8 md:p-12 shadow-xl border border-white/50 flex flex-col xl:flex-row items-center justify-between gap-12 group transition-all hover:shadow-2xl"
+                data-aos="fade-up">
+
+                <div class="flex flex-col sm:flex-row items-center gap-10 text-center sm:text-left w-full xl:w-auto">
+                    <!-- Icon/Preview -->
+                    <div
+                        class="w-32 h-32 bg-orange-50 rounded-[2.5rem] flex justify-center items-center text-[#e87f2c] shadow-inner relative shrink-0">
+                        <div
+                            class="absolute inset-0 bg-orange-100/50 scale-0 group-hover:scale-110 rounded-[2.5rem] transition-transform duration-700">
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 relative z-10" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18z" />
+                        </svg>
+                    </div>
+
+                    <!-- Meta -->
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                            <span
+                                class="text-[10px] font-black text-white px-5 py-2 bg-[#e87f2c] rounded-full uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20">{{order.id}}</span>
+                            <span
+                                class="text-gray-400 font-black uppercase text-[10px] tracking-widest border-l border-gray-200 pl-4">{{order.date}}</span>
+                        </div>
+                        <div>
+                            <h3
+                                class="text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
+                                {{order.event}}</h3>
+                            <p class="text-gray-500 font-bold text-lg mt-1 italic">{{order.chef}} & Team</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status & Action Area -->
+                <div
+                    class="flex flex-col sm:flex-row items-center gap-12 w-full xl:w-auto border-t xl:border-t-0 xl:border-l border-gray-100 pt-10 xl:pt-0 xl:pl-12">
+                    <div class="text-center sm:text-right">
+                        <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Total Experience
+                            Value</p>
+                        <p class="text-4xl font-black text-gray-800">₹{{order.amount}}</p>
+                    </div>
+
+                    <div class="w-full sm:w-auto">
+                        <!-- Upcoming Action -->
+                        <div *ngIf="order.status === 'upcoming'" class="flex flex-col items-center sm:items-end gap-3">
+                            <button (click)="markStart(order)"
+                                class="w-full sm:w-auto px-12 py-5 bg-[#e87f2c] text-white rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-[#af6429] shadow-2xl shadow-orange-500/30 transition-all hover:scale-[1.05] active:scale-95">
+                                Start Event
+                            </button>
+                            <p
+                                class="text-[9px] text-[#e87f2c] font-black uppercase tracking-widest animate-pulse opacity-60">
+                                Prepare for culinary magic</p>
+                        </div>
+
+                        <!-- Processing Badge -->
+                        <div *ngIf="order.status === 'processing'"
+                            class="flex items-center gap-4 bg-orange-50 px-10 py-5 rounded-[2.5rem] border border-orange-100 shadow-sm relative overflow-hidden group/status">
+                            <div
+                                class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#e87f2c] to-transparent animate-[shimmer_2s_infinite]">
+                            </div>
+                            <div class="w-3 h-3 bg-[#e87f2c] rounded-full animate-ping relative z-10"></div>
+                            <span
+                                class="text-[#e87f2c] font-black uppercase text-xs tracking-[0.3em] relative z-10">Live
+                                In Service</span>
+                        </div>
+
+                        <!-- Completed Action -->
+                        <div *ngIf="order.status === 'completed'" class="flex flex-col items-center sm:items-end gap-4">
+                            <button routerLink="/reviews"
+                                class="w-full sm:w-auto px-12 py-5 border-2 border-orange-100 text-[#e87f2c] rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-orange-50 transition-all hover:scale-[1.05]">
+                                Rate Experience
+                            </button>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <p class="text-[9px] text-green-600 font-black uppercase tracking-widest">Delivered with
+                                    Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="filteredOrders.length === 0" class="text-center py-32" data-aos="fade-up">
+                <div class="w-24 h-24 bg-gray-50 rounded-full flex justify-center items-center mx-auto mb-8">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-300 main-font">No {{activeTab}} events</h2>
+                <button routerLink="/home"
+                    class="mt-8 px-10 py-4 bg-[#e87f2c] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#af6429] shadow-lg transition-all">
+                    Plan an Event Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes shimmer {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+</style>

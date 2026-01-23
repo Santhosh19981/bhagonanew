@@ -1,1 +1,122 @@
-<p>payment-page works!</p>
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] flex items-center justify-center p-4">
+    <div class="max-w-md w-full" data-aos="zoom-in">
+        <!-- Back Button -->
+        <button (click)="goBack()"
+            class="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-black uppercase text-[10px] tracking-widest group">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+        </button>
+        <!-- Payment Card -->
+        <div class="bg-white/90 backdrop-blur-2xl rounded-[4rem] shadow-2xl overflow-hidden border border-white/50">
+            <!-- Header -->
+            <div
+                class="bg-gradient-to-br from-[#e87f2c] via-[#af6429] to-[#8a4a1a] p-10 text-white text-center relative overflow-hidden">
+                <div
+                    class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
+                </div>
+
+                <div
+                    class="w-24 h-24 bg-white/20 rounded-[2.5rem] flex justify-center items-center mx-auto mb-8 backdrop-blur-md border border-white/30 shadow-2xl relative z-10 transition-transform hover:rotate-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h1 class="text-4xl font-bold main-font relative z-10">Secure Gateway</h1>
+                <p class="text-white/60 font-black uppercase text-[10px] tracking-[0.4em] mt-2 relative z-10">Order ID:
+                    #BHG-{{ orderId }}</p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-10 space-y-10">
+                <!-- Payment Methods -->
+                <div class="space-y-6">
+                    <!-- UPI / Card -->
+                    <div
+                        class="p-6 border-2 border-[#e87f2c] rounded-[2.5rem] flex items-center gap-6 bg-orange-50/50 relative group cursor-pointer transition-all hover:shadow-lg">
+                        <div class="w-6 h-6 rounded-full border-4 border-[#e87f2c] bg-white flex shrink-0"></div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-800 text-lg">UPI / Cards / Net</h4>
+                            <p class="text-[9px] text-[#e87f2c] font-black uppercase tracking-[0.2em] mt-0.5">
+                                Recommended Experience</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png"
+                                class="h-4 object-contain">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1200px-Visa_2021.svg.png"
+                                class="h-4 object-contain">
+                        </div>
+                    </div>
+
+                    <!-- COD -->
+                    <div
+                        class="p-6 border-2 border-gray-100 rounded-[2.5rem] flex items-center gap-6 hover:border-orange-200 transition-all cursor-pointer group">
+                        <div
+                            class="w-6 h-6 rounded-full border-2 border-gray-200 bg-white flex shrink-0 group-hover:border-orange-300">
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-800 text-lg">Payment at Venue</h4>
+                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-[0.2em] mt-0.5">Pay on
+                                Event Date</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="space-y-4">
+                    <button (click)="payNow()" [disabled]="isProcessing"
+                        class="w-full py-6 bg-gradient-to-r from-[#e87f2c] to-[#af6429] text-white rounded-[2.5rem] font-black text-xl shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-4 group disabled:opacity-50 disabled:scale-100">
+                        <span *ngIf="!isProcessing" class="flex items-center gap-3">
+                            Confirm & Pay
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6 group-hover:translate-x-1 transition-transform" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </span>
+                        <span *ngIf="isProcessing" class="flex items-center gap-4">
+                            <svg class="animate-spin h-7 w-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Wait, Encrypting...
+                        </span>
+                    </button>
+
+                    <!-- Progress Loader -->
+                    <div *ngIf="isProcessing" class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#e87f2c] animate-[progress_2s_ease-in-out]"></div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-gray-400 text-[9px] font-black uppercase tracking-[0.5em] italic">PCI-DSS Compliant •
+                        256-bit AES</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes progress {
+        0% {
+            width: 0%;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+</style>

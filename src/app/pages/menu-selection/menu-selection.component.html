@@ -1,0 +1,114 @@
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Back Button -->
+        <button (click)="goBack()"
+            class="mb-6 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+        </button>
+        <!-- Header -->
+        <div class="text-center mb-10" data-aos="fade-down">
+            <h1 class="text-3xl font-bold text-gray-900 main-font mb-2">Select Your <span
+                    class="text-[#e87f2c]">Menu</span></h1>
+            <p class="text-sm text-gray-600 font-medium">Fine culinary choices for your guests.</p>
+        </div>
+
+        <!-- Menu Tabs - More compact -->
+        <div class="flex justify-center mb-10" data-aos="fade-up">
+            <div
+                class="bg-white/80 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/40 flex gap-1.5">
+                <button (click)="activeTab = 'veg'"
+                    [class]="activeTab === 'veg' ? 'bg-[#e87f2c] text-white shadow-md' : 'text-gray-500 hover:bg-white'"
+                    class="px-8 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                    Vegetarian
+                </button>
+                <button (click)="activeTab = 'non-veg'"
+                    [class]="activeTab === 'non-veg' ? 'bg-[#e87f2c] text-white shadow-md' : 'text-gray-500 hover:bg-white'"
+                    class="px-8 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                    Non-Veg
+                </button>
+            </div>
+        </div>
+
+        <!-- Dish Grid - More compact -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div *ngFor="let item of (activeTab === 'veg' ? vegMenu : nonVegMenu)"
+                class="group bg-white/90 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col"
+                data-aos="zoom-in">
+
+                <!-- Image Container - Reduced height -->
+                <div class="relative h-48 overflow-hidden">
+                    <img [src]="item.image" [alt]="item.name"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-4">
+                        <span class="text-white font-black text-lg">₹{{item.price}}</span>
+                    </div>
+                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest"
+                        [class]="activeTab === 'veg' ? 'text-green-600' : 'text-red-600'">
+                        {{activeTab === 'veg' ? 'Pure Veg' : 'Non-Veg'}}
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3
+                        class="text-base font-bold text-gray-900 mb-1 leading-tight group-hover:text-[#e87f2c] transition-colors">
+                        {{item.name}}</h3>
+                    <p class="text-gray-500 text-[11px] leading-relaxed mb-6 flex-grow line-clamp-2">
+                        {{item.description}}</p>
+
+                    <!-- Selection Toggle - Removed Quantity -->
+                    <div class="mt-auto">
+                        <button (click)="toggleSelection(item)"
+                            [class]="isItemSelected(item.id) ? 'bg-[#e87f2c] text-white' : 'bg-orange-50 text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white'"
+                            class="w-full py-2.5 rounded-xl font-bold text-xs transition-all transform active:scale-95 shadow-sm uppercase tracking-widest">
+                            {{isItemSelected(item.id) ? 'Selected' : 'Add to Selection'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Footer/Summary - More compact -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl z-50 px-4" *ngIf="totalItems > 0">
+        <div class="bg-gray-900/95 backdrop-blur-xl rounded-[1.5rem] p-3 flex flex-row items-center justify-between gap-4 shadow-2xl border border-white/10"
+            data-aos="slide-up">
+            <div class="flex items-center gap-4 px-2">
+                <div class="w-10 h-10 bg-[#e87f2c] rounded-xl flex justify-center items-center relative shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <span
+                        class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[8px] font-black w-5 h-5 rounded-full flex justify-center items-center border-[1.5px] border-gray-900">
+                        {{totalItems}}
+                    </span>
+                </div>
+                <div>
+                    <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Selections
+                    </p>
+                    <p class="text-white font-bold text-sm">{{totalItems}} Dishes</p>
+                </div>
+            </div>
+
+            <button (click)="proceed()"
+                class="px-6 py-3 bg-[#e87f2c] text-white rounded-xl font-bold text-xs hover:bg-[#af6429] transition-all shadow-lg flex items-center justify-center gap-2 group">
+                Continue
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>

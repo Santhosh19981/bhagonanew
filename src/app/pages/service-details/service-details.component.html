@@ -1,1 +1,219 @@
-<p>service-details works!</p>
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        <!-- Back Button -->
+        <button (click)="goBack()"
+            class="mb-6 flex items-center gap-1.5 text-gray-400 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Services
+        </button>
+
+        <!-- Event Context (If available) - More compact -->
+        <div *ngIf="bookingData?.eventDate" class="mb-8" data-aos="fade-down">
+            <div
+                class="bg-white/80 backdrop-blur-xl rounded-[2rem] p-5 border border-white/50 shadow-lg flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-[#e87f2c] shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Scheduled Event
+                        </p>
+                        <h2 class="text-base font-bold text-gray-800">Event on {{bookingData.eventDate}}</h2>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span
+                                class="text-[10px] font-bold text-orange-600 bg-orange-50/50 px-2.5 py-0.5 rounded-lg border border-orange-100">Veg:
+                                {{bookingData.vegGuests}}</span>
+                            <span
+                                class="text-[10px] font-bold text-red-600 bg-red-50/50 px-2.5 py-0.5 rounded-lg border border-red-100">Non-Veg:
+                                {{bookingData.nonVegGuests}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Total Guests</p>
+                    <p class="text-2xl font-black text-gray-800 leading-none">{{bookingData.totalMembers}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Header with Image -->
+        <div *ngIf="selectedService" class="mb-10" data-aos="zoom-in">
+            <div
+                class="bg-white/95 backdrop-blur-xl rounded-[3rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-3 gap-0">
+                <!-- Service Image -->
+                <div class="relative h-64 lg:h-auto overflow-hidden">
+                    <img [src]="selectedService.image" [alt]="selectedService.name" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute top-6 left-6">
+                        <span
+                            class="bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.3em] text-[#e87f2c] shadow-lg border border-orange-100">
+                            {{selectedService.tag}}
+                        </span>
+                    </div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <h1 class="text-3xl font-bold leading-tight font-serif drop-shadow-lg">{{selectedService.name}}
+                        </h1>
+                        <div class="h-1 w-16 bg-[#e87f2c] rounded-full mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Service Info -->
+                <div class="lg:col-span-2 p-8 lg:p-12 flex flex-col justify-center">
+                    <h2 class="text-4xl font-black text-gray-900 main-font mb-4">Book <span
+                            class="text-[#e87f2c]">{{selectedService.name}}</span></h2>
+                    <p class="text-lg text-gray-600 font-medium leading-relaxed mb-6">{{selectedService.description}}
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <div
+                            class="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl text-green-600 text-xs font-bold">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                            Premium Quality
+                        </div>
+                        <div
+                            class="flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-xl text-[#e87f2c] text-xs font-bold">
+                            <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                            Doorstep Delivery
+                        </div>
+                        <div
+                            class="flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-xl text-blue-600 text-xs font-bold">
+                            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+                            {{filteredItems.length}} Items Available
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar: Categories or Cart Summary -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Cart Summary - More compact -->
+                <div class="bg-white/95 backdrop-blur-xl rounded-[2rem] p-6 border border-white/50 shadow-xl sticky top-24"
+                    data-aos="fade-right">
+                    <h4 class="text-base font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#e87f2c]" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Service Cart
+                    </h4>
+
+                    <div class="space-y-4 mb-6 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div *ngFor="let item of cart"
+                            class="flex items-center gap-3 p-3 bg-gray-50/50 rounded-xl border border-gray-100 group transition-all">
+                            <img [src]="item.image"
+                                class="w-10 h-10 rounded-lg object-cover shadow-sm group-hover:scale-105 transition-transform">
+                            <div class="flex-grow">
+                                <h5 class="text-[11px] font-bold text-gray-800 leading-tight">{{item.name}}</h5>
+                                <p class="text-[9px] text-gray-400 font-black uppercase mt-0.5">{{item.quantity}} x
+                                    ₹{{item.price}}</p>
+                            </div>
+                        </div>
+                        <div *ngIf="cart.length === 0" class="text-center py-6 opacity-30 italic text-[11px]">
+                            Cart is empty
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100">
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Total
+                                Value</span>
+                            <span class="text-xl font-black text-gray-800">₹{{totalValue}}</span>
+                        </div>
+                        <button (click)="proceed()" [disabled]="cart.length === 0"
+                            class="w-full py-3.5 bg-[#e87f2c] text-white rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#af6429] shadow-lg shadow-orange-500/10 active:scale-95 transition-all disabled:opacity-30 disabled:scale-100">
+                            Book Services
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Grid: Service Items -->
+            <div class="lg:col-span-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div *ngFor="let item of filteredItems"
+                        class="bg-white/90 rounded-[2rem] p-4 border border-white/50 shadow-sm hover:shadow-xl transition-all duration-500 group relative overflow-hidden flex flex-col"
+                        data-aos="fade-up">
+
+                        <!-- Image - Reduced height -->
+                        <div class="relative h-44 rounded-[1.5rem] overflow-hidden mb-4">
+                            <img [src]="item.image" [alt]="item.name"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute top-3 left-3">
+                                <span
+                                    class="bg-white/95 backdrop-blur px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest text-gray-500 shadow-sm border border-gray-100">
+                                    {{item.category}}
+                                </span>
+                            </div>
+                            <!-- Price Overlay -->
+                            <div class="absolute bottom-3 right-3 bg-gray-900/90 backdrop-blur px-4 py-1.5 rounded-xl">
+                                <p class="text-white font-black text-sm">₹{{item.price}}<span
+                                        class="text-[8px] text-gray-400 tracking-widest ml-1 uppercase">/{{item.weight}}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="flex-grow flex flex-col px-2">
+                            <h4
+                                class="text-base font-bold text-gray-800 mb-1 group-hover:text-[#e87f2c] transition-colors leading-tight">
+                                {{item.name}}</h4>
+                            <p class="text-[10px] text-gray-400 font-bold mb-2 italic">{{item.description}}</p>
+                            <p class="text-[9px] text-gray-500 font-black uppercase tracking-wider mb-4">{{item.weight}}
+                            </p>
+
+                            <!-- Quantity Controls - More compact -->
+                            <div *ngIf="getQuantity(item.id) > 0"
+                                class="flex items-center justify-between bg-orange-50/50 rounded-xl p-1 border border-orange-100/50">
+                                <button (click)="removeFromCart(item)"
+                                    class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white transition-all shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M20 12H4" />
+                                    </svg>
+                                </button>
+                                <span class="text-sm font-black text-[#e87f2c]">{{getQuantity(item.id)}}</span>
+                                <button (click)="addToCart(item)"
+                                    class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white transition-all shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <button *ngIf="getQuantity(item.id) === 0" (click)="addToCart(item)"
+                                class="w-full py-3 bg-gray-900 text-white rounded-xl font-black text-[9px] uppercase tracking-[0.2em] hover:bg-[#e87f2c] transition-all shadow-sm active:translate-y-0">
+                                Select This Item
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e87f2c44;
+        border-radius: 10px;
+    }
+</style>

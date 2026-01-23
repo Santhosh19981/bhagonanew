@@ -1,1 +1,113 @@
-<p>event-details works!</p>
+<div
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 flex items-center justify-center">
+    <div class="max-w-6xl w-full" data-aos="zoom-in">
+        <!-- Back Button -->
+        <button (click)="goBack()"
+            class="mb-6 flex items-center gap-1.5 text-gray-400 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+        </button>
+
+        <div
+            class="bg-white/95 backdrop-blur-xl rounded-[4rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-2">
+
+            <!-- Left Column: Image -->
+            <div *ngIf="selectedEvent" class="relative h-[300px] lg:h-full min-h-[450px]">
+                <img [src]="selectedEvent.image" [alt]="selectedEvent.name" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-10 left-10 text-white">
+                    <p class="text-orange-400 font-black uppercase text-[10px] tracking-[0.4em] mb-2">Occasion</p>
+                    <h1 class="text-4xl font-bold leading-tight font-serif drop-shadow-lg">{{selectedEvent.name}}</h1>
+                    <div class="h-1 w-16 bg-[#e87f2c] rounded-full mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Right Column: Details -->
+            <div class="p-10 md:p-14 flex flex-col justify-center">
+                <div class="mb-10 text-left">
+                    <h1 class="text-4xl font-black text-gray-900 main-font italic">Event <span
+                            class="text-[#e87f2c]">Details</span></h1>
+                    <p *ngIf="selectedEvent" class="text-sm text-gray-400 font-medium mt-2">Personalizing your <span
+                            class="font-bold text-gray-600">{{selectedEvent.name}}</span> journey.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <!-- Date Picker -->
+                    <div class="space-y-4">
+                        <label
+                            class="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] px-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#e87f2c]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Date
+                        </label>
+                        <div class="relative group">
+                            <input type="date" [(ngModel)]="eventDate"
+                                class="w-full px-6 py-4 rounded-3xl bg-gray-50 border border-transparent focus:bg-white focus:border-orange-100 transition-all outline-none text-sm font-bold text-gray-800 shadow-inner cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Members Total Card -->
+                    <div class="space-y-4">
+                        <label
+                            class="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] px-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#e87f2c]" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            Guests
+                        </label>
+                        <div
+                            class="bg-[#0f172a] rounded-3xl px-8 py-4 flex items-center justify-between shadow-2xl relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+                            <span
+                                class="text-white/40 text-[10px] font-bold uppercase tracking-widest relative z-10">Total</span>
+                            <span class="text-3xl font-black text-[#e87f2c] relative z-10">{{totalMembers}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guest Split Inputs -->
+                <div class="p-8 bg-orange-50/30 rounded-[2.5rem] border border-orange-100/30 mb-10">
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label
+                                class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-4">Vegetarian</label>
+                            <input type="number" [(ngModel)]="vegGuests" (ngModelChange)="updateTotal()" placeholder="0"
+                                class="w-full px-6 py-4 rounded-2xl bg-white border-2 border-transparent focus:border-orange-200 transition-all outline-none text-base font-black text-gray-800 shadow-sm text-center">
+                        </div>
+                        <div class="space-y-3">
+                            <label
+                                class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-4">Non-Veg</label>
+                            <input type="number" [(ngModel)]="nonVegGuests" (ngModelChange)="updateTotal()"
+                                placeholder="0"
+                                class="w-full px-6 py-4 rounded-2xl bg-white border-2 border-transparent focus:border-orange-200 transition-all outline-none text-base font-black text-gray-800 shadow-sm text-center">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button (click)="selectMenu()" [disabled]="!eventDate || totalMembers === 0"
+                        class="w-full px-12 py-5 bg-[#e87f2c] hover:bg-[#af6429] text-white rounded-3xl font-black text-base shadow-2xl shadow-orange-500/30 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-30 disabled:translate-y-0 disabled:scale-100 flex items-center justify-center gap-4 group">
+                        Proceed to Menu
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 group-hover:translate-x-2 transition-transform" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </button>
+                    <p class="text-gray-400 text-[10px] font-black uppercase tracking-[0.5em] mt-6 text-center italic">
+                        Next Step: Culinary Selections</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

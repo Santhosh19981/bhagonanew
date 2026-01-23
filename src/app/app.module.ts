@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 // Components
 import { HeaderComponent } from './components/header/header.component';
@@ -14,6 +16,14 @@ import { PaymentPageComponent } from './pages/payment-page/payment-page.componen
 import { ThanksOrderComponent } from './pages/thanks-order/thanks-order.component';
 import { OrderHistoryComponent } from './pages/order-history/order-history.component';
 import { ReviewsComponent } from './pages/reviews/reviews.component';
+import { MenuSelectionComponent } from './pages/menu-selection/menu-selection.component';
+import { ServiceTypeComponent } from './pages/service-type/service-type.component';
+import { ChefSelectionComponent } from './pages/chef-selection/chef-selection.component';
+import { VendorSelectionComponent } from './pages/vendor-selection/vendor-selection.component';
+import { EventsListComponent } from './pages/events-list/events-list.component';
+import { ServicesListComponent } from './pages/services-list/services-list.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { LoginComponent } from './pages/login/login.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -28,12 +38,21 @@ import { RouterModule } from '@angular/router';
     PaymentPageComponent,
     ThanksOrderComponent,
     OrderHistoryComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    MenuSelectionComponent,
+    ServiceTypeComponent,
+    ChefSelectionComponent,
+    VendorSelectionComponent,
+    EventsListComponent,
+    ServicesListComponent,
+    CartComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    RouterModule 
+    FormsModule,
+    CommonModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

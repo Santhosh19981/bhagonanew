@@ -1,0 +1,162 @@
+<div class="min-h-screen login-container flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-[2.5rem] shadow-2xl border border-white/50"
+        data-aos="zoom-in">
+
+        <!-- Header -->
+        <div class="text-center">
+            <img src="../../../assets/home-logo.png" alt="Bhagona Logo" class="mx-auto h-20 w-auto mb-6">
+            <h2 class="text-3xl font-black text-gray-900 tracking-tight main-font">
+                Welcome <span class="text-[#e87f2c]">Back</span>
+            </h2>
+            <p class="mt-2 text-sm text-gray-500 font-medium tracking-wide italic">
+                The taste of tradition awaits you
+            </p>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="flex p-1.5 bg-gray-100/50 rounded-2xl mb-8">
+            <button (click)="setMode('otp')" [class.bg-white]="loginMode === 'otp'"
+                [class.shadow-md]="loginMode === 'otp'" [class.text-gray-900]="loginMode === 'otp'"
+                [class.text-gray-400]="loginMode !== 'otp'"
+                class="flex-1 py-3 text-[11px] font-black uppercase tracking-[0.15em] rounded-xl transition-all duration-300">
+                Mobile / OTP
+            </button>
+            <button (click)="setMode('email')" [class.bg-white]="loginMode === 'email'"
+                [class.shadow-md]="loginMode === 'email'" [class.text-gray-900]="loginMode === 'email'"
+                [class.text-gray-400]="loginMode !== 'email'"
+                class="flex-1 py-3 text-[11px] font-black uppercase tracking-[0.15em] rounded-xl transition-all duration-300">
+                Email
+            </button>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage"
+            class="p-4 bg-red-50 text-red-600 rounded-2xl text-[11px] font-bold text-center border border-red-100 flex items-center justify-center gap-2 animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            {{errorMessage}}
+        </div>
+
+        <form class="mt-8 space-y-6" (submit)="$event.preventDefault()">
+
+            <!-- OTP MODE -->
+            <div *ngIf="loginMode === 'otp'" class="space-y-4">
+                <div *ngIf="!otpSent" class="space-y-4" data-aos="fade-up">
+                    <div>
+                        <label for="mobile"
+                            class="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2">Mobile
+                            Number</label>
+                        <div class="relative group">
+                            <span
+                                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm border-r border-gray-200 pr-3">+91</span>
+                            <input id="mobile" name="mobile" type="tel" [(ngModel)]="mobileNumber"
+                                placeholder="00000 00000" maxlength="10" (input)="onMobileInput($event)"
+                                class="block w-full pl-16 pr-4 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl text-gray-900 text-sm font-bold focus:ring-[#e87f2c] focus:border-[#e87f2c] transition-all group-hover:bg-white outline-none">
+                        </div>
+                    </div>
+                    <button (click)="sendOTP()" [disabled]="isLoading"
+                        class="w-full py-4 bg-[#e87f2c] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-orange-500/20 hover:bg-[#af6429] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70">
+                        <span *ngIf="!isLoading">Send OTP</span>
+                        <span *ngIf="isLoading" class="flex items-center gap-2">
+                            <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                                    fill="none"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Processing...
+                        </span>
+                    </button>
+                </div>
+
+                <div *ngIf="otpSent" class="space-y-4" data-aos="fade-up">
+                    <div class="text-center mb-6">
+                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Enter the 4-digit code
+                            sent to</p>
+                        <p class="text-sm font-black text-gray-900 mt-1">+91 {{mobileNumber}}</p>
+                        <button (click)="otpSent = false"
+                            class="text-[9px] text-[#e87f2c] font-black uppercase tracking-widest hover:underline mt-2">Change
+                            Number</button>
+                    </div>
+                    <div>
+                        <label for="otp" class="sr-only">OTP</label>
+                        <input id="otp" name="otp" type="text" [(ngModel)]="otpValue" maxlength="4"
+                            placeholder="0 0 0 0"
+                            class="block w-full px-4 py-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl text-center text-3xl font-black text-gray-900 tracking-[0.5em] focus:ring-[#e87f2c] focus:border-[#e87f2c] transition-all focus:bg-white outline-none">
+                    </div>
+                    <button (click)="verifyOTP()" [disabled]="isLoading"
+                        class="w-full py-4 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-black active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70">
+                        <span *ngIf="!isLoading">Verify & Enter</span>
+                        <span *ngIf="isLoading" class="flex items-center gap-2">
+                            <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                                    fill="none"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Verifying...
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- EMAIL MODE -->
+            <div *ngIf="loginMode === 'email'" class="space-y-4" data-aos="fade-up">
+                <div class="space-y-4">
+                    <div>
+                        <label for="email"
+                            class="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2">Email
+                            Address</label>
+                        <input id="email" name="email" type="email" [(ngModel)]="emailValue"
+                            placeholder="name@example.com"
+                            class="block w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl text-gray-900 text-sm font-bold focus:ring-[#e87f2c] focus:border-[#e87f2c] transition-all hover:bg-white outline-none">
+                    </div>
+                    <div>
+                        <label for="password"
+                            class="block text-[9px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2">Password</label>
+                        <input id="password" name="password" type="password" [(ngModel)]="passwordValue"
+                            placeholder="••••••••"
+                            class="block w-full px-6 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl text-gray-900 text-sm font-bold focus:ring-[#e87f2c] focus:border-[#e87f2c] transition-all hover:bg-white outline-none">
+                    </div>
+                </div>
+                <div class="flex items-center justify-between px-2">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox"
+                            class="h-3 w-3 text-[#e87f2c] focus:ring-[#e87f2c] border-gray-300 rounded">
+                        <label for="remember-me"
+                            class="ml-2 block text-[9px] font-black text-gray-400 uppercase tracking-widest">Remember
+                            me</label>
+                    </div>
+                    <a href="#"
+                        class="text-[9px] font-black text-[#e87f2c] uppercase tracking-widest hover:underline">Forgot?</a>
+                </div>
+                <button (click)="loginWithEmail()" [disabled]="isLoading"
+                    class="w-full py-4 bg-[#e87f2c] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-orange-500/20 hover:bg-[#af6429] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-70">
+                    <span *ngIf="!isLoading">Login</span>
+                    <span *ngIf="isLoading" class="flex items-center gap-2">
+                        <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                                fill="none"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Logging in...
+                    </span>
+                </button>
+            </div>
+
+            <div class="pt-8 text-center border-t border-gray-100">
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                    New to Bhagona?
+                    <a href="#" class="text-[#e87f2c] font-black ml-1 hover:underline">Create an account</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
