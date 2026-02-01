@@ -1,6 +1,18 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 flex items-center justify-center">
-    <div class="max-w-6xl w-full" data-aos="zoom-in">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 flex items-center justify-center relative">
+
+    <!-- Loader Overlay -->
+    <div *ngIf="isLoading"
+        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+        <div class="loader-container">
+            <div class="bhagona-loader"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Loading
+            Experience...</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="max-w-6xl w-full" data-aos="zoom-in">
         <!-- Back Button -->
         <button (click)="goBack()"
             class="mb-6 flex items-center gap-1.5 text-gray-400 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">

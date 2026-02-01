@@ -1,6 +1,18 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
-    <div class="max-w-7xl mx-auto">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4 relative">
+
+    <!-- Loader Overlay -->
+    <div *ngIf="isLoading"
+        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+        <div class="loader-container">
+            <div class="bhagona-loader"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Loading Magic...
+        </p>
+    </div>
+
+    <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
             class="mb-8 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[11px] tracking-widest group">
@@ -28,7 +40,7 @@
 
                 <!-- Image Container -->
                 <div class="relative h-64 overflow-hidden">
-                    <img [src]="event.image" [alt]="event.name"
+                    <img [src]="event.image_url || 'assets/Events-new/Marriage.png'" [alt]="event.name"
                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     <div class="absolute bottom-6 left-8">
@@ -40,12 +52,12 @@
                 <!-- Content -->
                 <div class="p-8 md:p-10 flex flex-col flex-grow">
                     <p class="text-[#e87f2c] font-black italic text-sm md:text-base mb-5 leading-relaxed">
-                        "{{event.quote}}"</p>
+                        "{{event.description | slice:0:60}}..."</p>
                     <p class="text-gray-500 font-medium text-base md:text-lg leading-relaxed mb-8 flex-grow">
-                        {{event.description}}
+                        {{event.description | slice:0:120}}
                     </p>
 
-                    <button routerLink="/event-details"
+                    <button [routerLink]="['/event-details', event.event_id]"
                         class="w-full py-4 md:py-5 bg-orange-50 text-[#e87f2c] rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-[0.3em] hover:bg-[#e87f2c] hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-md text-center">
                         Book Event Now
                     </button>

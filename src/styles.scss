@@ -8,7 +8,7 @@
         font-size: 16px;
         /* Standard base font size for better readability */
     }
-    
+
     body {
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
@@ -17,6 +17,7 @@
 }
 
 @layer utilities {
+
     /* Spacing Utilities */
     .section-compact {
         @apply py-8 md:py-12 lg:py-16;
@@ -25,42 +26,105 @@
     .card-compact {
         @apply p-4 md:p-6 lg:p-8;
     }
-    
+
     /* Typography Utilities */
     .text-responsive-xs {
         @apply text-xs md:text-sm;
     }
-    
+
     .text-responsive-sm {
         @apply text-sm md:text-base;
     }
-    
+
     .text-responsive-base {
         @apply text-base md:text-lg;
     }
-    
+
     .text-responsive-lg {
         @apply text-lg md:text-xl;
     }
-    
+
     .text-responsive-xl {
         @apply text-xl md:text-2xl;
     }
-    
+
     .text-responsive-2xl {
         @apply text-2xl md:text-3xl lg:text-4xl;
     }
-    
+
     .text-responsive-3xl {
         @apply text-3xl md:text-4xl lg:text-5xl;
     }
-    
+
     /* Line Height Utilities */
     .leading-comfortable {
         line-height: 1.7;
     }
-    
+
     .leading-relaxed-plus {
         line-height: 1.8;
+    }
+
+    /* Bhagona Loader Styles */
+    .loader-container {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bhagona-loader {
+        width: 40px;
+        height: 40px;
+        background: #e87f2c;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        animation: morph 3s linear infinite alternate, spin 5s linear infinite;
+        box-shadow: 0 0 20px rgba(232, 127, 44, 0.4);
+    }
+
+    .loader-ring {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border: 2px dashed #e87f2c;
+        border-radius: 50%;
+        animation: spin 10s linear infinite reverse;
+        opacity: 0.3;
+    }
+
+    @keyframes morph {
+        0% {
+            border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+        }
+
+        100% {
+            border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+        }
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animate-bounce-slow {
+        animation: bounce 3s infinite;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(-5%);
+            animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+        }
+
+        50% {
+            transform: translateY(0);
+            animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        }
     }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-event-details',
@@ -14,6 +15,7 @@ export class EventDetailsComponent {
   vegGuests: number = 0;
   nonVegGuests: number = 0;
   selectedEvent: any;
+  isLoading: boolean = true;
   events = [
     {
       id: 'marriage',
@@ -63,23 +65,45 @@ export class EventDetailsComponent {
     private bookingService: BookingService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private apiService: ApiService
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const eventId = params['id'];
       if (eventId) {
-        this.selectedEvent = this.events.find(e => e.id === eventId);
-        if (this.selectedEvent) {
-          this.bookingService.updateEventBooking({ eventId: eventId });
+        this.fetchEventDetails(eventId);
+      } else {
+        // If no ID provided, maybe redirect or show default
+        this.router.navigate(['/events']);
+      }
+    });
+  }
+
+  fetchEventDetails(id: any) {
+    console.log('Fetching details for event ID:', id);
+    this.isLoading = true;
+    this.apiService.getEventById(id).subscribe({
+      next: (res: any) => {
+        console.log('API Response for Event Details:', res);
+        this.isLoading = false;
+        if (res.status && res.data) {
+          this.selectedEvent = res.data;
+          // Map API data to component structure if needed
+          if (!this.selectedEvent.image && this.selectedEvent.image_url) {
+            this.selectedEvent.image = this.selectedEvent.image_url;
+          }
+          this.bookingService.updateEventBooking({ eventId: id });
         } else {
-          // If event ID not found, redirect to events list
+          console.warn('Event details not found or status false, redirecting...');
           this.router.navigate(['/events']);
         }
-      } else {
-        // If no ID provided, default to first event or redirect
-        this.selectedEvent = this.events[0];
+      },
+      error: (err) => {
+        console.error('Error fetching event details:', err);
+        this.isLoading = false;
+        this.router.navigate(['/events']);
       }
     });
   }

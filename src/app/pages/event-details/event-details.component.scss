@@ -1,0 +1,59 @@
+.loader-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bhagona-loader {
+    width: 40px;
+    height: 40px;
+    background: #e87f2c;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    animation: morph 3s linear infinite alternate, spin 5s linear infinite;
+    box-shadow: 0 0 20px rgba(232, 127, 44, 0.4);
+}
+
+.loader-ring {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #e87f2c;
+    border-radius: 50%;
+    animation: spin 10s linear infinite reverse;
+    opacity: 0.3;
+}
+
+@keyframes morph {
+    0% {
+        border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+    }
+
+    100% {
+        border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}

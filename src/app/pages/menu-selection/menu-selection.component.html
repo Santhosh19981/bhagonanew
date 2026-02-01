@@ -1,6 +1,18 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
-    <div class="max-w-7xl mx-auto">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 relative">
+
+    <!-- Loader Overlay -->
+    <div *ngIf="isLoading"
+        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center min-h-[400px]">
+        <div class="loader-container">
+            <div class="bhagona-loader"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Designing Menu...
+        </p>
+    </div>
+
+    <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
             class="mb-6 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
@@ -12,47 +24,74 @@
             Back
         </button>
         <!-- Header -->
-        <div class="text-center mb-10" data-aos="fade-down">
+        <div class="text-center mb-6" data-aos="fade-down">
             <h1 class="text-3xl font-bold text-gray-900 main-font mb-2">Select Your <span
                     class="text-[#e87f2c]">Menu</span></h1>
             <p class="text-sm text-gray-600 font-medium">Fine culinary choices for your guests.</p>
         </div>
 
-        <!-- Menu Tabs - More compact -->
-        <div class="flex justify-center mb-10" data-aos="fade-up">
-            <div
-                class="bg-white/80 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/40 flex gap-1.5">
-                <button (click)="activeTab = 'veg'"
-                    [class]="activeTab === 'veg' ? 'bg-[#e87f2c] text-white shadow-md' : 'text-gray-500 hover:bg-white'"
-                    class="px-8 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                    Vegetarian
-                </button>
-                <button (click)="activeTab = 'non-veg'"
-                    [class]="activeTab === 'non-veg' ? 'bg-[#e87f2c] text-white shadow-md' : 'text-gray-500 hover:bg-white'"
-                    class="px-8 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                    Non-Veg
-                </button>
+        <!-- Categories Horizontal List -->
+        <div class="flex overflow-x-auto pb-4 mb-4 gap-6 no-scrollbar justify-center px-4" data-aos="fade-up">
+            <div *ngFor="let cat of categories" (click)="selectCategory(cat.id)"
+                class="flex-shrink-0 cursor-pointer group flex flex-col items-center gap-3">
+                <div [class]="selectedCategoryId == cat.id ? 'border-[#e87f2c] scale-110 shadow-lg' : 'border-white hover:border-orange-200'"
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 transition-all duration-300 overflow-hidden bg-white p-1">
+                    <img [src]="cat.image || 'assets/Events-new/Marriage.png'" [alt]="cat.name"
+                        class="w-full h-full object-cover rounded-full">
+                </div>
+                <span [class]="selectedCategoryId == cat.id ? 'text-[#e87f2c] font-black' : 'text-gray-500 font-bold'"
+                    class="text-[9px] md:text-[10px] uppercase tracking-widest text-center transition-colors">
+                    {{cat.name}}
+                </span>
             </div>
         </div>
 
-        <!-- Dish Grid - More compact -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div *ngFor="let item of (activeTab === 'veg' ? vegMenu : nonVegMenu)"
+        <!-- Search Bar and Subcategories -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-10" data-aos="fade-up">
+            <!-- Subcategory Tabs - Reusing existing UI -->
+            <div *ngIf="getCurrentCategorySubcategories().length > 0"
+                class="bg-white/80 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-md border border-white/40 flex gap-1.5 flex-wrap justify-center md:justify-start">
+                <button *ngFor="let sub of getCurrentCategorySubcategories()" (click)="selectSubcategory(sub.id)"
+                    [class]="selectedSubcategoryId == sub.id ? 'bg-[#e87f2c] text-white shadow-md' : 'text-gray-500 hover:bg-white'"
+                    class="px-5 md:px-6 py-2 rounded-xl font-bold text-xs transition-all duration-300 flex items-center gap-2">
+                    <span
+                        [class]="sub.name.toLowerCase().includes('veg') && !sub.name.toLowerCase().includes('non') ? 'bg-green-500' : 'bg-red-500'"
+                        class="w-2 h-2 rounded-full"></span>
+                    {{sub.name}}
+                </button>
+            </div>
+            <div *ngIf="getCurrentCategorySubcategories().length === 0" class="flex-grow"></div>
+
+            <!-- Search Input -->
+            <div class="relative w-full md:w-72 group">
+                <input type="text" (input)="onSearch(searchInput.value)" #searchInput placeholder="Search dishes..."
+                    class="w-full bg-white/80 backdrop-blur-xl border border-white/40 rounded-2xl px-12 py-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#e87f2c]/20 transition-all shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#e87f2c] transition-colors"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Dish Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[300px]">
+            <div *ngFor="let item of filteredItems"
                 class="group bg-white/90 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col"
                 data-aos="zoom-in">
 
-                <!-- Image Container - Reduced height -->
+                <!-- Image Container -->
                 <div class="relative h-48 overflow-hidden">
-                    <img [src]="item.image" [alt]="item.name"
+                    <img [src]="item.image_url" [alt]="item.name"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-4">
                         <span class="text-white font-black text-lg">₹{{item.price}}</span>
                     </div>
-                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest"
-                        [class]="activeTab === 'veg' ? 'text-green-600' : 'text-red-600'">
-                        {{activeTab === 'veg' ? 'Pure Veg' : 'Non-Veg'}}
+                    <div *ngIf="item.veg !== undefined || item.type"
+                        class="absolute top-3 right-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest"
+                        [class]="item.veg == 1 || item.type == 'veg' ? 'text-green-600' : 'text-red-600'">
+                        {{item.veg == 1 || item.type == 'veg' ? 'Pure Veg' : 'Non-Veg'}}
                     </div>
                 </div>
 
@@ -64,20 +103,26 @@
                     <p class="text-gray-500 text-[11px] leading-relaxed mb-6 flex-grow line-clamp-2">
                         {{item.description}}</p>
 
-                    <!-- Selection Toggle - Removed Quantity -->
+                    <!-- Selection Toggle -->
                     <div class="mt-auto">
                         <button (click)="toggleSelection(item)"
-                            [class]="isItemSelected(item.id) ? 'bg-[#e87f2c] text-white' : 'bg-orange-50 text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white'"
+                            [class]="isItemSelected(item) ? 'bg-[#e87f2c] text-white' : 'bg-orange-50 text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white'"
                             class="w-full py-2.5 rounded-xl font-bold text-xs transition-all transform active:scale-95 shadow-sm uppercase tracking-widest">
-                            {{isItemSelected(item.id) ? 'Selected' : 'Add to Selection'}}
+                            {{isItemSelected(item) ? 'Selected' : 'Add to Selection'}}
                         </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Empty State -->
+            <div *ngIf="filteredItems.length === 0" class="col-span-full py-20 text-center">
+                <p class="text-gray-400 font-bold uppercase tracking-widest text-xs">No dishes found in this selection
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Footer/Summary - More compact -->
+    <!-- Floating Footer/Summary -->
     <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl z-50 px-4" *ngIf="totalItems > 0">
         <div class="bg-gray-900/95 backdrop-blur-xl rounded-[1.5rem] p-3 flex flex-row items-center justify-between gap-4 shadow-2xl border border-white/10"
             data-aos="slide-up">

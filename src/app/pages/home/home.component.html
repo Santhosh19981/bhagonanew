@@ -77,101 +77,26 @@
         <div class="-mt-[80px] lg:bg-transparent bg-[#e87f2c] lg:px-10 lg:pb-0 px-4 pb-12 text-center">
             <div
                 class="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-2 lg:gap-y-6 gap-y-3 gap-x-8">
-                <div class="product cursor-pointer" routerLink="/event-details/marriage">
+                <div *ngFor="let event of events | slice:0:6" class="product cursor-pointer"
+                    [routerLink]="['/event-details', event.event_id]">
                     <div
                         class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
+                        <figure class="rounded-[50%] h-full bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
                             data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg"
-                                src="../../../assets/Events-Round/Marriage.png">
+                                class="w-full h-full object-cover drop-shadow-lg"
+                                [src]="event.image_url || 'assets/Events-Round/Marriage.png'">
                         </figure>
                     </div>
 
                     <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Marriage</h3>
-                </div>
-
-
-
-                <div class="product cursor-pointer" routerLink="/event-details/baby-shower">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg aos-init" data-aos="zoom-in"
-                                data-aos-duration="3000" src="../../../assets/Events-Round/Baby Shower.png">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Baby Shower</h3>
-                </div>
-                <div class="product cursor-pointer" routerLink="/event-details/birthday">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg"
-                                src="../../../assets/Events-Round/Birthday.png">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Birthday</h3>
-                </div>
-                <div class="product cursor-pointer" routerLink="/event-details/engagement">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg"
-                                src="../../../assets/Events-Round/Engagement.png">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Engagement</h3>
-                </div>
-
-                <div class="product cursor-pointer" routerLink="/event-details/puberty-ceremony">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg"
-                                src="../../../assets/Events-Round/Puberty-Ceremony.png">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Puberty Ceremony</h3>
-                </div>
-
-                <div class="product cursor-pointer" routerLink="/event-details/funeral">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] w-[150px] h-[150px] rounded-[50%] mt-[0] mx-[auto] mb-[4px] p-[2px] border-2 border-dashed border-[#fff]">
-                        <figure
-                            class="rounded-[50%] h-full pt-0 md:pt-[25px] bg-[rgba(255,_255,_255,_0.4)] overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="align-middle h-full m-auto w-auto drop-shadow-lg"
-                                src="../../../assets/Events-Round/Funeral.png">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-4 text-base md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-[#fff] tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">Funeral</h3>
+                        data-aos="zoom-in" data-aos-duration="3000">{{event.name}}</h3>
                 </div>
             </div>
         </div>
     </section>
     <section class="flex items-center justify-center md:py-12 p-2.5 relative z-10 overflow-hidden">
         <div class="container mx-auto max-w-7xl ">
-            <div class="flex flex-col lg:flex-row items-center md:gap-12 gap-8 flex-col-reverse">
+            <div class="flex flex-col lg:flex-row items-center md:gap-12 flex-col-reverse">
                 <div class="w-full flex justify-center"><img alt="Fresh fruit drinks"
                         class="max-w-full h-auto rounded-t-[200px] drop-shadow-lg md:m-auto" loading="lazy"
                         src="../../../assets/About-Us/2.png"></div>
@@ -232,14 +157,14 @@
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
 
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
+                    <div *ngFor="let event of events | slice:0:6" class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
 [box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
 group cursor-pointer p-3 
 hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/marriage">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
+                        [routerLink]="['/event-details', event.event_id]">
+                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img [alt]="event.name"
                                 class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Marriage.png">
+                                [src]="event.image_url || 'assets/Events-new/Marriage.png'">
                             <div
                                 class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
                                 <div class="flex justify-center items-center h-full">
@@ -261,233 +186,20 @@ hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all
                         </div>
 
                         <div class="w-full">
-                            <h4 class="text-base md:text-lg font-bold text-red-800 text-font mb-2">Marriage</h4>
+                            <h4 class="text-base md:text-lg font-bold text-red-800 text-font mb-2">{{event.name}}</h4>
 
                             <p class="text-gray-600 text-sm md:text-base line-clamp-3 mb-3 text-font leading-relaxed">
-                                Two hearts become one, a journey just begun. Wishing love, laughter, and a happily ever
-                                after. </p>
+                                {{event.description}} </p>
 
                             <div class="flex justify-between items-center">
                                 <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/marriage"
+                                <button [routerLink]="['/event-details', event.event_id]"
                                     class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-xs md:text-sm px-5 md:px-6 py-2 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
                                     Event</button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/baby-shower">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Baby-Shower.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Baby Shower</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Little hands and tiny feet, a bundle of joy we can’t wait to meet. </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/baby-shower"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/engagement">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Engagement.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Engagement</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                They found each other, and love found its way. A promise made for a beautiful forever.
-                            </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/engagement"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/birthday">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Birthday.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Birthday</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Celebrate the gift of life and the joy it brings. Another year older, brighter, and bold
-                                with wings. </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/birthday"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/puberty-ceremony">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Puberty-Ceremony.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Puberty Ceremony</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                A step into tradition, growth, and grace, Welcoming a new role with pride in place.
-                            </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/puberty-ceremony"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/event-details/funeral">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Events-new/Funeral.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Funeral</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                A life well lived, a soul set free, Gone from sight, but in our hearts eternally.</p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/event-details/funeral"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -580,14 +292,14 @@ hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
 
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
+                    <div *ngFor="let service of services | slice:0:6" class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
 [box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
 group cursor-pointer p-3 
 hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
+                        [routerLink]="['/service-details', service.service_id]">
+                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img [alt]="service.name"
                                 class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/Function-Hall.png">
+                                [src]="service.image_data || 'assets/Services-New/Function-Hall.png'">
                             <div
                                 class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
                                 <div class="flex justify-center items-center h-full">
@@ -609,236 +321,19 @@ hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all
                         </div>
 
                         <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Function halls</h4>
+                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">{{service.name}}</h4>
 
                             <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Celebrate the gift of life and the joy it brings. Another year older, brighter, and bold
-                                with wings.</p>
+                                {{service.description | slice:0:60}}...</p>
 
                             <div class="flex justify-between items-center">
                                 <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
+                                <button [routerLink]="['/service-details', service.service_id]"
                                     class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
                                     Service</button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/Grocery.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Kirana/grocery</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Two hearts become one, a journey just begun. Wishing love, laughter, and a happily ever
-                                after.</p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/Poultry.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Poultry & Mutton</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Little hands and tiny feet, a bundle of joy we can’t wait to meet. </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/Vegetables.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Vegetables & leafs</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                A step into tradition, growth, and grace, Welcoming a new role with pride in place.</p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/⁠Tenthouse.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">⁠Tenthouse/ Cooking Vessels</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                They found each other, and love found its way. A promise made for a beautiful forever.
-                            </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-3 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        routerLink="/service-details">
-                        <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img alt=""
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                rv-src="product.cimage" src="../../../assets/Services-New/Dairy-Products.png">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">Dairy products</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                Celebrate the gift of life and the joy it brings. Another year older, brighter, and bold
-                                with wings. </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button routerLink="/service-details"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-
                 </div>
             </div>
 

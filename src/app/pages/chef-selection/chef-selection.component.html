@@ -30,8 +30,7 @@
                             <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-1.5">Primary</p>
                             <div
                                 class="w-10 h-10 rounded-full border border-dashed border-orange-300 p-0.5 flex justify-center items-center overflow-hidden bg-orange-50/50">
-                                <img *ngIf="primaryChef" [src]="primaryChef.image"
-                                    class="w-full h-full rounded-full object-cover">
+                                <img *ngIf="primaryChef" [src]="primaryChef.image" class="w-full h-full object-cover">
                                 <span *ngIf="!primaryChef" class="text-orange-300 text-[10px]">?</span>
                             </div>
                         </div>
@@ -42,7 +41,7 @@
                                 <div *ngFor="let i of [0,1]"
                                     class="w-10 h-10 rounded-full border border-dashed border-gray-200 p-0.5 flex justify-center items-center overflow-hidden bg-gray-50/50">
                                     <img *ngIf="alternateChefs[i]" [src]="alternateChefs[i].image"
-                                        class="w-full h-full rounded-full object-cover">
+                                        class="w-full h-full object-cover">
                                     <span *ngIf="!alternateChefs[i]" class="text-gray-300 text-[10px]">?</span>
                                 </div>
                             </div>
