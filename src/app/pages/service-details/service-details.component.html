@@ -1,9 +1,21 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
-    <div class="max-w-7xl mx-auto">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 relative">
+
+    <!-- Loader Overlay -->
+    <div *ngIf="isLoading"
+        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+        <div class="loader-container">
+            <div class="bhagona-loader"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Loading
+            Details...</p>
+    </div>
+
+    <div *ngIf="!isLoading && selectedService" class="max-w-7xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
-            class="mb-6 flex items-center gap-1.5 text-gray-400 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+            class="py-6 flex items-center gap-1.5 text-gray-400 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -47,17 +59,18 @@
         </div>
 
         <!-- Service Header with Image -->
-        <div *ngIf="selectedService" class="mb-10" data-aos="zoom-in">
+        <div class="mb-10" data-aos="zoom-in">
             <div
                 class="bg-white/95 backdrop-blur-xl rounded-[3rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-3 gap-0">
                 <!-- Service Image -->
                 <div class="relative h-64 lg:h-auto overflow-hidden">
-                    <img [src]="selectedService.image" [alt]="selectedService.name" class="w-full h-full object-cover">
+                    <img [src]="selectedService.image_data" [alt]="selectedService.name"
+                        class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                     <div class="absolute top-6 left-6">
                         <span
                             class="bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.3em] text-[#e87f2c] shadow-lg border border-orange-100">
-                            {{selectedService.tag}}
+                            {{selectedService.tag || 'Service'}}
                         </span>
                     </div>
                     <div class="absolute bottom-6 left-6 text-white">
@@ -110,15 +123,24 @@
                     </h4>
 
                     <div class="space-y-4 mb-6 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
-                        <div *ngFor="let item of cart"
+                        <div *ngFor="let item of currentServiceCart"
                             class="flex items-center gap-3 p-3 bg-gray-50/50 rounded-xl border border-gray-100 group transition-all">
-                            <img [src]="item.image"
+                            <img [src]="item.image_url || item.image"
                                 class="w-10 h-10 rounded-lg object-cover shadow-sm group-hover:scale-105 transition-transform">
                             <div class="flex-grow">
                                 <h5 class="text-[11px] font-bold text-gray-800 leading-tight">{{item.name}}</h5>
                                 <p class="text-[9px] text-gray-400 font-black uppercase mt-0.5">{{item.quantity}} x
                                     ₹{{item.price}}</p>
                             </div>
+                            <!-- Delete button in sidebar -->
+                            <button (click)="removeFromCart(item)"
+                                class="w-7 h-7 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
                         </div>
                         <div *ngIf="cart.length === 0" class="text-center py-6 opacity-30 italic text-[11px]">
                             Cart is empty
@@ -148,18 +170,19 @@
 
                         <!-- Image - Reduced height -->
                         <div class="relative h-44 rounded-[1.5rem] overflow-hidden mb-4">
-                            <img [src]="item.image" [alt]="item.name"
+                            <img [src]="item.image_url || item.image" [alt]="item.name"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                             <div class="absolute top-3 left-3">
                                 <span
                                     class="bg-white/95 backdrop-blur px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest text-gray-500 shadow-sm border border-gray-100">
-                                    {{item.category}}
+                                    {{item.category || selectedService.name}}
                                 </span>
                             </div>
                             <!-- Price Overlay -->
                             <div class="absolute bottom-3 right-3 bg-gray-900/90 backdrop-blur px-4 py-1.5 rounded-xl">
                                 <p class="text-white font-black text-sm">₹{{item.price}}<span
-                                        class="text-[8px] text-gray-400 tracking-widest ml-1 uppercase">/{{item.weight}}</span>
+                                        class="text-[8px] text-white tracking-widest ml-1 uppercase">/{{item.quantity_type
+                                        || 'unit'}}</span>
                                 </p>
                             </div>
                         </div>
@@ -173,8 +196,17 @@
                             <p class="text-[9px] text-gray-500 font-black uppercase tracking-wider mb-4">{{item.weight}}
                             </p>
 
+                            <!-- Selection Label -->
+                            <div *ngIf="getQuantity(item.service_item_id || item.id) > 0"
+                                class="absolute top-6 right-6 z-10">
+                                <span
+                                    class="bg-green-500 text-white text-[8px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full shadow-lg animate-bounce">
+                                    Selected
+                                </span>
+                            </div>
+
                             <!-- Quantity Controls - More compact -->
-                            <div *ngIf="getQuantity(item.id) > 0"
+                            <div *ngIf="getQuantity(item.service_item_id || item.id) > 0"
                                 class="flex items-center justify-between bg-orange-50/50 rounded-xl p-1 border border-orange-100/50">
                                 <button (click)="removeFromCart(item)"
                                     class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white transition-all shadow-sm">
@@ -184,7 +216,8 @@
                                             d="M20 12H4" />
                                     </svg>
                                 </button>
-                                <span class="text-sm font-black text-[#e87f2c]">{{getQuantity(item.id)}}</span>
+                                <span class="text-sm font-black text-[#e87f2c]">{{getQuantity(item.service_item_id ||
+                                    item.id)}}</span>
                                 <button (click)="addToCart(item)"
                                     class="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white transition-all shadow-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -195,8 +228,8 @@
                                 </button>
                             </div>
 
-                            <button *ngIf="getQuantity(item.id) === 0" (click)="addToCart(item)"
-                                class="w-full py-3 bg-gray-900 text-white rounded-xl font-black text-[9px] uppercase tracking-[0.2em] hover:bg-[#e87f2c] transition-all shadow-sm active:translate-y-0">
+                            <button *ngIf="getQuantity(item.service_item_id || item.id) === 0" (click)="addToCart(item)"
+                                class="w-full py-3 bg-gray-900 text-white rounded-xl font-black text-[9px] uppercase tracking-[0.2em] hover:bg-[#e87f2c] transition-all shadow-sm active:translate-y-0 text-center">
                                 Select This Item
                             </button>
                         </div>

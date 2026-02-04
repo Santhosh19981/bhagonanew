@@ -33,4 +33,11 @@ export class ApiService {
     getMenuItems(): Observable<any> {
         return this.http.get(`${this.baseUrl}/menu-items`);
     }
+
+    getChefs(): Observable<any> {
+        return this.http.get(`${this.baseUrl}/customer/partners/chefs`);
+    }
+    getServiceItemsById(id: any): Observable<any> {
+        return this.http.get(`${this.baseUrl}/customer/service-items/${id}`);
+    }
 }

@@ -79,6 +79,14 @@ export class EventDetailsComponent {
         this.router.navigate(['/events']);
       }
     });
+
+    const existingBooking = this.bookingService.getEventBooking();
+    if (existingBooking) {
+      if (existingBooking.eventDate) this.eventDate = existingBooking.eventDate;
+      if (existingBooking.totalMembers) this.totalMembers = existingBooking.totalMembers;
+      if (existingBooking.vegGuests) this.vegGuests = existingBooking.vegGuests;
+      if (existingBooking.nonVegGuests) this.nonVegGuests = existingBooking.nonVegGuests;
+    }
   }
 
   fetchEventDetails(id: any) {
@@ -94,7 +102,10 @@ export class EventDetailsComponent {
           if (!this.selectedEvent.image && this.selectedEvent.image_url) {
             this.selectedEvent.image = this.selectedEvent.image_url;
           }
-          this.bookingService.updateEventBooking({ eventId: id });
+          this.bookingService.updateEventBooking({
+            eventId: id,
+            eventName: this.selectedEvent.name
+          });
         } else {
           console.warn('Event details not found or status false, redirecting...');
           this.router.navigate(['/events']);
@@ -114,6 +125,7 @@ export class EventDetailsComponent {
 
   selectMenu() {
     this.bookingService.updateEventBooking({
+      eventName: this.selectedEvent?.name,
       eventDate: this.eventDate,
       totalMembers: this.totalMembers,
       vegGuests: this.vegGuests,

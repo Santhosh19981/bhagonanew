@@ -35,7 +35,9 @@
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <h2 class="text-xl font-bold text-gray-900 main-font">Full Event Booking</h2>
+                            <h2
+                                class="text-xl font-bold text-gray-900 main-font bg-gray-100 px-4 py-1.5 rounded-lg border-l-4 border-[#e87f2c]">
+                                Full Event Booking</h2>
                         </div>
                         <span
                             class="text-[10px] font-black text-[#e87f2c] bg-orange-50 px-3 py-1 rounded-full uppercase tracking-tighter">
@@ -46,7 +48,7 @@
                     <div class="space-y-4">
                         <div *ngFor="let item of eventBooking.menuSelection"
                             class="flex items-center gap-4 bg-gray-50/50 p-3 rounded-2xl border border-gray-100">
-                            <img [src]="$any(item).image" class="w-12 h-12 rounded-xl object-cover shadow-sm">
+                            <img [src]="$any(item).image_url" class="w-12 h-12 rounded-xl object-cover shadow-sm">
                             <div class="flex-grow">
                                 <h4 class="font-bold text-gray-800 text-xs">{{item.name}}</h4>
                                 <p class="text-[10px] text-gray-400">Culinary Selection</p>
@@ -84,31 +86,55 @@
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                             </svg>
                         </div>
-                        <h2 class="text-xl font-bold text-gray-900 main-font">Standalone Services</h2>
+                        <h2
+                            class="text-xl font-bold text-gray-900 main-font bg-gray-100 px-4 py-1.5 rounded-lg border-l-4 border-blue-500">
+                            Selected Services</h2>
                     </div>
 
-                    <div class="space-y-4">
-                        <div *ngFor="let item of serviceCart"
-                            class="flex items-center gap-4 bg-gray-50/50 p-4 rounded-3xl border border-gray-100 group hover:bg-white transition-all">
-                            <img [src]="$any(item).image"
-                                class="w-16 h-16 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform">
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-gray-800 text-sm mb-1">{{item.name}}</h4>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{item.weight
-                                    || item.category}}</p>
+                    <div class="space-y-6">
+                        <div *ngFor="let group of groupedServiceCart" class="space-y-4">
+                            <!-- Service Group Header -->
+                            <div class="flex items-center gap-2 px-2">
+                                <div class="w-1 h-4 bg-blue-500 rounded-full"></div>
+                                <h3
+                                    class="text-[10px] font-black text-gray-600 bg-gray-100 px-3 py-1 rounded-md uppercase tracking-[0.2em] border-l-2 border-blue-400">
+                                    {{group.serviceName}}</h3>
                             </div>
 
-                            <!-- Quantity Control -->
-                            <div class="flex items-center bg-white rounded-xl border border-gray-100 p-1">
-                                <button (click)="removeFromServiceCart(item)"
-                                    class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#e87f2c] transition-colors">-</button>
-                                <span class="w-8 text-center font-black text-xs">{{item.quantity}}</span>
-                                <button (click)="addToServiceCart(item)"
-                                    class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#e87f2c] transition-colors">+</button>
-                            </div>
+                            <div *ngFor="let item of group.items"
+                                class="flex items-center gap-4 bg-gray-50/50 p-4 rounded-3xl border border-gray-100 group hover:bg-white transition-all">
+                                <img [src]="$any(item).image_url || $any(item).image"
+                                    class="w-16 h-16 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform">
+                                <div class="flex-grow">
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">{{item.name}}</h4>
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                                        {{item.quantity_type || item.weight || item.category}}</p>
+                                </div>
 
-                            <div class="text-right w-20">
-                                <p class="font-black text-[#e87f2c] text-sm">₹{{item.price * item.quantity}}</p>
+                                <!-- Quantity Control -->
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center bg-white rounded-xl border border-gray-100 p-1">
+                                        <button (click)="removeFromServiceCart(item)"
+                                            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#e87f2c] transition-colors">-</button>
+                                        <span class="w-8 text-center font-black text-xs">{{item.quantity}}</span>
+                                        <button (click)="addToServiceCart(item)"
+                                            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#e87f2c] transition-colors">+</button>
+                                    </div>
+
+                                    <button (click)="deleteFromServiceCart(item)"
+                                        class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                                        title="Remove from cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="text-right w-20">
+                                    <p class="font-black text-[#e87f2c] text-sm">₹{{item.price * item.quantity}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -23,6 +23,13 @@ export class VendorSelectionComponent {
     { id: 8, name: 'Classic Banquets', cuisine: 'Standard Indian', pricePerPlate: 380, rating: 4.5, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=500' }
   ];
 
+  ngOnInit() {
+    const eventData = this.bookingService.getEventBooking();
+    if (eventData.selectedVendor) {
+      this.primaryVendor = eventData.selectedVendor;
+    }
+  }
+
   constructor(
     private bookingService: BookingService,
     private router: Router,

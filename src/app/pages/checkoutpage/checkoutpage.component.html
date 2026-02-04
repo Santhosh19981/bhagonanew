@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-20 pb-8 px-4">
     <div class="max-w-6xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
@@ -23,7 +23,7 @@
                 <!-- Error Message -->
                 <div *ngIf="formError"
                     class="bg-red-50 border-l-4 border-red-500 p-4 rounded-xl mb-6 flex items-center gap-3 animate-bounce">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 20"
                         fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
@@ -78,200 +78,252 @@
                     </div>
                 </div>
 
-                <!-- Event Summary -->
-                <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
-                    data-aos="fade-right">
-                    <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                        <div
-                            class="w-10 h-10 bg-orange-50 rounded-xl flex justify-center items-center text-[#e87f2c] shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-gray-900 main-font">Event Overview</h2>
-                    </div>
-
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                        <div class="space-y-1">
-                            <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Date</p>
-                            <p class="text-sm font-black text-gray-800">{{eventBooking.eventDate || 'N/A'}}</p>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Guests</p>
-                            <p class="text-sm font-black text-[#e87f2c]">{{eventBooking.totalMembers}}</p>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-[8px] text-green-400 font-bold uppercase tracking-widest">Veg</p>
-                            <p class="text-sm font-black text-gray-800">{{eventBooking.vegGuests}}</p>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-[8px] text-red-400 font-bold uppercase tracking-widest">Non-Veg</p>
-                            <p class="text-sm font-black text-gray-800">{{eventBooking.nonVegGuests}}</p>
-                        </div>
-                    </div>
+                <!-- Review Tabs Selection -->
+                <div *ngIf="eventBooking.eventId && serviceCart.length > 0"
+                    class="flex p-1 bg-gray-200/50 rounded-2xl backdrop-blur-sm" data-aos="fade-up">
+                    <button (click)="setTab('event')"
+                        [class]="activeTab === 'event' ? 'bg-white shadow-md text-[#e87f2c]' : 'text-gray-500 hover:bg-white/50'"
+                        class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300">
+                        Event Review
+                    </button>
+                    <button (click)="setTab('service')"
+                        [class]="activeTab === 'service' ? 'bg-white shadow-md text-blue-500' : 'text-gray-500 hover:bg-white/50'"
+                        class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300">
+                        Service Review
+                    </button>
                 </div>
 
-                <!-- Selected Menu -->
-                <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
-                    data-aos="fade-right" data-aos-delay="100">
-                    <h2 class="text-xl font-bold text-gray-900 main-font mb-6">Culinary Selection</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div *ngFor="let item of eventBooking.menuSelection"
-                            class="flex items-center gap-4 p-3 bg-gray-50/50 rounded-xl border border-gray-100 group">
-                            <img [src]="item.image"
-                                class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover:scale-105 transition-transform">
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-gray-800 text-xs leading-tight line-clamp-1">{{item.name}}
-                                </h4>
-                                <p class="text-[10px] text-gray-400 mt-0.5">{{item.quantity || 1}} x ₹{{item.price}}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-black text-[#e87f2c] text-sm">₹{{item.price * (item.quantity || 1)}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Event Review Container -->
+                <div *ngIf="activeTab === 'event' && eventBooking.eventId" class="space-y-6">
 
-                <!-- Professional Allocation -->
-                <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
-                    data-aos="fade-right" data-aos-delay="200">
-                    <h2 class="text-xl font-bold text-gray-900 main-font mb-6">
-                        {{eventBooking.serviceType === 'chef' ? 'Culinary Experts' : 'Hospitality Partner'}}
-                    </h2>
-
-                    <div *ngIf="eventBooking.serviceType === 'chef'"
-                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <div *ngFor="let chef of eventBooking.selectedChefs; let i = index"
-                            class="group p-4 bg-gray-50/50 rounded-2xl border border-gray-100 text-center hover:shadow-md transition-all">
-                            <div class="relative w-14 h-14 mx-auto mb-3">
-                                <img [src]="chef.image"
-                                    class="w-full h-full rounded-full object-cover border-2 border-white shadow-sm">
+                    <!-- Event Summary -->
+                    <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
+                        data-aos="fade-right">
+                        <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                            <div class="flex items-center gap-3">
                                 <div
-                                    class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-[#e87f2c] text-white text-[7px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter whitespace-nowrap">
-                                    {{i === 0 ? 'Lead' : 'Support'}}
+                                    class="w-10 h-10 bg-orange-50 rounded-xl flex justify-center items-center text-[#e87f2c] shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900 main-font">Event Overview</h2>
+                            </div>
+                            <div *ngIf="eventBooking.eventName"
+                                class="px-4 py-1.5 bg-orange-50 rounded-full border border-orange-100">
+                                <span
+                                    class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest">{{eventBooking.eventName}}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                            <div class="space-y-1">
+                                <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Date</p>
+                                <p class="text-sm font-black text-gray-800">{{eventBooking.eventDate || 'N/A'}}</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Guests</p>
+                                <p class="text-sm font-black text-[#e87f2c]">{{eventBooking.totalMembers}}</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[8px] text-green-400 font-bold uppercase tracking-widest">Veg</p>
+                                <p class="text-sm font-black text-gray-800">{{eventBooking.vegGuests}}</p>
+                            </div>
+                            <div class="space-y-1">
+                                <p class="text-[8px] text-red-400 font-bold uppercase tracking-widest">Non-Veg</p>
+                                <p class="text-sm font-black text-gray-800">{{eventBooking.nonVegGuests}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Menu -->
+                    <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
+                        data-aos="fade-right" data-aos-delay="100">
+                        <h2 class="text-xl font-bold text-gray-900 main-font mb-6">Menu Selection</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div *ngFor="let item of eventBooking.menuSelection"
+                                class="flex items-center gap-4 p-3 bg-gray-50/50 rounded-xl border border-gray-100 group">
+                                <img [src]="item.image_url"
+                                    class="w-12 h-12 rounded-lg object-cover shadow-sm group-hover:scale-105 transition-transform">
+                                <div class="flex-grow">
+                                    <h4 class="font-bold text-gray-800 text-xs leading-tight line-clamp-1">{{item.name}}
+                                    </h4>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">{{item.quantity || 1}} x ₹{{item.price}}
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-black text-[#e87f2c] text-sm">₹{{item.price * (item.quantity || 1)}}
+                                    </p>
                                 </div>
                             </div>
-                            <h4 class="font-bold text-gray-800 text-[10px] truncate">{{chef.name}}</h4>
-                            <p class="text-[8px] text-[#e87f2c] uppercase font-black tracking-widest mt-0.5">
-                                {{chef.specialty}}</p>
                         </div>
                     </div>
 
-                    <div *ngIf="eventBooking.serviceType === 'catering' && eventBooking.selectedVendor"
-                        class="flex items-center gap-6 p-5 border border-orange-100 rounded-[1.5rem] bg-orange-50/20">
-                        <div class="w-20 h-20 flex-shrink-0">
-                            <img [src]="eventBooking.selectedVendor.image"
-                                class="w-full h-full rounded-2xl object-cover shadow-md border-2 border-white">
-                        </div>
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-800 mb-1">{{eventBooking.selectedVendor.name}}</h4>
-                            <div
-                                class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-white rounded-lg text-[#e87f2c] text-[9px] font-black uppercase mb-2 shadow-sm">
-                                <span class="text-yellow-400">★</span> {{eventBooking.selectedVendor.rating}}
+                    <!-- Professional Allocation -->
+                    <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
+                        data-aos="fade-right" data-aos-delay="200">
+                        <h2 class="text-xl font-bold text-gray-900 main-font mb-6">
+                            {{eventBooking.serviceType === 'chef' ? 'Chef Experts' : 'Hospitality Partner'}}
+                        </h2>
+
+                        <div *ngIf="eventBooking.serviceType === 'chef'"
+                            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <div *ngFor="let chef of eventBooking.selectedChefs; let i = index"
+                                class="group p-4 bg-gray-50/50 rounded-2xl border border-gray-100 text-center hover:shadow-md transition-all">
+                                <div class="relative w-14 h-14 mx-auto mb-3">
+                                    <img [src]="chef.image"
+                                        class="w-full h-full rounded-full object-cover border-2 border-white shadow-sm">
+                                    <div
+                                        class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-[#e87f2c] text-white text-[7px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter whitespace-nowrap">
+                                        {{i === 0 ? 'Lead' : 'Support'}}
+                                    </div>
+                                </div>
+                                <h4 class="font-bold text-gray-800 text-[10px] truncate">{{chef.name}}</h4>
+                                <p class="text-[8px] text-[#e87f2c] uppercase font-black tracking-widest mt-0.5">
+                                    {{chef.specialty}}</p>
                             </div>
-                            <p class="text-[11px] text-gray-500 font-medium">Expert catering specialized in
-                                {{eventBooking.selectedVendor.cuisine}}.</p>
+                        </div>
+
+                        <div *ngIf="eventBooking.serviceType === 'catering' && eventBooking.selectedVendor"
+                            class="flex items-center gap-6 p-5 border border-orange-100 rounded-[1.5rem] bg-orange-50/20">
+                            <div class="w-20 h-20 flex-shrink-0">
+                                <img [src]="eventBooking.selectedVendor.image"
+                                    class="w-full h-full rounded-2xl object-cover shadow-md border-2 border-white">
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-800 mb-1">{{eventBooking.selectedVendor.name}}
+                                </h4>
+                                <div
+                                    class="inline-flex items-center gap-1.5 px-2 py-0.5 bg-white rounded-lg text-[#e87f2c] text-[9px] font-black uppercase mb-2 shadow-sm">
+                                    <span class="text-yellow-400">★</span> {{eventBooking.selectedVendor.rating}}
+                                </div>
+                                <p class="text-[11px] text-gray-500 font-medium">Expert catering specialized in
+                                    {{eventBooking.selectedVendor.cuisine}}.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Standalone Services -->
-                <div *ngIf="serviceCart.length > 0"
-                    class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
-                    data-aos="fade-right" data-aos-delay="300">
-                    <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                        <div
-                            class="w-10 h-10 bg-blue-50 rounded-xl flex justify-center items-center text-blue-500 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-gray-900 main-font">Additional Supplies</h2>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div *ngFor="let item of serviceCart"
-                            class="flex items-center gap-4 bg-gray-50/50 p-3 rounded-2xl border border-gray-100">
-                            <img [src]="item.image" class="w-12 h-12 rounded-xl object-cover shadow-sm">
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-gray-800 text-xs">{{item.name}}</h4>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{item.weight
-                                    || item.category}}</p>
+                <!-- Service Review Container -->
+                <div *ngIf="activeTab === 'service' && serviceCart.length > 0" class="space-y-6">
+                    <!-- Standalone Services -->
+                    <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 shadow-lg border border-white/50"
+                        data-aos="fade-right">
+                        <div class="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                            <div
+                                class="w-10 h-10 bg-blue-50 rounded-xl flex justify-center items-center text-blue-500 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
                             </div>
-                            <div class="text-right">
-                                <p class="font-black text-gray-900 text-sm">₹{{item.price * item.quantity}}</p>
-                                <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">
-                                    {{item.quantity}} Units</p>
+                            <h2 class="text-xl font-bold text-gray-900 main-font">Selected Services</h2>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div *ngFor="let group of groupedServices" class="space-y-4">
+                                <h3
+                                    class="text-xs font-black text-[#e87f2c] uppercase tracking-[0.2em] ml-2 flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-[#e87f2c] rounded-full"></div>
+                                    {{group.name}}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div *ngFor="let item of group.items"
+                                        class="flex items-center gap-4 bg-gray-50/50 p-3 rounded-2xl border border-gray-100 hover:shadow-md transition-all group">
+                                        <img [src]="item.image_url || item.image"
+                                            class="w-12 h-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform">
+                                        <div class="flex-grow">
+                                            <h4 class="font-bold text-gray-800 text-xs">{{item.name}}</h4>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                                                {{item.quantity_type || item.weight || item.category}}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-black text-gray-900 text-sm">₹{{item.price * item.quantity}}
+                                            </p>
+                                            <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">
+                                                {{item.quantity}} Units</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Payment Breakup -->
+            <!-- Right: Order Summary -->
             <div class="lg:col-span-4">
-                <div class="bg-gray-900 rounded-[2rem] p-7 shadow-2xl border border-white/5 sticky top-20"
+                <div class="bg-[#0f172a] rounded-[2.5rem] p-8 shadow-2xl border border-white/5 sticky top-20"
                     data-aos="fade-left">
-                    <h2 class="text-xl font-bold text-white main-font mb-6 border-b border-white/10 pb-4">Bill Details
-                    </h2>
+                    <div class="flex items-center gap-2 mb-8">
+                        <h2 class="text-2xl font-black text-white main-font">Order Summary</h2>
+                        <div class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1"></div>
+                    </div>
 
                     <div class="space-y-4 mb-8">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-white/40 font-bold">Subtotal</span>
-                            <span class="text-white font-black">₹{{totalValue}}</span>
+                        <div *ngIf="activeTab === 'event'" class="flex justify-between items-center">
+                            <span class="text-gray-400 font-bold text-sm">Event Total</span>
+                            <span class="text-white font-black text-sm">₹{{eventTotal}}</span>
                         </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <div class="flex items-center gap-2">
-                                <span class="text-white/40 font-bold">Service Fee</span>
-                                <span
-                                    class="text-[8px] bg-white/10 text-white/40 px-1.5 py-0.5 rounded text-[7px]">5%</span>
-                            </div>
-                            <span class="text-white font-black">₹{{totalValue * 0.05 | number:'1.0-0'}}</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <div class="flex items-center gap-2">
-                                <span class="text-white/40 font-bold">GST</span>
-                                <span
-                                    class="text-[8px] bg-white/10 text-white/40 px-1.5 py-0.5 rounded text-[7px]">18%</span>
-                            </div>
-                            <span class="text-white font-black">₹{{totalValue * 0.18 | number:'1.0-0'}}</span>
+                        <div *ngIf="activeTab === 'service'" class="flex justify-between items-center">
+                            <span class="text-gray-400 font-bold text-sm">Service Total</span>
+                            <span class="text-white font-black text-sm">₹{{serviceTotal}}</span>
                         </div>
 
-                        <div class="py-2">
-                            <div class="h-px bg-white/10"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 font-bold text-sm">Service Fee <span
+                                    class="text-[10px] opacity-50 ml-1">5%</span></span>
+                            <span class="text-white font-bold text-sm">₹{{totalValue * 0.05 | number:'1.0-0'}}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 font-bold text-sm">GST <span
+                                    class="text-[10px] opacity-50 ml-1">18%</span></span>
+                            <span class="text-white font-bold text-sm">₹{{totalValue * 0.18 | number:'1.0-0'}}</span>
                         </div>
 
-                        <div class="flex justify-between items-center pt-2">
-                            <div>
-                                <h4 class="text-white/20 font-black uppercase text-[8px] tracking-[0.2em]">Total Amount
-                                </h4>
-                                <p class="text-3xl font-black text-[#e87f2c]">₹{{totalValue * 1.23 | number:'1.0-0'}}
-                                </p>
+                        <div class="h-px bg-white/10 my-4"></div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-white/30 font-black uppercase text-[10px] tracking-[0.2em]">Grand Total
+                            </h4>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-3xl font-black text-[#e87f2c]">₹</span>
+                                <span class="text-5xl font-black text-white tracking-tight">{{totalValue * 1.23
+                                    |
+                                    number:'1.0-0'}}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <button (click)="confirmOrder()" [disabled]="!isFormValid()"
-                            class="w-full py-4 bg-[#e87f2c] text-white rounded-xl font-black text-sm uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:bg-[#af6429] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed">
-                            Confirm Booking
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            class="w-full py-5 bg-[#e87f2c] text-white rounded-2xl font-black text-sm uppercase tracking-[0.15em] shadow-2xl shadow-orange-500/20 hover:bg-[#af6429] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed group">
+                            Secure Checkout
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </button>
 
-                        <div
-                            class="flex items-center justify-center gap-6 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Visa_logo-white.png"
-                                class="h-2.5">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mastercard-logo.png/800px-Mastercard-logo.png"
-                                class="h-5">
+                        <div class="bg-white/5 rounded-2xl p-4 flex items-center gap-4 border border-white/5">
+                            <div
+                                class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-green-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-white/40 font-black uppercase tracking-widest">Encrypted
+                                    Transaction</span>
+                                <span class="text-[9px] text-white/60 font-medium">256-BIT SSL SECURITY</span>
+                            </div>
                         </div>
                     </div>
                 </div>

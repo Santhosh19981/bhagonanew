@@ -28,7 +28,8 @@
           <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
         <span
-          class="absolute -right-2 -top-2 rounded-full bg-[#e87f2c] w-4 h-4 md:w-5 md:h-5 text-white font-black text-[9px] md:text-[10px] flex items-center justify-center">{{cartCount}}
+          class="absolute -right-2 -top-2 rounded-full bg-[#e87f2c] w-4 h-4 md:w-5 md:h-5 text-white font-black text-[9px] md:text-[10px] flex items-center justify-center">{{
+          cartCount$ | async }}
         </span>
       </div>
 

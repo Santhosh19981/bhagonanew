@@ -47,7 +47,9 @@ export class MenuSelectionComponent {
     }).subscribe({
       next: (res: any) => {
         this.isLoading = false;
-        if (res.categories.status) this.categories = res.categories.data;
+        if (res.categories.status) {
+          this.categories = res.categories.data.sort((a: any, b: any) => a.id - b.id);
+        }
         if (res.subcategories.status) this.subcategories = res.subcategories.data;
         if (res.items.status) this.allItems = res.items.data;
 
@@ -123,13 +125,49 @@ export class MenuSelectionComponent {
     }
   }
 
+  addToCart(item: any) {
+    const itemId = item.id || item.menu_item_id || item.item_id || item.dish_id;
+    const index = this.cart.findIndex(i => (i.id || i.menu_item_id || i.item_id || i.dish_id) == itemId);
+    if (index > -1) {
+      this.cart[index].quantity++;
+    } else {
+      this.cart.push({ ...item, quantity: 1 });
+    }
+  }
+
+  removeFromCart(item: any) {
+    const itemId = item.id || item.menu_item_id || item.item_id || item.dish_id;
+    const index = this.cart.findIndex(i => (i.id || i.menu_item_id || i.item_id || i.dish_id) == itemId);
+    if (index > -1) {
+      if (this.cart[index].quantity > 1) {
+        this.cart[index].quantity--;
+      } else {
+        this.cart.splice(index, 1);
+      }
+    }
+  }
+
+  getQuantity(item: any): number {
+    const itemId = item.id || item.menu_item_id || item.item_id || item.dish_id;
+    const cartItem = this.cart.find(i => (i.id || i.menu_item_id || i.item_id || i.dish_id) == itemId);
+    return cartItem ? cartItem.quantity : 0;
+  }
+
   isItemSelected(item: any) {
     const itemId = item.id || item.menu_item_id || item.item_id || item.dish_id;
     return this.cart.some(i => (i.id || i.menu_item_id || i.item_id || i.dish_id) == itemId);
   }
 
   get totalItems() {
+    return this.cart.reduce((sum, item) => sum + item.quantity, 0);
+  }
+
+  get totalUniqueItems() {
     return this.cart.length;
+  }
+
+  get totalValue() {
+    return this.cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
   }
 
   proceed() {

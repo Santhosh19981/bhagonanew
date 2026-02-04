@@ -1,24 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BookingService } from '../../services/booking.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'
 })
-export class OrderHistoryComponent {
+export class OrderHistoryComponent implements OnInit {
   activeTab: 'upcoming' | 'processing' | 'completed' = 'upcoming';
+  orders: any[] = [];
+  expandedOrderId: string | null = null;
+  activeOrder: any = null;
 
-  orders = [
-    { id: '#BHG-92834', event: 'Marriage Ceremony', date: '2025-12-30', status: 'upcoming', amount: 45000, items: 3, chef: 'Chef Rajesh' },
-    { id: '#BHG-91023', event: 'Birthday Party', date: '2025-12-25', status: 'processing', amount: 15000, items: 5, chef: 'Chef Priya' },
-    { id: '#BHG-89234', event: 'Baby Shower', date: '2025-11-15', status: 'completed', amount: 22000, items: 4, chef: 'Chef Michael' }
-  ];
+  constructor(
+    private bookingService: BookingService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.loadOrders();
+  }
+
+  loadOrders() {
+    this.orders = this.bookingService.getOrders();
+  }
 
   get filteredOrders() {
     return this.orders.filter(o => o.status === this.activeTab);
   }
 
+  toggleOrder(orderId: string) {
+    this.expandedOrderId = this.expandedOrderId === orderId ? null : orderId;
+  }
+
   markStart(order: any) {
-    order.status = 'processing';
+    this.bookingService.updateOrderStatus(order.id, 'processing');
+    this.loadOrders();
+  }
+
+  markCompleted(order: any) {
+    this.bookingService.updateOrderStatus(order.id, 'completed');
+    this.loadOrders();
+  }
+
+  trackByOrderId(index: number, order: any) {
+    return order.id;
+  }
+
+  rateExperience(order: any) {
+    this.bookingService.setCurrentRatingOrder(order.id);
+    this.router.navigate(['/reviews']);
   }
 }
