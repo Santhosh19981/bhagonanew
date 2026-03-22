@@ -296,7 +296,7 @@ hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all
 [box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
 group cursor-pointer p-3 
 hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        [routerLink]="['/service-details', service.service_id]">
+                        [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}">
                         <div class="w-60 h-36 rounded-lg overflow-hidden  relative"><img [alt]="service.name"
                                 class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
                                 [src]="service.image_data || 'assets/Services-New/Function-Hall.png'">
@@ -328,7 +328,8 @@ hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all
 
                             <div class="flex justify-between items-center">
                                 <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button [routerLink]="['/service-details', service.service_id]"
+                                <button [routerLink]="['/vendor-selection']"
+                                    [queryParams]="{serviceId: service.service_id}"
                                     class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
                                     Service</button>
                             </div>

@@ -1,9 +1,20 @@
 <div
     class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
-    <div class="max-w-7xl mx-auto">
+    <!-- Loader Overlay -->
+    <div *ngIf="isLoading"
+        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center min-h-[400px]">
+        <div class="loader-container">
+            <div class="bhagona-loader"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Loading
+            Selection...</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
-            class="mb-6 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+            class="mt-6 mb-6 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -11,13 +22,57 @@
             </svg>
             Back
         </button>
+
+        <!-- Selected Service Display (Context) -->
+        <div *ngIf="selectedService" class="mb-10" data-aos="zoom-in">
+            <div
+                class="bg-white/95 backdrop-blur-xl rounded-[3rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-3 gap-0">
+                <!-- Service Image -->
+                <div class="relative h-48 lg:h-auto overflow-hidden">
+                    <img [src]="selectedService.image_data" [alt]="selectedService.name"
+                        class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute top-6 left-6">
+                        <span
+                            class="bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.3em] text-[#e87f2c] shadow-lg border border-orange-100">
+                            {{selectedService.tag || 'Service'}}
+                        </span>
+                    </div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <h1 class="text-2xl font-bold leading-tight font-serif drop-shadow-lg">{{selectedService.name}}
+                        </h1>
+                        <div class="h-1 w-12 bg-[#e87f2c] rounded-full mt-2"></div>
+                    </div>
+                </div>
+
+                <!-- Service Info -->
+                <div class="lg:col-span-2 p-8 lg:p-12 flex flex-col justify-center">
+                    <h2 class="text-3xl font-black text-gray-900 main-font mb-4">Book <span
+                            class="text-[#e87f2c]">{{selectedService.name}}</span></h2>
+                    <p class="text-base text-gray-600 font-medium leading-relaxed mb-6">{{selectedService.description}}
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <div
+                            class="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl text-green-600 text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                            Premium Quality
+                        </div>
+                        <div
+                            class="flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-xl text-[#e87f2c] text-[10px] font-bold">
+                            <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                            Doorstep Delivery
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Sticky Header - More compact -->
         <div class="sticky top-16 z-40 mb-10" data-aos="fade-down">
             <div
                 class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-4 shadow-xl border border-white/50 flex flex-col lg:flex-row items-center justify-between gap-4">
                 <div class="flex flex-col sm:flex-row items-center gap-6">
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900 main-font">Catering <span
+                        <h1 class="text-xl font-bold text-gray-900 main-font">{{vendorTitle}} <span
                                 class="text-[#e87f2c]">Partners</span></h1>
                         <p class="text-gray-500 text-[11px] font-medium leading-none">Select your Primary Partner</p>
                     </div>
@@ -25,18 +80,8 @@
                     <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
 
                     <div class="flex items-center gap-4">
-                        <div class="flex -space-x-3">
-                            <div *ngFor="let vendor of vendors | slice:0:3"
-                                class="w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-sm">
-                                <img [src]="vendor.image" class="w-full h-full object-cover">
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full border-2 border-white bg-[#e87f2c] flex justify-center items-center text-white text-[10px] font-bold">
-                                +{{vendors.length > 3 ? vendors.length - 3 : 0}}
-                            </div>
-                        </div>
-                        <p class="text-[10px] font-bold text-gray-400">
-                            Available: <span class="text-[#e87f2c] font-black">{{vendors.length}}</span>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                            Available: <span class="text-[#e87f2c] font-black">{{vendors.length}}</span> Partners
                         </p>
                     </div>
                 </div>
@@ -73,20 +118,35 @@
                 <div *ngIf="primaryVendor === vendor"
                     class="absolute top-4 right-4 bg-[#e87f2c] text-white px-3 py-1.5 rounded-xl text-[8px] font-black tracking-widest z-10 shadow-lg flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
-                    PRIMARY
+                    SELECTED
                 </div>
 
                 <!-- Image Container - Reduced height -->
-                <div class="relative h-60 overflow-hidden">
-                    <img [src]="vendor.image" [alt]="vendor.name"
+                <div class="relative h-60 overflow-hidden bg-orange-50/30 flex items-center justify-center">
+                    <img *ngIf="vendor.image" [src]="vendor.image" [alt]="vendor.businessname || vendor.name"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+
+                    <!-- SVG Fallback when no image -->
+                    <div *ngIf="!vendor.image"
+                        class="flex flex-col items-center justify-center text-orange-200 group-hover:scale-110 transition-transform duration-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 opacity-40" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <span
+                            class="text-[8px] font-black uppercase tracking-[0.3em] mt-2 opacity-30 mt-4">{{vendorTitle}}
+                            Partner</span>
+                    </div>
+
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 
                     <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                         <div>
                             <p class="text-orange-400 font-black uppercase text-[8px] tracking-[0.2em] mb-0.5">
                                 {{vendor.cuisine}}</p>
-                            <h3 class="text-xl font-bold text-white leading-tight">{{vendor.name}}</h3>
+                            <h3 class="text-xl font-bold text-white leading-tight">{{vendor.businessname ||
+                                vendor.name}}</h3>
                         </div>
                         <div
                             class="bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-lg flex items-center gap-1.5 border border-white/30">
@@ -98,7 +158,8 @@
 
                 <!-- Vendor Info -->
                 <div class="p-6 space-y-4 flex flex-col flex-grow">
-                    <div class="grid grid-cols-2 gap-4 bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
+                    <!-- HIDDEN AS PER USER REQUEST: Pricing and Level section -->
+                    <!-- <div class="grid grid-cols-2 gap-4 bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
                         <div>
                             <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-0.5">Starting</p>
                             <p class="text-lg font-bold text-gray-800">₹{{vendor.pricePerPlate}}<span
@@ -106,9 +167,9 @@
                         </div>
                         <div class="text-right">
                             <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-0.5">Level</p>
-                            <p class="text-lg font-bold text-gray-800">Premium</p>
+                            <p class="text-lg font-bold text-gray-800">{{vendor.level || 'Premium'}}</p>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="space-y-2 flex-grow">
                         <div class="flex items-center gap-2 text-gray-600">
@@ -127,7 +188,7 @@
 
                     <div [class]="primaryVendor === vendor ? 'bg-[#e87f2c] text-white border-transparent' : 'bg-transparent text-[#e87f2c] border-[#e87f2c]/20 hover:bg-[#e87f2c] hover:text-white'"
                         class="w-full py-3.5 rounded-xl font-black uppercase text-[9px] tracking-[0.2em] transition-all border-2 mt-2 text-center shadow-sm">
-                        {{primaryVendor === vendor ? 'Deselect Vendor' : 'Partner with Them'}}
+                        {{primaryVendor === vendor ? 'Selected' : 'Select Vendor'}}
                     </div>
                 </div>
             </div>

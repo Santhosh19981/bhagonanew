@@ -16,6 +16,10 @@ export class ServiceDetailsComponent implements OnInit {
   filteredItems: any[] = [];
   selectedService: any;
   isLoading: boolean = true;
+  selectedVendor: any = null;
+  fromServiceFlow: boolean = false;
+  banners: any[] = [];
+  reviews: any[] = [];
 
 
   constructor(
@@ -28,7 +32,13 @@ export class ServiceDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.bookingData = this.bookingService.getEventBooking();
+    this.selectedVendor = this.bookingData.selectedVendor;
     this.cart = this.bookingService.getServiceCart();
+
+    const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
+    if (vendorId) {
+      this.fetchVendorMarketingData(vendorId);
+    }
 
     this.route.params.subscribe((params: any) => {
       this.serviceId = params['id'];
@@ -36,11 +46,18 @@ export class ServiceDetailsComponent implements OnInit {
         this.fetchServiceDetails(this.serviceId);
       }
     });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['flow'] === 'service') {
+        this.fromServiceFlow = true;
+      }
+    });
   }
 
   fetchServiceDetails(id: string) {
     this.isLoading = true;
-    this.apiService.getServiceItemsById(id).subscribe({
+    const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
+    this.apiService.getServiceItemsById(id, vendorId).subscribe({
       next: (res: any) => {
         this.isLoading = false;
         if (res.status === 'success') {
@@ -55,13 +72,41 @@ export class ServiceDetailsComponent implements OnInit {
     });
   }
 
+  fetchVendorMarketingData(vendorId: any) {
+    this.apiService.getBanners(vendorId).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.banners = res.data || [];
+        }
+      }
+    });
+
+    this.apiService.getReviews(vendorId).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.reviews = res.data || [];
+        }
+      }
+    });
+  }
+
   getFormattedTitle(id: string): string {
     if (!id) return 'Services';
     return id.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
 
   goBack() {
-    this.location.back();
+    if (this.serviceId) {
+      this.router.navigate(['/vendor-selection'], { queryParams: { serviceId: this.serviceId } });
+    } else {
+      this.location.back();
+    }
+  }
+
+  changeVendor() {
+    if (this.serviceId) {
+      this.router.navigate(['/vendor-selection'], { queryParams: { serviceId: this.serviceId } });
+    }
   }
 
   addToCart(item: any) {
