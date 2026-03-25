@@ -19,7 +19,10 @@ export class ServiceDetailsComponent implements OnInit {
   selectedVendor: any = null;
   fromServiceFlow: boolean = false;
   banners: any[] = [];
+  offers: any[] = [];
   reviews: any[] = [];
+  currentBannerIndex: number = 0;
+  bannerInterval: any;
 
 
   constructor(
@@ -35,15 +38,17 @@ export class ServiceDetailsComponent implements OnInit {
     this.selectedVendor = this.bookingData.selectedVendor;
     this.cart = this.bookingService.getServiceCart();
 
-    const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
-    if (vendorId) {
-      this.fetchVendorMarketingData(vendorId);
-    }
+    this.cart = this.bookingService.getServiceCart();
 
     this.route.params.subscribe((params: any) => {
       this.serviceId = params['id'];
       if (this.serviceId) {
         this.fetchServiceDetails(this.serviceId);
+        
+        const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
+        if (vendorId) {
+          this.fetchVendorMarketingData(vendorId);
+        }
       }
     });
 
@@ -73,10 +78,21 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   fetchVendorMarketingData(vendorId: any) {
-    this.apiService.getBanners(vendorId).subscribe({
+    this.apiService.getBanners(vendorId, this.serviceId).subscribe({
       next: (res: any) => {
         if (res.status) {
           this.banners = res.data || [];
+          if (this.banners.length > 1) {
+            this.startBannerSlider();
+          }
+        }
+      }
+    });
+
+    this.apiService.getOffers(vendorId, this.serviceId).subscribe({
+      next: (res: any) => {
+        if (res.status) {
+          this.offers = res.data || [];
         }
       }
     });
@@ -85,9 +101,25 @@ export class ServiceDetailsComponent implements OnInit {
       next: (res: any) => {
         if (res.status) {
           this.reviews = res.data || [];
+          if (this.selectedVendor) {
+            this.selectedVendor.reviews = this.reviews;
+          }
         }
       }
     });
+  }
+
+  startBannerSlider() {
+    if (this.bannerInterval) clearInterval(this.bannerInterval);
+    this.bannerInterval = setInterval(() => {
+      this.currentBannerIndex = (this.currentBannerIndex + 1) % this.banners.length;
+    }, 5000); // Change banner every 5 seconds
+  }
+
+  ngOnDestroy() {
+    if (this.bannerInterval) {
+      clearInterval(this.bannerInterval);
+    }
   }
 
   getFormattedTitle(id: string): string {

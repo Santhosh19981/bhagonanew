@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class ApiService {
-    private baseUrl = 'https://bhagona-backend-v2.vercel.app';
+    private baseUrl = 'http://localhost:3000';
 
     constructor(private http: HttpClient) { }
 
@@ -51,10 +51,19 @@ export class ApiService {
         });
     }
 
-    getBanners(vendorId?: any): Observable<any> {
+    getBanners(vendorId?: any, serviceId?: any): Observable<any> {
         let url = `${this.baseUrl}/banners`;
-        if (vendorId) url += `?vendor_id=${vendorId}`;
-        return this.http.get(url);
+        const params: any = {};
+        if (vendorId) params.vendor_id = vendorId;
+        if (serviceId) params.service_id = serviceId;
+        return this.http.get(url, { params });
+    }
+
+    getOffers(vendorId: any, serviceId?: any): Observable<any> {
+        let url = `${this.baseUrl}/offers/active/${vendorId}`;
+        const params: any = {};
+        if (serviceId) params.service_id = serviceId;
+        return this.http.get(url, { params });
     }
 
     getReviews(vendorId: any): Observable<any> {

@@ -109,10 +109,15 @@ export class VendorSelectionComponent {
   }
 
   selectVendor(vendor: any) {
-    if (this.primaryVendor === vendor) {
-      this.primaryVendor = null;
+    this.primaryVendor = vendor;
+    this.bookingService.updateEventBooking({
+      selectedVendor: this.primaryVendor
+    });
+    
+    if (this.serviceId) {
+      this.router.navigate(['/service-details', this.serviceId], { queryParams: { flow: 'service' } });
     } else {
-      this.primaryVendor = vendor;
+      this.router.navigate(['/cart']);
     }
   }
 

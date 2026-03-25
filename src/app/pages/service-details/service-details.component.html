@@ -59,25 +59,101 @@
             </div>
         </div>
 
-        <!-- Vendor Promotional Banners -->
+        <!-- Vendor Promotional Banners Slider -->
         <div *ngIf="banners.length > 0" class="mb-10" data-aos="fade-up">
             <div class="flex items-center gap-3 mb-4 px-4">
-                <i class="bi bi-megaphone-fill text-[#e87f2c]"></i>
-                <h3 class="text-sm font-black text-gray-800 uppercase tracking-[0.2em]">Exclusive Offers</h3>
+                <i class="bi bi-stars text-[#e87f2c] animate-pulse"></i>
+                <h3 class="text-sm font-black text-gray-800 uppercase tracking-[0.2em]">Partner Promotions</h3>
             </div>
-            <div class="flex gap-6 overflow-x-auto pb-6 px-2 custom-scrollbar snap-x">
-                <div *ngFor="let banner of banners"
-                    class="flex-shrink-0 w-[300px] sm:w-[500px] h-[180px] sm:h-[250px] rounded-[2.5rem] overflow-hidden relative shadow-xl shadow-orange-500/10 snap-center group">
+            
+            <div class="relative h-[200px] sm:h-[300px] rounded-[3rem] overflow-hidden shadow-2xl shadow-orange-500/10 group">
+                <!-- Banners -->
+                <div *ngFor="let banner of banners; let i = index"
+                    class="absolute inset-0 transition-all duration-1000 ease-in-out"
+                    [class.opacity-100]="i === currentBannerIndex"
+                    [class.opacity-0]="i !== currentBannerIndex"
+                    [class.z-10]="i === currentBannerIndex"
+                    [class.scale-105]="i === currentBannerIndex">
+                    
                     <img [src]="banner.image_url"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
-                        <h4 class="text-white text-xl font-bold mb-1 drop-shadow-md">{{banner.title}}</h4>
-                        <p class="text-white/80 text-xs font-medium line-clamp-2">{{banner.description}}</p>
-                        <a *ngIf="banner.link_url" [href]="banner.link_url" target="_blank"
-                            class="mt-4 w-fit px-6 py-2 bg-white text-gray-900 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#e87f2c] hover:text-white transition-all shadow-lg">
-                            Learn More
-                        </a>
+                        class="absolute inset-0 w-full h-full object-cover">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center p-8 sm:p-16">
+                        <div class="max-w-xl space-y-3" [class.animate-slide-in]="i === currentBannerIndex">
+                            <span class="inline-block px-3 py-1 bg-[#e87f2c] text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-lg mb-2">Featured Offer</span>
+                            <h4 class="text-white text-3xl sm:text-5xl font-black leading-tight drop-shadow-2xl">{{banner.title}}</h4>
+                            <p class="text-white/80 text-sm sm:text-lg font-medium line-clamp-2 max-w-md">{{banner.description}}</p>
+                            <a *ngIf="banner.link_url" [href]="banner.link_url" target="_blank"
+                                class="mt-6 inline-flex items-center gap-3 px-8 py-3 bg-white text-gray-900 text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#e87f2c] hover:text-white transition-all shadow-xl group-hover:scale-105 active:scale-95">
+                                Claim Now
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slider Indicators -->
+                <div *ngIf="banners.length > 1" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                    <button *ngFor="let dot of banners; let i = index" 
+                        (click)="currentBannerIndex = i"
+                        class="h-1.5 transition-all duration-500 rounded-full bg-white/50"
+                        [class.w-8]="i === currentBannerIndex"
+                        [class.bg-white]="i === currentBannerIndex"
+                        [class.w-3]="i !== currentBannerIndex"></button>
+                </div>
+
+                <!-- Navigation Arrows (Hidden on mobile) -->
+                <button *ngIf="banners.length > 1" (click)="currentBannerIndex = (currentBannerIndex - 1 + banners.length) % banners.length"
+                    class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-20 hover:bg-black/40">
+                    <i class="bi bi-chevron-left text-xl"></i>
+                </button>
+                <button *ngIf="banners.length > 1" (click)="currentBannerIndex = (currentBannerIndex + 1) % banners.length"
+                    class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md text-white border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-20 hover:bg-black/40">
+                    <i class="bi bi-chevron-right text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vendor Offers Section -->
+        <div *ngIf="offers.length > 0" class="mb-10 px-4" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-ticket-perforated-fill text-orange-500 text-xl"></i>
+                    <h3 class="text-sm font-black text-gray-800 uppercase tracking-[0.2em]">Available Coupons</h3>
+                </div>
+                <span class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-lg border border-orange-100">{{offers.length}} Active</span>
+            </div>
+            
+            <div class="flex gap-6 overflow-x-auto pb-4 custom-scrollbar snap-x">
+                <div *ngFor="let offer of offers" 
+                    class="flex-shrink-0 w-[280px] bg-white rounded-[2rem] p-6 border-2 border-dashed border-orange-200 relative overflow-hidden group hover:border-[#e87f2c] transition-all snap-center shadow-sm hover:shadow-xl">
+                    
+                    <!-- Decorative Circle -->
+                    <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-16 bg-orange-50 rounded-l-full border-y border-l border-orange-200 transition-colors group-hover:bg-orange-100"></div>
+                    <div class="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-16 bg-orange-50 rounded-r-full border-y border-r border-orange-200 transition-colors group-hover:bg-orange-100"></div>
+
+                    <div class="relative space-y-3">
+                        <div class="flex justify-between items-start">
+                            <span class="text-[9px] font-black text-[#e87f2c] uppercase tracking-[0.2em]">Limited Time Offer</span>
+                            <div class="bg-gray-50 p-2 rounded-xl group-hover:bg-orange-50 transition-colors">
+                                <i class="bi bi-lightning-charge-fill text-orange-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-black text-gray-900 leading-tight">{{offer.title}}</h4>
+                            <p class="text-[10px] text-gray-500 font-medium leading-relaxed mt-1 line-clamp-2">{{offer.description}}</p>
+                        </div>
+
+                        <div class="pt-4 flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <p class="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Coupon Code</p>
+                                <p class="text-sm font-black text-[#e87f2c] main-font">{{offer.coupon_code}}</p>
+                            </div>
+                            <button class="px-5 py-2 bg-gray-900 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-[#e87f2c] transition-all shadow-lg active:scale-95">
+                                Copy
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
