@@ -40,23 +40,31 @@ export class ServiceDetailsComponent implements OnInit {
 
     this.cart = this.bookingService.getServiceCart();
 
+    this.route.queryParams.subscribe(params => {
+      if (params['flow'] === 'service') {
+        this.fromServiceFlow = true;
+        // In service flow, if we don't have a vendor yet, maybe we should pick a default or show all? 
+        // But the user's screenshot shows a partner is already selected.
+      }
+    });
+
     this.route.params.subscribe((params: any) => {
       this.serviceId = params['id'];
       if (this.serviceId) {
         this.fetchServiceDetails(this.serviceId);
         
         const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
-        if (vendorId) {
-          this.fetchVendorMarketingData(vendorId);
-        }
+        // Even if no vendorId, we might want to fetch global banners for this service
+        this.fetchVendorMarketingData(vendorId);
       }
     });
+  }
 
-    this.route.queryParams.subscribe(params => {
-      if (params['flow'] === 'service') {
-        this.fromServiceFlow = true;
-      }
-    });
+  get pageTitle(): string {
+    if (this.fromServiceFlow && this.selectedService) {
+      return `Premium ${this.selectedService.name} Services`;
+    }
+    return this.selectedService ? this.selectedService.name : 'Service Details';
   }
 
   fetchServiceDetails(id: string) {

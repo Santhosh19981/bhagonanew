@@ -8,10 +8,11 @@ import { Router } from '@angular/router';
   styleUrl: './order-history.component.scss'
 })
 export class OrderHistoryComponent implements OnInit {
-  activeTab: 'upcoming' | 'processing' | 'completed' = 'upcoming';
+  activeTab: string = 'accepted'; // Matches backend status
   orders: any[] = [];
-  expandedOrderId: string | null = null;
+  expandedOrderId: number | null = null;
   activeOrder: any = null;
+  isLoading: boolean = false;
 
   constructor(
     private bookingService: BookingService,
@@ -23,33 +24,58 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   loadOrders() {
-    this.orders = this.bookingService.getOrders();
+    this.isLoading = true;
+    this.bookingService.getOrders().subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading orders:', err);
+        this.isLoading = false;
+      }
+    });
   }
 
   get filteredOrders() {
-    return this.orders.filter(o => o.status === this.activeTab);
+    // Note: status from backend might be 'accepted', 'upcoming', 'processing', 'completed', 'cancelled'
+    if (this.activeTab === 'upcoming') {
+      return this.orders.filter(o => o.booking_status === 'accepted' || o.booking_status === 'upcoming');
+    }
+    return this.orders.filter(o => o.booking_status === this.activeTab);
   }
 
-  toggleOrder(orderId: string) {
-    this.expandedOrderId = this.expandedOrderId === orderId ? null : orderId;
+  toggleOrder(bookingId: number) {
+    if (this.expandedOrderId === bookingId) {
+      this.expandedOrderId = null;
+      this.activeOrder = null;
+    } else {
+      this.expandedOrderId = bookingId;
+      this.bookingService.getOrderDetail(bookingId).subscribe({
+        next: (res) => {
+          this.activeOrder = res;
+        },
+        error: (err) => {
+          console.error('Error loading order details:', err);
+        }
+      });
+    }
   }
 
   markStart(order: any) {
-    this.bookingService.updateOrderStatus(order.id, 'processing');
-    this.loadOrders();
+    this.bookingService.updateOrderStatus(order.order_id, 'processing').subscribe(() => this.loadOrders());
   }
 
   markCompleted(order: any) {
-    this.bookingService.updateOrderStatus(order.id, 'completed');
-    this.loadOrders();
+    this.bookingService.updateOrderStatus(order.order_id, 'completed').subscribe(() => this.loadOrders());
   }
 
   trackByOrderId(index: number, order: any) {
-    return order.id;
+    return order.order_id;
   }
 
   rateExperience(order: any) {
-    this.bookingService.setCurrentRatingOrder(order.id);
-    this.router.navigate(['/reviews']);
+    // Current logic: navigate to reviews page
+    this.router.navigate(['/reviews'], { queryParams: { booking_id: order.booking_id } });
   }
 }

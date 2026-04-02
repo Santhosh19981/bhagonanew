@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
             this.authService.loginWithOTP(this.mobileNumber, this.otpValue).subscribe({
                 next: () => {
                     this.isLoading = false;
-                    this.router.navigateByUrl(this.returnUrl);
+                    this.redirectBasedOnRole();
                 },
                 error: (err) => {
                     this.isLoading = false;
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
             this.authService.loginWithEmail(this.emailValue, this.passwordValue).subscribe({
                 next: () => {
                     this.isLoading = false;
-                    this.router.navigateByUrl(this.returnUrl);
+                    this.redirectBasedOnRole();
                 },
                 error: (err) => {
                     this.isLoading = false;
@@ -96,6 +96,15 @@ export class LoginComponent implements OnInit {
             });
         } else {
             this.errorMessage = 'Please fill in all fields.';
+        }
+    }
+
+    redirectBasedOnRole() {
+        const user = this.authService.currentUserValue;
+        if (user && (user.role === 'chef' || user.role === 'vendor')) {
+            this.router.navigateByUrl('/partner-orders');
+        } else {
+            this.router.navigateByUrl(this.returnUrl);
         }
     }
 }

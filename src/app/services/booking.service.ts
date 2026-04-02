@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, forkJoin, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +15,21 @@ export class BookingService {
     vegGuests: 0,
     nonVegGuests: 0,
     menuSelection: [] as any[],
-    serviceType: '' as 'chef' | 'catering' | '',
+    serviceType: '' as 'chef' | 'catering' | 'service_booking' | '',
     selectedChefs: [] as any[],
     selectedVendor: null as any,
-    eventId: ''
+    eventId: '',
+    serviceId: ''
   };
 
   private serviceCart: any[] = [];
   private readonly STORAGE_KEY = 'bhagona_cart_data';
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
-  private readonly ORDERS_KEY = 'bhagona_orders';
   private readonly CUSTOMER_KEY = 'bhagona_customer_details';
-  private currentRatingOrderId: string | null = null;
+  private apiUrl = 'http://localhost:3000';
 
-  constructor() {
+  constructor(private http: HttpClient, private authService: AuthService) {
     this.loadFromLocalStorage();
     this.updateCartCount();
   }
@@ -120,7 +123,8 @@ export class BookingService {
       serviceType: '',
       selectedChefs: [],
       selectedVendor: null,
-      eventId: ''
+      eventId: '',
+      serviceId: ''
     };
     this.saveToLocalStorage();
   }
@@ -144,83 +148,79 @@ export class BookingService {
     };
   }
 
-  placeOrder(orderType: 'event' | 'service', customerDetails: any) {
-    const orders = this.getOrders();
-    const newOrder = {
-      id: '#BHG-' + Math.floor(Math.random() * 90000 + 10000),
-      orderType,
-      date: new Date().toISOString().split('T')[0],
-      status: 'upcoming',
-      customerDetails,
-      data: orderType === 'event' ? { ...this.eventBooking } : [...this.serviceCart],
-      amount: orderType === 'event'
-        ? this.calculateEventTotal()
-        : this.calculateServiceTotal()
+  placeOrder(orderType: 'event' | 'service', customerDetails: any): Observable<any> {
+    const user = this.authService.currentUserValue;
+    if (!user) return of({ error: 'User not logged in' });
+
+    const bookingData = {
+      customer_user_id: user.id,
+      event_id: this.eventBooking.eventId || null,
+      service_id: this.eventBooking.serviceId || null,
+      event_date: this.eventBooking.eventDate || new Date().toISOString().split('T')[0],
+      total_members: this.eventBooking.totalMembers || 0,
+      veg_guests: this.eventBooking.vegGuests || 0,
+      non_veg_guests: this.eventBooking.nonVegGuests || 0,
+      booking_type: orderType === 'event' ? (this.eventBooking.serviceType === 'chef' ? 'chef_booking' : 'catering_booking') : 'service_booking',
+      primary_chef_user_id: this.eventBooking.selectedChefs[0]?.user_id || null,
+      alternate_chef1_user_id: this.eventBooking.selectedChefs[1]?.user_id || null,
+      alternate_chef2_user_id: this.eventBooking.selectedChefs[2]?.user_id || null,
+      primary_vendor_user_id: this.eventBooking.selectedVendor?.user_id || null,
+      alternate_vendor1_user_id: null,
+      alternate_vendor2_user_id: null
     };
 
-    orders.unshift(newOrder); // Newest first
-    localStorage.setItem(this.ORDERS_KEY, JSON.stringify(orders));
-    this.saveCustomerDetails(customerDetails); // Persist details for next time
-    return newOrder;
+    return this.http.post<any>(`${this.apiUrl}/bookings`, bookingData).pipe(
+      switchMap(res => {
+        const bookingId = res.booking_id;
+        const items = orderType === 'event' ? this.eventBooking.menuSelection : this.serviceCart;
+        const itemRequests = items.map(item => 
+          this.http.post(`${this.apiUrl}/bookings/${bookingId}/menu-items`, {
+            menu_item_id: item.menu_item_id || item.id,
+            quantity: item.quantity || 1,
+            price: item.price || 0
+          })
+        );
+        return forkJoin(itemRequests).pipe(map(() => ({ success: true, booking_id: bookingId })));
+      }),
+      tap(() => this.clearAll())
+    );
   }
 
-  getOrders() {
-    const stored = localStorage.getItem(this.ORDERS_KEY);
-    return stored ? JSON.parse(stored) : [];
+  getOrders(): Observable<any[]> {
+    const user = this.authService.currentUserValue;
+    if (!user) return of([]);
+    return this.http.get<any>(`${this.apiUrl}/orders/customer/${user.id}`).pipe(
+      map(res => res.data || [])
+    );
   }
 
-  updateOrderRating(orderId: string, ratingData: any) {
-    const orders = this.getOrders();
-    const index = orders.findIndex((o: any) => o.id === orderId);
-    if (index > -1) {
-      orders[index].rating = ratingData;
-      localStorage.setItem(this.ORDERS_KEY, JSON.stringify(orders));
-    }
+  getOrderDetail(bookingId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/bookings/${bookingId}`);
   }
 
-  setCurrentRatingOrder(orderId: string | null) {
-    this.currentRatingOrderId = orderId;
+  updateOrderStatus(orderId: string | number, status: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/orders/${orderId}/status`, { booking_status: status });
   }
 
-  getCurrentRatingOrder() {
-    return this.currentRatingOrderId;
+  // --- PARTNER METHODS ---
+  getPartnerOrders(userId: string | number, role: string): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/bookings/partner/${userId}?role=${role}`).pipe(
+      map(res => res.data || [])
+    );
   }
 
-  updateOrderStatus(orderId: string, status: string) {
-    const orders = this.getOrders();
-    const index = orders.findIndex((o: any) => o.id === orderId);
-    if (index > -1) {
-      orders[index].status = status;
-      localStorage.setItem(this.ORDERS_KEY, JSON.stringify(orders));
-    }
-  }
-
-  private calculateEventTotal(): number {
-    if (!this.eventBooking?.menuSelection) return 0;
-    return this.eventBooking.menuSelection.reduce((sum: number, item: any) => sum + (item.price * (item.quantity || 1)), 0);
-  }
-
-  private calculateServiceTotal(): number {
-    return this.serviceCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  respondToBooking(bookingId: number, userId: string | number, role: string, status: 'accepted' | 'rejected', comments: string = ''): Observable<any> {
+    return this.http.post(`${this.apiUrl}/bookings/respond`, {
+      booking_id: bookingId,
+      user_id: userId,
+      role: role,
+      acceptance_status: status,
+      comments: comments
+    });
   }
 
   getCartCount(): number {
-    const stored = localStorage.getItem(this.STORAGE_KEY);
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        const menuCount = (data.eventBooking?.menuSelection || []).length;
-        const serviceCount = (data.serviceCart || []).reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
-        const total = menuCount + serviceCount;
-        this.cartCountSubject.next(total);
-        return total;
-      } catch (e) {
-        console.error('Error parsing cart data for count', e);
-      }
-    }
-    const count = this.calculateCurrentCount();
-    this.cartCountSubject.next(count);
-    return count;
+    return this.calculateCurrentCount();
   }
 
   private updateCartCount() {

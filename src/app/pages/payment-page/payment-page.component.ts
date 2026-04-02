@@ -36,20 +36,22 @@ export class PaymentPageComponent implements OnInit {
 
   payNow() {
     this.isProcessing = true;
-    setTimeout(() => {
-      // 1. Place Order
-      const customerDetails = this.bookingService.getCustomerDetails();
-      this.bookingService.placeOrder(this.orderType, customerDetails);
-
-      // 2. Clear respective cart
-      if (this.orderType === 'event') {
-        this.bookingService.clearEventBooking();
-      } else {
-        this.bookingService.clearServiceCart();
+    const customerDetails = this.bookingService.getCustomerDetails();
+    
+    this.bookingService.placeOrder(this.orderType, customerDetails).subscribe({
+      next: (res) => {
+        this.isProcessing = false;
+        if (res.success) {
+          this.router.navigate(['/thanks-order'], { queryParams: { id: res.booking_id } });
+        } else {
+          alert('Failed to place order: ' + (res.error || 'Unknown error'));
+        }
+      },
+      error: (err) => {
+        this.isProcessing = false;
+        console.error('Payment Error:', err);
+        alert('An error occurred while processing your payment. Please try again.');
       }
-
-      this.isProcessing = false;
-      this.router.navigate(['/thanks-order']);
-    }, 2000);
+    });
   }
 }

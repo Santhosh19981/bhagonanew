@@ -17,6 +17,7 @@ import { ServicesListComponent } from './pages/services-list/services-list.compo
 import { CartComponent } from './pages/cart/cart.component';
 
 import { LoginComponent } from './pages/login/login.component';
+import { PartnerOrdersComponent } from './pages/partner-orders/partner-orders.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'payment', component: PaymentPageComponent },
   { path: 'thanks-order', component: ThanksOrderComponent },
   { path: 'order-history', component: OrderHistoryComponent },
+  { path: 'partner-orders', component: PartnerOrdersComponent },
   { path: 'reviews', component: ReviewsComponent },
   { path: 'menu-selection', component: MenuSelectionComponent },
   { path: 'service-type', component: ServiceTypeComponent },

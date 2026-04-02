@@ -25,6 +25,7 @@ import { EventsListComponent } from './pages/events-list/events-list.component';
 import { ServicesListComponent } from './pages/services-list/services-list.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PartnerOrdersComponent } from './pages/partner-orders/partner-orders.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -47,7 +48,8 @@ import { RouterModule } from '@angular/router';
     EventsListComponent,
     ServicesListComponent,
     CartComponent,
-    LoginComponent
+    LoginComponent,
+    PartnerOrdersComponent
   ],
   imports: [
     BrowserModule,

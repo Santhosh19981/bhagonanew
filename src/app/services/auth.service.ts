@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface User {
     id: string;
     name: string;
     email?: string;
     mobile?: string;
-    role: 'user' | 'admin';
+    role: string;
+    token?: string;
 }
 
 @Injectable({
@@ -16,8 +17,9 @@ export interface User {
 export class AuthService {
     private currentUserSubject = new BehaviorSubject<User | null>(null);
     public currentUser$ = this.currentUserSubject.asObservable();
+    private apiUrl = 'http://localhost:3000'; // Match backend port
 
-    constructor() {
+    constructor(private http: HttpClient) {
         const savedUser = localStorage.getItem('bhagona_user');
         if (savedUser) {
             this.currentUserSubject.next(JSON.parse(savedUser));
@@ -32,33 +34,39 @@ export class AuthService {
         return !!this.currentUserSubject.value;
     }
 
-    loginWithOTP(mobile: string, otp: string): Observable<User> {
-        // Mocking an API call
-        const mockUser: User = {
-            id: '1',
-            name: 'User ' + mobile.slice(-4),
-            mobile: mobile,
-            role: 'user'
-        };
-
-        return of(mockUser).pipe(
-            delay(1500),
-            tap(user => this.setSession(user))
+    loginWithOTP(mobile: string, otp: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/login`, { username: mobile, password: otp }).pipe(
+            tap(res => {
+                if (res.token) {
+                    const user: User = {
+                        id: res.user.id,
+                        name: res.user.name,
+                        email: res.user.email,
+                        mobile: res.user.mobile,
+                        role: res.user.role,
+                        token: res.token
+                    };
+                    this.setSession(user);
+                }
+            })
         );
     }
 
-    loginWithEmail(email: string, password: string): Observable<User> {
-        // Mocking an API call
-        const mockUser: User = {
-            id: '2',
-            name: email.split('@')[0],
-            email: email,
-            role: 'user'
-        };
-
-        return of(mockUser).pipe(
-            delay(1500),
-            tap(user => this.setSession(user))
+    loginWithEmail(email: string, password: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/login`, { username: email, password: password }).pipe(
+            tap(res => {
+                if (res.token) {
+                    const user: User = {
+                        id: res.user.id,
+                        name: res.user.name,
+                        email: res.user.email,
+                        mobile: res.user.mobile,
+                        role: res.user.role,
+                        token: res.token
+                    };
+                    this.setSession(user);
+                }
+            })
         );
     }
 
