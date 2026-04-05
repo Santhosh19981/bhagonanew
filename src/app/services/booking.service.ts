@@ -28,6 +28,7 @@ export class BookingService {
   cartCount$ = this.cartCountSubject.asObservable();
   private readonly CUSTOMER_KEY = 'bhagona_customer_details';
   private apiUrl = 'http://localhost:3000';
+  private currentRatingOrderId: string | null = null;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.loadFromLocalStorage();
@@ -166,21 +167,27 @@ export class BookingService {
       alternate_chef2_user_id: this.eventBooking.selectedChefs[2]?.user_id || null,
       primary_vendor_user_id: this.eventBooking.selectedVendor?.user_id || null,
       alternate_vendor1_user_id: null,
-      alternate_vendor2_user_id: null
+      alternate_vendor2_user_id: null,
+      customer_name: customerDetails.name || '',
+      customer_email: customerDetails.email || '',
+      customer_mobile: customerDetails.mobile || '',
+      customer_address: customerDetails.address || ''
     };
 
     return this.http.post<any>(`${this.apiUrl}/bookings`, bookingData).pipe(
       switchMap(res => {
         const bookingId = res.booking_id;
+        const orderId = res.order_id; // Capture alphanumeric ID
         const items = orderType === 'event' ? this.eventBooking.menuSelection : this.serviceCart;
         const itemRequests = items.map(item => 
           this.http.post(`${this.apiUrl}/bookings/${bookingId}/menu-items`, {
-            menu_item_id: item.menu_item_id || item.id,
+            menu_item_id: item.menu_item_id || item.service_item_id || item.id || null,
             quantity: item.quantity || 1,
-            price: item.price || 0
+            price: item.price || 0,
+            item_name: item.name || item.item_name || item.service_name || null
           })
         );
-        return forkJoin(itemRequests).pipe(map(() => ({ success: true, booking_id: bookingId })));
+        return forkJoin(itemRequests).pipe(map(() => ({ success: true, booking_id: bookingId, order_id: orderId })));
       }),
       tap(() => this.clearAll())
     );
@@ -232,5 +239,29 @@ export class BookingService {
     const menuCount = (this.eventBooking.menuSelection || []).length;
     const serviceCount = (this.serviceCart || []).reduce((sum: number, item: any) => sum + (Number(item.quantity) || 1), 0);
     return menuCount + serviceCount;
+  }
+
+  getCurrentRatingOrder(): string | null {
+    return this.currentRatingOrderId;
+  }
+
+  setCurrentRatingOrder(id: string | null) {
+    this.currentRatingOrderId = id;
+  }
+
+  updateOrderRating(bookingId: any, ratingData: any): Observable<any> {
+    const user = this.authService.currentUserValue;
+    if (!user) return of({ error: 'User not logged in' });
+
+    const reviewPayload = {
+      booking_id: bookingId,
+      customer_user_id: user.id,
+      hygiene: ratingData.hygiene,
+      food_taste: ratingData.taste,
+      chef_behavior: ratingData.behavior || 0,
+      comments: ratingData.comment
+    };
+
+    return this.http.post(`${this.apiUrl}/reviews`, reviewPayload);
   }
 }

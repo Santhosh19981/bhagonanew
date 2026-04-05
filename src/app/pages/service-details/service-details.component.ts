@@ -86,6 +86,13 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   fetchVendorMarketingData(vendorId: any) {
+    if (!vendorId) {
+      this.banners = [];
+      this.offers = [];
+      this.reviews = [];
+      return;
+    }
+
     this.apiService.getBanners(vendorId, this.serviceId).subscribe({
       next: (res: any) => {
         if (res.status) {

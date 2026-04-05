@@ -25,11 +25,14 @@ export class ReviewsComponent implements OnInit {
   ngOnInit() {
     this.orderId = this.bookingService.getCurrentRatingOrder();
     if (this.orderId) {
-      const orders = this.bookingService.getOrders();
-      const order = orders.find((o: any) => o.id === this.orderId);
-      if (order) {
-        this.orderType = order.orderType;
-      }
+      this.bookingService.getOrders().subscribe(orders => {
+        const order = orders.find((o: any) => (o.booking_id == this.orderId || o.id == this.orderId));
+        if (order) {
+          // Map booking_type to orderType used in this component
+          const type = order.booking_type || '';
+          this.orderType = type.includes('service') ? 'service' : 'event';
+        }
+      });
     } else {
       this.router.navigate(['/order-history']);
     }
@@ -68,9 +71,15 @@ export class ReviewsComponent implements OnInit {
         ...this.ratings,
         comment: this.comment,
         date: new Date().toISOString().split('T')[0]
+      }).subscribe({
+        next: () => {
+          this.bookingService.setCurrentRatingOrder(null);
+          this.router.navigate(['/order-history']);
+        },
+        error: (err) => {
+          console.error('Error submitting rating:', err);
+        }
       });
-      this.bookingService.setCurrentRatingOrder(null);
-      this.router.navigate(['/order-history']);
     }
   }
 }

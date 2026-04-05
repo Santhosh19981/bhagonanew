@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './order-history.component.scss'
 })
 export class OrderHistoryComponent implements OnInit {
-  activeTab: string = 'accepted'; // Matches backend status
+  activeTab: string = 'upcoming'; // Matches backend status
   orders: any[] = [];
   expandedOrderId: number | null = null;
   activeOrder: any = null;
@@ -40,9 +40,9 @@ export class OrderHistoryComponent implements OnInit {
   get filteredOrders() {
     // Note: status from backend might be 'accepted', 'upcoming', 'processing', 'completed', 'cancelled'
     if (this.activeTab === 'upcoming') {
-      return this.orders.filter(o => o.booking_status === 'accepted' || o.booking_status === 'upcoming');
+      return this.orders.filter(o => o.status === 'accepted' || o.status === 'upcoming');
     }
-    return this.orders.filter(o => o.booking_status === this.activeTab);
+    return this.orders.filter(o => o.status === this.activeTab);
   }
 
   toggleOrder(bookingId: number) {

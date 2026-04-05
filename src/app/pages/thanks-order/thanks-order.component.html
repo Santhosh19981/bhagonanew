@@ -31,7 +31,7 @@
                 <p
                     class="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em] mb-3 group-hover:text-[#e87f2c]">
                     Occasion Date</p>
-                <p class="text-2xl font-black text-gray-800">{{bookingData.eventDate}}</p>
+                <p class="text-2xl font-black text-gray-800">{{eventDate || (bookingData.eventDate)}}</p>
                 <div
                     class="w-10 h-1 bg-[#e87f2c] rounded-full mt-4 mx-auto opacity-0 group-hover:opacity-100 transition-opacity">
                 </div>
@@ -42,7 +42,7 @@
                     class="text-[10px] text-gray-400 font-black uppercase tracking-[0.3em] mb-3 group-hover:text-[#e87f2c]">
                     Reference Code</p>
                 <div class="flex items-center justify-center gap-2">
-                    <p class="text-2xl font-black text-gray-800">#BHG-92834</p>
+                    <p class="text-2xl font-black text-gray-800">#{{orderId}}</p>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

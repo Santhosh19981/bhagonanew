@@ -60,6 +60,12 @@ export class ApiService {
     }
 
     getOffers(vendorId: any, serviceId?: any): Observable<any> {
+        if (!vendorId || vendorId === 'undefined') {
+            return new Observable(observer => {
+                observer.next({ status: true, data: [] });
+                observer.complete();
+            });
+        }
         let url = `${this.baseUrl}/offers/active/${vendorId}`;
         const params: any = {};
         if (serviceId) params.service_id = serviceId;
@@ -67,6 +73,12 @@ export class ApiService {
     }
 
     getReviews(vendorId: any): Observable<any> {
+        if (!vendorId || vendorId === 'undefined') {
+            return new Observable(observer => {
+                observer.next({ status: true, data: [] });
+                observer.complete();
+            });
+        }
         return this.http.get(`${this.baseUrl}/reviews/vendor/${vendorId}`);
     }
 }

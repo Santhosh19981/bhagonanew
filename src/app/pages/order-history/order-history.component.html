@@ -149,25 +149,28 @@
 
                 <!-- Order Details Toggle -->
                 <div class="border-t border-gray-100 pt-6">
-                    <button (click)="toggleOrder(order.id)"
+                    <button (click)="toggleOrder(order.booking_id)"
                         class="text-[10px] font-black uppercase tracking-widest text-[#e87f2c] flex items-center gap-2 hover:opacity-70">
-                        {{expandedOrderId === order.id ? 'Hide Details' : 'View Details'}}
-                        <svg class="w-3 h-3 transition-transform" [class.rotate-180]="expandedOrderId === order.id"
+                        {{expandedOrderId === order.booking_id ? 'Hide Details' : 'View Details'}}
+                        <svg class="w-3 h-3 transition-transform" [class.rotate-180]="expandedOrderId === order.booking_id"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
-                    <div *ngIf="expandedOrderId === order.id"
+                    <div *ngIf="expandedOrderId === order.booking_id"
                         class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in">
                         <div class="space-y-4">
-                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Items Selection</h4>
+                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Items Ordered</h4>
                             <div class="space-y-2">
-                                <div *ngFor="let item of (order.orderType === 'event' ? order.data.menuSelection : order.data)"
+                                <div *ngIf="!activeOrder" class="text-xs text-gray-400">Loading...</div>
+                                <div *ngFor="let item of activeOrder?.menu_items"
                                     class="flex justify-between items-center p-3 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <span class="text-xs font-bold text-gray-700">{{item.name}}</span>
-                                    <span class="text-[10px] font-black text-gray-400">{{item.quantity || 1}} x
-                                        ₹{{item.price}}</span>
+                                    <span class="text-xs font-bold text-gray-700">{{item.item_name || item.name || 'Service Item'}}</span>
+                                    <span class="text-[10px] font-black text-gray-400">{{item.quantity || 1}} x ₹{{item.price}}</span>
+                                </div>
+                                <div *ngIf="activeOrder && activeOrder.menu_items?.length === 0" class="text-xs text-gray-400 p-3">
+                                    No items recorded
                                 </div>
                             </div>
                         </div>
@@ -175,13 +178,13 @@
                             <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Customer Info</h4>
                             <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 space-y-2">
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">For:</span>
-                                    {{order.customerDetails.name}}</p>
+                                    {{activeOrder?.order?.customer_name || order.customerDetails?.name}}</p>
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Phone:</span>
-                                    {{order.customerDetails.mobile}}</p>
+                                    {{activeOrder?.order?.customer_mobile || order.customerDetails?.mobile}}</p>
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Email:</span>
-                                    {{order.customerDetails.email}}</p>
+                                    {{activeOrder?.order?.customer_email || order.customerDetails?.email}}</p>
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Address:</span>
-                                    {{order.customerDetails.address}}</p>
+                                    {{activeOrder?.order?.customer_address || order.customerDetails?.address}}</p>
                             </div>
                         </div>
                     </div>

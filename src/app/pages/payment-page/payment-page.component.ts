@@ -19,7 +19,6 @@ export class PaymentPageComponent implements OnInit {
     private bookingService: BookingService,
     private location: Location
   ) {
-    this.orderId = 100000 + Math.floor(Math.random() * 900000);
   }
 
   ngOnInit() {
@@ -42,7 +41,8 @@ export class PaymentPageComponent implements OnInit {
       next: (res) => {
         this.isProcessing = false;
         if (res.success) {
-          this.router.navigate(['/thanks-order'], { queryParams: { id: res.booking_id } });
+          const eventDate = this.bookingService.getEventBooking().eventDate || new Date().toISOString().split('T')[0];
+          this.router.navigate(['/thanks-order'], { queryParams: { id: res.order_id, date: eventDate } });
         } else {
           alert('Failed to place order: ' + (res.error || 'Unknown error'));
         }
