@@ -10,6 +10,15 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
+    getImageUrl(path: string | null): string | null {
+        if (!path) return null;
+        if (path.startsWith('data:')) return path;
+        if (path.startsWith('/')) {
+            return `${this.baseUrl}${path}`;
+        }
+        return path;
+    }
+
     getEvents(): Observable<any> {
         return this.http.get(`${this.baseUrl}/customer/events`);
     }

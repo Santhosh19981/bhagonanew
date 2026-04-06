@@ -179,14 +179,18 @@ export class BookingService {
         const bookingId = res.booking_id;
         const orderId = res.order_id; // Capture alphanumeric ID
         const items = orderType === 'event' ? this.eventBooking.menuSelection : this.serviceCart;
-        const itemRequests = items.map(item => 
-          this.http.post(`${this.apiUrl}/bookings/${bookingId}/menu-items`, {
-            menu_item_id: item.menu_item_id || item.service_item_id || item.id || null,
+        const itemRequests = items.map(item => {
+          const isService = orderType === 'service';
+          const itemId = item.menu_item_id || item.service_item_id || item.id || null;
+          
+          return this.http.post(`${this.apiUrl}/bookings/${bookingId}/menu-items`, {
+            menu_item_id: isService ? null : itemId,
+            service_item_id: isService ? itemId : null,
             quantity: item.quantity || 1,
             price: item.price || 0,
             item_name: item.name || item.item_name || item.service_name || null
-          })
-        );
+          });
+        });
         return forkJoin(itemRequests).pipe(map(() => ({ success: true, booking_id: bookingId, order_id: orderId })));
       }),
       tap(() => this.clearAll())

@@ -53,7 +53,7 @@ export class ServiceDetailsComponent implements OnInit {
       if (this.serviceId) {
         this.fetchServiceDetails(this.serviceId);
         
-        const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
+        const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id || this.selectedVendor.user_id) : null;
         // Even if no vendorId, we might want to fetch global banners for this service
         this.fetchVendorMarketingData(vendorId);
       }
@@ -69,13 +69,19 @@ export class ServiceDetailsComponent implements OnInit {
 
   fetchServiceDetails(id: string) {
     this.isLoading = true;
-    const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id) : null;
+    const vendorId = this.selectedVendor ? (this.selectedVendor.id || this.selectedVendor.vendor_id || this.selectedVendor.user_id) : null;
     this.apiService.getServiceItemsById(id, vendorId).subscribe({
       next: (res: any) => {
         this.isLoading = false;
         if (res.status === 'success') {
           this.selectedService = res.data;
-          this.filteredItems = res.data.items || [];
+          if (this.selectedService) {
+            this.selectedService.image_data = this.apiService.getImageUrl(this.selectedService.image_data);
+          }
+          this.filteredItems = (res.data.items || []).map((item: any) => ({
+            ...item,
+            image: this.apiService.getImageUrl(item.image)
+          }));
         }
       },
       error: (err) => {

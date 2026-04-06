@@ -23,7 +23,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.apiService.getEvents().subscribe({
       next: (res: any) => {
         if (res.status) {
-          this.events = res.data.sort((a: any, b: any) => a.event_id - b.event_id);
+          this.events = (res.data || []).map((e: any) => ({
+            ...e,
+            image_data: this.apiService.getImageUrl(e.image_data)
+          })).sort((a: any, b: any) => a.event_id - b.event_id);
         }
       },
       error: (err) => {
@@ -36,7 +39,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.apiService.getServices().subscribe({
       next: (res: any) => {
         if (res.status) {
-          this.services = res.data.sort((a: any, b: any) => a.service_id - b.service_id);
+          this.services = (res.data || []).map((s: any) => ({
+            ...s,
+            image_data: this.apiService.getImageUrl(s.image_data)
+          })).sort((a: any, b: any) => a.service_id - b.service_id);
         }
       },
       error: (err) => {

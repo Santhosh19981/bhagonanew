@@ -66,7 +66,7 @@ export class VendorSelectionComponent {
           this.vendors = res.data.map((v: any) => ({
             ...v,
             serviceId: serviceId, // Maintain compatibility
-            image: v.display_url || v.image || null, // No hardcoded fallback here
+            image: this.apiService.getImageUrl(v.display_url || v.image || null), 
             pricePerPlate: v.pricePerPlate || (Math.floor(Math.random() * 300) + 200), // Fallback price if missing
             cuisine: v.cookingstyle || 'Multicuisine',
             level: v.level || 'Premium',
