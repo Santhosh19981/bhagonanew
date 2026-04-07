@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { config } from '../config';
 
 export interface User {
     id: string;
@@ -17,7 +18,7 @@ export interface User {
 export class AuthService {
     private currentUserSubject = new BehaviorSubject<User | null>(null);
     public currentUser$ = this.currentUserSubject.asObservable();
-    private apiUrl = 'http://localhost:3000'; // Match backend port
+    private apiUrl = config.apiUrl; // Match backend port
 
     constructor(private http: HttpClient) {
         const savedUser = localStorage.getItem('bhagona_user');

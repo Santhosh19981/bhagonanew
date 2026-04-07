@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, forkJoin, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { config } from '../config';
 
 @Injectable({
   providedIn: 'root'
