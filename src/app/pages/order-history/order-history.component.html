@@ -159,7 +159,7 @@
                     </button>
 
                     <div *ngIf="expandedOrderId === order.booking_id"
-                        class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in">
+                        class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
                         <div class="space-y-4">
                             <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Items Ordered</h4>
                             <div class="space-y-2">
@@ -174,9 +174,64 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Provider Info -->
+                        <div class="space-y-4">
+                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Provider Info</h4>
+                            <div *ngIf="!activeOrder?.primary_chef && !activeOrder?.primary_vendor" class="bg-gray-50 p-6 rounded-2xl border border-gray-100 text-center">
+                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                                    <i class="bi bi-clock-history text-[#e87f2c]"></i>
+                                </div>
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Assigning Partner...</p>
+                                <p class="text-[9px] text-gray-300 mt-1 font-medium">Matching with the best expert for you.</p>
+                            </div>
+
+                            <!-- Chef Info -->
+                            <div *ngIf="activeOrder?.primary_chef" class="bg-white p-4 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                                <div class="flex items-center gap-4 pb-4 border-b border-gray-50">
+                                    <img [src]="getImageUrl(activeOrder.primary_chef.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100">
+                                    <div>
+                                        <p class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest">Lead Chef</p>
+                                        <p class="text-sm font-black text-gray-800">{{activeOrder.primary_chef.fullName || activeOrder.primary_chef.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <i class="bi bi-telephone text-gray-400 text-xs"></i>
+                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.mobile}}</p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <i class="bi bi-envelope text-gray-400 text-xs"></i>
+                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.email}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vendor Info -->
+                            <div *ngIf="activeOrder?.primary_vendor" class="bg-white p-4 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                                <div class="flex items-center gap-4 pb-4 border-b border-gray-50">
+                                    <img [src]="getImageUrl(activeOrder.primary_vendor.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100">
+                                    <div>
+                                        <p class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest">Hospitality Partner</p>
+                                        <p class="text-sm font-black text-gray-800">{{activeOrder.primary_vendor.businessname || activeOrder.primary_vendor.name}}</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <i class="bi bi-person-badge text-gray-400 text-xs"></i>
+                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.name}} (Lead)</p>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <i class="bi bi-telephone text-gray-400 text-xs"></i>
+                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.mobile}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="space-y-4">
                             <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Customer Info</h4>
-                            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 space-y-2">
+                            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 space-y-2 h-full">
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">For:</span>
                                     {{activeOrder?.order?.customer_name || order.customerDetails?.name}}</p>
                                 <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Phone:</span>

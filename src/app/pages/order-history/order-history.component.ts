@@ -78,4 +78,11 @@ export class OrderHistoryComponent implements OnInit {
     // Current logic: navigate to reviews page
     this.router.navigate(['/reviews'], { queryParams: { booking_id: order.booking_id } });
   }
+
+  getImageUrl(path: string | null): string {
+    if (!path) return 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+    if (path.startsWith('data:') || path.startsWith('http')) return path;
+    const baseUrl = 'http://localhost:3000';
+    return path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
+  }
 }
