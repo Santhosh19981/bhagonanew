@@ -10,17 +10,17 @@
         <!-- Refined Tabs -->
         <div class="flex justify-center mb-16" data-aos="fade-up">
             <div class="bg-white/70 backdrop-blur-2xl p-2 rounded-[3rem] shadow-xl border border-white/50 flex gap-2">
-                <button (click)="activeTab = 'upcoming'"
+                <button (click)="setActiveTab('upcoming')"
                     [class]="activeTab === 'upcoming' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
                     class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
                     Upcoming
                 </button>
-                <button (click)="activeTab = 'processing'"
+                <button (click)="setActiveTab('processing')"
                     [class]="activeTab === 'processing' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
                     class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
                     Active
                 </button>
-                <button (click)="activeTab = 'completed'"
+                <button (click)="setActiveTab('completed')"
                     [class]="activeTab === 'completed' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
                     class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
                     Past

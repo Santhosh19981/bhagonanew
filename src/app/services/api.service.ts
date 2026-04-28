@@ -14,6 +14,12 @@ export class ApiService {
     getImageUrl(path: string | null): string | null {
         if (!path) return null;
         if (path.startsWith('data:')) return path;
+        
+        // Fix for hardcoded localhost URLs in database
+        if (path.includes('localhost:3000')) {
+            return path.replace('http://localhost:3000', this.baseUrl);
+        }
+
         if (path.startsWith('/')) {
             return `${this.baseUrl}${path}`;
         }
@@ -91,4 +97,13 @@ export class ApiService {
         }
         return this.http.get(`${this.baseUrl}/reviews/vendor/${vendorId}`);
     }
+
+    createRazorpayOrder(data: any): Observable<any> {
+        return this.http.post(`${this.baseUrl}/razorpay/create-order`, data);
+    }
+
+    verifyRazorpayPayment(data: any): Observable<any> {
+        return this.http.post(`${this.baseUrl}/razorpay/verify-payment`, data);
+    }
 }
+

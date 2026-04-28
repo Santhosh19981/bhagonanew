@@ -33,57 +33,46 @@
         </div>
 
         <!-- Services Grid -->
-        <div class="space-y-10 md:space-y-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
             <div *ngFor="let service of services; let i = index"
-                class="group bg-white rounded-[4rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 border border-gray-100 flex flex-col lg:flex-row items-stretch"
-                [attr.data-aos]="i % 2 === 0 ? 'fade-right' : 'fade-left'">
+                class="group bg-white rounded-[3.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 border border-gray-100 flex flex-col h-full"
+                data-aos="fade-up">
 
-                <!-- Image Section -->
-                <div class="w-full lg:w-1/2 h-80 lg:h-auto overflow-hidden relative" [class.lg:order-2]="i % 2 !== 0">
+                <!-- Image Container -->
+                <div class="relative h-64 overflow-hidden">
                     <img [src]="service.image_data" [alt]="service.name"
                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
-                    <div class="absolute top-8 left-8">
-                        <span
-                            class="bg-white/90 backdrop-blur px-5 md:px-6 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] text-[#e87f2c] shadow-lg border border-orange-100">
-                            {{service.tag}}
-                        </span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-6 left-8">
+                        <p class="text-orange-400 font-black uppercase text-[10px] tracking-[0.3em] mb-1">
+                            {{service.tag || 'Service'}}</p>
+                        <h3 class="text-2xl md:text-3xl font-bold text-white leading-tight">{{service.name}}</h3>
                     </div>
                 </div>
 
-                <!-- Content Section -->
-                <div class="w-full lg:w-1/2 p-10 md:p-12 lg:p-16 xl:p-20 flex flex-col justify-center">
-                    <div class="space-y-5 md:space-y-6">
-                        <h3
-                            class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
-                            {{service.name}}</h3>
-                        <p class="text-gray-500 font-medium text-base md:text-lg leading-relaxed">
-                            {{service.description}}</p>
+                <!-- Content -->
+                <div class="p-8 md:p-10 flex flex-col flex-grow">
+                    <p class="text-gray-500 font-medium text-base md:text-lg leading-relaxed mb-8 flex-grow">
+                        {{service.description | slice:0:120}}...
+                    </p>
 
-                        <div class="flex flex-wrap gap-3 md:gap-4 py-6 md:py-8">
-                            <div
-                                class="flex items-center gap-2 px-4 py-2 bg-green-50 rounded-xl text-green-600 text-xs font-bold">
-                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                                Premium Quality
-                            </div>
-                            <div
-                                class="flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-xl text-[#e87f2c] text-xs font-bold">
-                                <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
-                                Doorstep Delivery
-                            </div>
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <div
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-green-50 rounded-lg text-green-600 text-[10px] font-black uppercase tracking-wider">
+                            <span class="w-1 h-1 bg-green-500 rounded-full"></span>
+                            Premium
                         </div>
-
-                        <button [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}"
-                            class="inline-flex items-center gap-3 md:gap-4 px-10 md:px-12 py-4 md:py-5 bg-[#e87f2c] text-white rounded-[2.5rem] font-bold text-base md:text-lg hover:bg-[#af6429] hover:scale-[1.05] transition-all shadow-xl shadow-orange-500/20 active:scale-95 group">
-                            Book This Service
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-5 w-5 md:h-6 md:w-6 group-hover:translate-x-2 transition-transform" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        <div
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 rounded-lg text-[#e87f2c] text-[10px] font-black uppercase tracking-wider">
+                            <span class="w-1 h-1 bg-orange-500 rounded-full"></span>
+                            Reliable
+                        </div>
                     </div>
+
+                    <button [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}"
+                        class="w-full py-4 md:py-5 bg-orange-50 text-[#e87f2c] rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-[0.3em] hover:bg-[#e87f2c] hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-md text-center">
+                        Book This Service
+                    </button>
                 </div>
             </div>
         </div>

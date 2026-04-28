@@ -28,7 +28,7 @@ export class BookingService {
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
   private readonly CUSTOMER_KEY = 'bhagona_customer_details';
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = config.apiUrl;
   private currentRatingOrderId: string | null = null;
 
   constructor(private http: HttpClient, private authService: AuthService) {
@@ -150,7 +150,7 @@ export class BookingService {
     };
   }
 
-  placeOrder(orderType: 'event' | 'service', customerDetails: any): Observable<any> {
+  placeOrder(orderType: 'event' | 'service', customerDetails: any, paymentMethod: string = 'Online'): Observable<any> {
     const user = this.authService.currentUserValue;
     if (!user) return of({ error: 'User not logged in' });
 
@@ -172,7 +172,8 @@ export class BookingService {
       customer_name: customerDetails.name || '',
       customer_email: customerDetails.email || '',
       customer_mobile: customerDetails.mobile || '',
-      customer_address: customerDetails.address || ''
+      customer_address: customerDetails.address || '',
+      payment_method: paymentMethod
     };
 
     return this.http.post<any>(`${this.apiUrl}/bookings`, bookingData).pipe(
@@ -196,6 +197,12 @@ export class BookingService {
       }),
       tap(() => this.clearAll())
     );
+  }
+
+  getTotalAmount(): number {
+    const menuTotal = (this.eventBooking.menuSelection || []).reduce((sum, item) => sum + (item.price * (this.eventBooking.totalMembers || 1)), 0);
+    const serviceTotal = (this.serviceCart || []).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    return menuTotal + serviceTotal;
   }
 
   getOrders(): Observable<any[]> {

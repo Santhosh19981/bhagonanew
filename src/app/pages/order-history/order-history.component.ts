@@ -37,6 +37,11 @@ export class OrderHistoryComponent implements OnInit {
     });
   }
 
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+    this.loadOrders(); // Re-fetch data whenever tab changes
+  }
+
   get filteredOrders() {
     // Note: status from backend might be 'accepted', 'upcoming', 'processing', 'completed', 'cancelled'
     if (this.activeTab === 'upcoming') {
@@ -63,20 +68,20 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   markStart(order: any) {
-    this.bookingService.updateOrderStatus(order.order_id, 'processing').subscribe(() => this.loadOrders());
+    this.bookingService.updateOrderStatus(order.id, 'processing').subscribe(() => this.loadOrders());
   }
 
   markCompleted(order: any) {
-    this.bookingService.updateOrderStatus(order.order_id, 'completed').subscribe(() => this.loadOrders());
+    this.bookingService.updateOrderStatus(order.id, 'completed').subscribe(() => this.loadOrders());
   }
 
   trackByOrderId(index: number, order: any) {
-    return order.order_id;
+    return order.id;
   }
 
   rateExperience(order: any) {
-    // Current logic: navigate to reviews page
-    this.router.navigate(['/reviews'], { queryParams: { booking_id: order.booking_id } });
+    this.bookingService.setCurrentRatingOrder(order.booking_id);
+    this.router.navigate(['/reviews']);
   }
 
   getImageUrl(path: string | null): string {

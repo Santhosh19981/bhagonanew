@@ -1,122 +1,152 @@
-<div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] flex items-center justify-center p-4">
-    <div class="max-w-md w-full" data-aos="zoom-in">
-        <!-- Back Button -->
-        <button (click)="goBack()"
-            class="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-black uppercase text-[10px] tracking-widest group">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-        </button>
-        <!-- Payment Card -->
-        <div class="bg-white/90 backdrop-blur-2xl rounded-[4rem] shadow-2xl overflow-hidden border border-white/50">
-            <!-- Header -->
-            <div
-                class="bg-gradient-to-br from-[#e87f2c] via-[#af6429] to-[#8a4a1a] p-10 text-white text-center relative overflow-hidden">
-                <div
-                    class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
-                </div>
-
-                <div
-                    class="w-24 h-24 bg-white/20 rounded-[2.5rem] flex justify-center items-center mx-auto mb-8 backdrop-blur-md border border-white/30 shadow-2xl relative z-10 transition-transform hover:rotate-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                </div>
-                <h1 class="text-4xl font-bold main-font relative z-10">Secure Gateway</h1>
-                <p class="text-white/60 font-black uppercase text-[10px] tracking-[0.4em] mt-2 relative z-10">Order ID:
-                    #BHG-{{ orderId }}</p>
-            </div>
-
-            <!-- Content -->
-            <div class="p-10 space-y-10">
-                <!-- Payment Methods -->
-                <div class="space-y-6">
-                    <!-- UPI / Card -->
-                    <div
-                        class="p-6 border-2 border-[#e87f2c] rounded-[2.5rem] flex items-center gap-6 bg-orange-50/50 relative group cursor-pointer transition-all hover:shadow-lg">
-                        <div class="w-6 h-6 rounded-full border-4 border-[#e87f2c] bg-white flex shrink-0"></div>
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-gray-800 text-lg">UPI / Cards / Net</h4>
-                            <p class="text-[9px] text-[#e87f2c] font-black uppercase tracking-[0.2em] mt-0.5">
-                                Recommended Experience</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png"
-                                class="h-4 object-contain">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1200px-Visa_2021.svg.png"
-                                class="h-4 object-contain">
-                        </div>
+<div class="min-h-screen bg-slate-50/50 pt-32 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Step Indicator -->
+        <div class="flex items-center justify-center mb-24">
+            <div class="flex items-center w-full max-w-3xl px-4">
+                <div class="flex flex-col items-center flex-1 relative">
+                    <div [class]="activeStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
+                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 1" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span *ngIf="activeStep <= 1">1</span>
                     </div>
-
-                    <!-- COD -->
-                    <div
-                        class="p-6 border-2 border-gray-100 rounded-[2.5rem] flex items-center gap-6 hover:border-orange-200 transition-all cursor-pointer group">
-                        <div
-                            class="w-6 h-6 rounded-full border-2 border-gray-200 bg-white flex shrink-0 group-hover:border-orange-300">
-                        </div>
-                        <div class="flex-grow">
-                            <h4 class="font-bold text-gray-800 text-lg">Payment at Venue</h4>
-                            <p class="text-[9px] text-gray-400 font-black uppercase tracking-[0.2em] mt-0.5">Pay on
-                                Event Date</p>
-                        </div>
-                    </div>
+                    <span [class]="activeStep >= 1 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Summary</span>
                 </div>
-
-                <!-- Action Button -->
-                <div class="space-y-4">
-                    <button (click)="payNow()" [disabled]="isProcessing"
-                        class="w-full py-6 bg-gradient-to-r from-[#e87f2c] to-[#af6429] text-white rounded-[2.5rem] font-black text-xl shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-4 group disabled:opacity-50 disabled:scale-100">
-                        <span *ngIf="!isProcessing" class="flex items-center gap-3">
-                            Confirm & Pay
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 group-hover:translate-x-1 transition-transform" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </span>
-                        <span *ngIf="isProcessing" class="flex items-center gap-4">
-                            <svg class="animate-spin h-7 w-7 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                </path>
-                            </svg>
-                            Wait, Encrypting...
-                        </span>
-                    </button>
-
-                    <!-- Progress Loader -->
-                    <div *ngIf="isProcessing" class="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div class="h-full bg-[#e87f2c] animate-[progress_2s_ease-in-out]"></div>
-                    </div>
+                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                    <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 1 ? '100%' : '0%'"></div>
                 </div>
-
-                <div class="text-center">
-                    <p class="text-gray-400 text-[9px] font-black uppercase tracking-[0.5em] italic">PCI-DSS Compliant •
-                        256-bit AES</p>
+                <div class="flex flex-col items-center flex-1 relative">
+                    <div [class]="activeStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
+                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 2" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span *ngIf="activeStep <= 2">2</span>
+                    </div>
+                    <span [class]="activeStep >= 2 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Payment</span>
+                </div>
+                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                    <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 2 ? '100%' : '0%'"></div>
+                </div>
+                <div class="flex flex-col items-center flex-1 relative">
+                    <div [class]="activeStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
+                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 3" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span *ngIf="activeStep <= 3">3</span>
+                    </div>
+                    <span [class]="activeStep >= 3 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Status</span>
+                </div>
+                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                    <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 3 ? '100%' : '0%'"></div>
+                </div>
+                <div class="flex flex-col items-center flex-1 relative">
+                    <div [class]="activeStep >= 4 ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-400'" 
+                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
+                        <span>4</span>
+                    </div>
+                    <span [class]="activeStep >= 4 ? 'text-green-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Finish</span>
                 </div>
             </div>
         </div>
+
+        <div *ngIf="activeStep < 4" class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start mt-6 px-4 w-full max-w-[1400px] mx-auto">
+            <!-- Left Side: Integrated Razorpay -->
+            <div class="md:col-span-8 lg:col-span-8 flex justify-end">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-blue-50/50 border border-slate-100 overflow-hidden min-h-[540px] relative w-full max-w-[550px]">
+                    <!-- Loading Overlay -->
+                    <div *ngIf="isProcessingOrder" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-6"></div>
+                        <p class="text-slate-500 font-bold animate-pulse">Initializing Secure Gateway...</p>
+                    </div>
+
+                    <!-- Razorpay Inline Container -->
+                    <div id="razorpay-inline-container" class="w-full h-full min-h-[750px] overflow-hidden rounded-[2.5rem]">
+                        <!-- Razorpay will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Summary -->
+            <div class="md:col-span-4 lg:col-span-4">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 sticky top-32">
+                    <h3 class="text-xl font-bold text-slate-800 mb-8">Order Summary</h3>
+                    <div class="space-y-6">
+                        <div *ngFor="let item of bookingItems" class="flex gap-4 items-center">
+                            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-700 text-sm">{{ item.name }}</h4>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Qty: {{ item.quantity }}</span>
+                                    <span class="font-bold text-slate-800">₹{{ (item.price * item.quantity) | number:'1.2-2' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-px bg-slate-100 my-8"></div>
+                        <div class="space-y-4 text-sm font-medium text-slate-400">
+                            <div class="flex justify-between"><span>Subtotal</span><span class="text-slate-700 font-bold">₹{{ subtotal | number:'1.2-2' }}</span></div>
+                            <div class="flex justify-between"><span>Tax (GST 18%)</span><span class="text-slate-700 font-bold">₹{{ gst | number:'1.2-2' }}</span></div>
+                        </div>
+                        <div class="h-px bg-slate-100 my-8"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Total</span>
+                            <span class="text-3xl font-black text-blue-600">₹{{ totalAmount | number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Success Screen -->
+        <div *ngIf="activeStep === 4" class="max-w-2xl mx-auto py-12 text-center">
+            <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-50 p-12">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-8 shadow-lg shadow-green-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2 class="text-4xl font-black text-slate-800 mb-4">Payment Successful</h2>
+                <p class="text-slate-400 font-medium mb-12">Your transaction has been processed securely.</p>
+                <div class="bg-slate-50 rounded-3xl p-8 mb-12 text-left border border-slate-100">
+                    <div class="flex justify-between items-center pb-6 border-b border-slate-200">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Payment ID</span>
+                            <span class="text-sm font-bold text-slate-700">{{ transactionId }}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Date</span>
+                            <span class="text-sm font-bold text-slate-700">{{ today | date:'mediumDate' }}</span>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Amount Paid</span>
+                            <span class="text-2xl font-black text-blue-600">₹{{ totalAmount | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="px-4 py-2 bg-green-100 rounded-full flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-[10px] font-bold text-green-700 uppercase tracking-wider">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button (click)="goToDashboard()" class="py-5 bg-blue-600 text-white rounded-2xl font-bold">Dashboard</button>
+                    <button (click)="downloadReceipt()" class="py-5 bg-slate-50 text-slate-700 rounded-2xl font-bold">Receipt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Badges -->
+        <div *ngIf="activeStep < 4" class="mt-16 flex justify-center gap-8 opacity-40 uppercase text-[10px] font-bold tracking-widest">
+            <span>PCI-DSS COMPLIANT</span>
+            <span>256-BIT SSL</span>
+        </div>
     </div>
 </div>
-
-<style>
-    @keyframes progress {
-        0% {
-            width: 0%;
-        }
-
-        100% {
-            width: 100%;
-        }
-    }
-</style>
