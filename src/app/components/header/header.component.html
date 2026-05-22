@@ -103,9 +103,10 @@
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="menuBtn" class="md:hidden focus:outline-none p-1">
-        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      <button (click)="toggleMenu()" class="md:hidden focus:outline-none p-2 rounded-lg bg-white/5 border border-[#f5c842]/20 hover:bg-white/10 transition-colors">
+        <svg class="w-6 h-6 text-[#f5c842]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
@@ -113,31 +114,32 @@
 
   <!-- Mobile Menu -->
   <div id="mobileMenu"
-    class="hidden flex-col border-t md:hidden px-6 py-5 space-y-4 font-bold text-[#f5c842] text-[13px] uppercase tracking-widest shadow-lg"
+    [ngClass]="{'hidden': !isMenuOpen, 'flex': isMenuOpen}"
+    class="flex-col border-t md:hidden px-6 py-5 space-y-4 font-bold text-[#f5c842] text-[13px] uppercase tracking-widest shadow-lg"
     style="background: linear-gradient(135deg, #1a0a00, #3d1200);">
-    <a routerLink="/home" class="hover:text-gray-900 transition py-2">Home</a>
-    <a routerLink="/events" class="hover:text-gray-900 transition py-2">Events</a>
-    <a routerLink="/services" class="hover:text-gray-900 transition py-2">Services</a>
-    <a *ngIf="authService.isLoggedIn()" routerLink="/order-history"
-      class="hover:text-gray-900 transition py-2">Orders</a>
+    <a routerLink="/home" (click)="closeMenu()" class="hover:text-white transition py-2">Home</a>
+    <a routerLink="/events" (click)="closeMenu()" class="hover:text-white transition py-2">Events</a>
+    <a routerLink="/services" (click)="closeMenu()" class="hover:text-white transition py-2">Services</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" (click)="closeMenu()"
+      class="hover:text-white transition py-2">Orders</a>
 
     <ng-container *ngIf="!authService.isLoggedIn(); else mobileUser">
-      <a routerLink="/login" class="hover:text-gray-900 transition py-2">Login</a>
+      <a routerLink="/login" (click)="closeMenu()" class="hover:text-white transition py-2">Login</a>
     </ng-container>
     <ng-template #mobileUser>
-      <div class="flex items-center justify-between p-4 bg-orange-50/30 rounded-2xl border border-orange-100/50 mb-2">
+      <div class="flex items-center justify-between p-4 bg-orange-50/10 rounded-2xl border border-[#f5c842]/20 mb-2">
         <div class="flex items-center gap-3">
           <div
-            class="w-12 h-12 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-base font-black shadow-md border-2 border-white">
+            class="w-12 h-12 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-base font-black shadow-md border-2 border-[#f5c842]/40">
             {{authService.currentUserValue?.name?.charAt(0)}}
           </div>
           <div class="flex flex-col">
-            <p class="text-sm font-black text-gray-900 leading-tight">{{authService.currentUserValue?.name}}</p>
-            <p class="text-[10px] text-gray-400 font-bold tracking-tight">{{authService.currentUserValue?.email ||
+            <p class="text-sm font-black text-white leading-tight">{{authService.currentUserValue?.name}}</p>
+            <p class="text-[10px] text-[#f5c842]/60 font-bold tracking-tight">{{authService.currentUserValue?.email ||
               authService.currentUserValue?.mobile}}</p>
           </div>
         </div>
-        <button (click)="logout()" class="p-2 bg-red-100 text-red-500 rounded-xl active:bg-red-200 transition-colors">
+        <button (click)="logout(); closeMenu()" class="p-2 bg-red-500/20 text-red-400 rounded-xl active:bg-red-500/40 transition-colors border border-red-500/30">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -146,19 +148,9 @@
       </div>
     </ng-template>
 
-    <a routerLink="/services"
-      class="bg-[#e87f2c] text-white px-5 py-3.5 rounded-xl shadow-md text-center font-black text-[13px]">
+    <a routerLink="/services" (click)="closeMenu()"
+      class="bg-[#e87f2c] text-white px-5 py-3.5 rounded-xl shadow-md text-center font-black text-[13px] hover:bg-[#af6429] transition-colors">
       Book Service
     </a>
   </div>
-</header>
-
-<!-- Simple Script for Mobile Toggle -->
-<script>
-  const btn = document.getElementById("menuBtn");
-  const menu = document.getElementById("mobileMenu");
-
-  btn.addEventListener("click", () => {
-    menu.classList.toggle("hidden");
-  });
-</script>
+</header>

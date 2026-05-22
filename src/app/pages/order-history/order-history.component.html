@@ -1,49 +1,48 @@
 <div
     class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
     <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-16" data-aos="fade-down">
-            <h1 class="text-5xl font-bold text-gray-900 main-font mb-4">My <span class="text-[#e87f2c]">Orders</span>
-            </h1>
-            <p class="text-xl text-gray-500 font-medium">Capture the magic of your past and future events.</p>
+        <div class="text-center mb-8 md:mb-16" data-aos="fade-down">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 main-font mb-2 md:mb-4">My <span class="text-[#e87f2c]">Orders</span></h1>
+            <p class="text-sm md:text-xl text-gray-500 font-medium">Capture the magic of your past and future events.</p>
         </div>
 
         <!-- Refined Tabs -->
-        <div class="flex justify-center mb-16" data-aos="fade-up">
-            <div class="bg-white/70 backdrop-blur-2xl p-2 rounded-[3rem] shadow-xl border border-white/50 flex gap-2">
+        <div class="flex justify-center mb-8 md:mb-16" data-aos="fade-up">
+            <div class="bg-white/70 backdrop-blur-2xl p-1.5 md:p-2 rounded-[3rem] shadow-xl border border-white/50 flex gap-1 md:gap-2">
                 <button (click)="setActiveTab('upcoming')"
                     [class]="activeTab === 'upcoming' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
                     Upcoming
                 </button>
                 <button (click)="setActiveTab('processing')"
                     [class]="activeTab === 'processing' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
                     Active
                 </button>
                 <button (click)="setActiveTab('completed')"
                     [class]="activeTab === 'completed' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-10 md:px-14 py-4 rounded-[2.5rem] font-black text-xs md:text-sm uppercase tracking-widest transition-all duration-500">
+                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
                     Past
                 </button>
             </div>
         </div>
 
         <!-- Orders Grid Style -->
-        <div class="grid gap-10">
+        <div class="grid gap-6 md:gap-10">
             <div *ngFor="let order of filteredOrders; trackBy: trackByOrderId"
-                class="bg-white/80 backdrop-blur-xl rounded-[4rem] p-8 md:p-12 shadow-xl border border-white/50 flex flex-col items-stretch gap-8 group transition-all hover:shadow-2xl"
+                class="bg-white/80 backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-12 shadow-xl border border-white/50 flex flex-col items-stretch gap-6 md:gap-8 group transition-all hover:shadow-2xl"
                 data-aos="fade-up">
 
-                <div class="flex flex-col xl:flex-row items-center justify-between gap-12">
+                <div class="flex flex-col xl:flex-row items-center justify-between gap-6 md:gap-12">
                     <div
-                        class="flex flex-col sm:flex-row items-center gap-10 text-center sm:text-left w-full xl:w-auto">
+                        class="flex flex-col sm:flex-row items-center gap-6 md:gap-10 text-center sm:text-left w-full xl:w-auto">
                         <!-- Icon/Preview -->
                         <div
-                            class="w-32 h-32 bg-orange-50 rounded-[2.5rem] flex justify-center items-center text-[#e87f2c] shadow-inner relative shrink-0">
+                            class="w-20 h-20 md:w-32 md:h-32 bg-orange-50 rounded-2xl md:rounded-[2.5rem] flex justify-center items-center text-[#e87f2c] shadow-inner relative shrink-0">
                             <div
-                                class="absolute inset-0 bg-orange-100/50 scale-0 group-hover:scale-110 rounded-[2.5rem] transition-transform duration-700">
+                                class="absolute inset-0 bg-orange-100/50 scale-0 group-hover:scale-110 rounded-2xl md:rounded-[2.5rem] transition-transform duration-700">
                             </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 relative z-10" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-14 md:w-14 relative z-10" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path
                                     *ngIf="order.orderType === 'event' && !order.data.eventName?.toLowerCase().includes('birthday') && !order.data.eventName?.toLowerCase().includes('wedding') && !order.data.eventName?.toLowerCase().includes('anniversary')"
@@ -65,18 +64,18 @@
 
                         <!-- Meta -->
                         <div class="space-y-4">
-                            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-3 md:gap-4">
                                 <span
-                                    class="text-[10px] font-black text-white px-5 py-2 bg-[#e87f2c] rounded-full uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20">{{order.id}}</span>
+                                    class="text-[9px] md:text-[10px] font-black text-white px-4 md:px-5 py-1.5 md:py-2 bg-[#e87f2c] rounded-full uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20">{{order.id}}</span>
                                 <span
-                                    class="text-gray-400 font-black uppercase text-[10px] tracking-widest border-l border-gray-200 pl-4">{{order.date}}</span>
+                                    class="text-gray-400 font-black uppercase text-[9px] md:text-[10px] tracking-widest border-l border-gray-200 pl-3 md:pl-4">{{order.date | date:'mediumDate'}}</span>
                             </div>
                             <div>
                                 <h3
-                                    class="text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
+                                    class="text-xl md:text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
                                     {{order.orderType === 'event' ? (order.data.eventName || 'Event Booking') : 'Service
                                     Booking'}}</h3>
-                                <p class="text-gray-500 font-bold text-lg mt-1 italic">
+                                <p class="text-gray-500 font-bold text-sm md:text-lg mt-1 italic">
                                     {{order.orderType === 'event' ? (order.data.serviceType === 'chef' ? 'Chef
                                     Experts' : 'Hospitality Partner') : order.customerDetails.name}}
                                 </p>
@@ -88,10 +87,10 @@
                     <div
                         class="flex flex-col sm:flex-row items-center gap-8 w-full xl:w-auto border-t xl:border-t-0 xl:border-l border-gray-100 pt-10 xl:pt-0 xl:pl-12">
                         <div class="text-center sm:text-right">
-                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Total
+                            <p class="text-[9px] md:text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Total
                                 Experience
                                 Value</p>
-                            <p class="text-4xl font-black text-gray-800">₹{{order.amount}}</p>
+                            <p class="text-2xl md:text-4xl font-black text-gray-800">₹{{order.amount}}</p>
                         </div>
 
                         <div class="w-full sm:w-auto">
@@ -99,7 +98,7 @@
                             <div *ngIf="order.status === 'upcoming'"
                                 class="flex flex-col items-center sm:items-end gap-3">
                                 <button (click)="markStart(order)"
-                                    class="w-full sm:w-auto px-12 py-5 bg-[#e87f2c] text-white rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-[#af6429] shadow-2xl shadow-orange-500/30 transition-all hover:scale-[1.05] active:scale-95">
+                                    class="w-full sm:w-auto px-8 md:px-12 py-3 md:py-5 bg-[#e87f2c] text-white rounded-2xl md:rounded-3xl font-black text-xs md:text-sm uppercase tracking-widest hover:bg-[#af6429] shadow-2xl shadow-orange-500/30 transition-all hover:scale-[1.05] active:scale-95">
                                     Start {{order.orderType === 'event' ? 'Event' : 'Service'}}
                                 </button>
                             </div>

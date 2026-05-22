@@ -1,62 +1,62 @@
-<div class="min-h-screen bg-slate-50/50 pt-32 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
+<div class="min-h-screen bg-slate-50/50 pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
     <div class="max-w-6xl mx-auto">
         
         <!-- Step Indicator -->
-        <div class="flex items-center justify-center mb-24">
-            <div class="flex items-center w-full max-w-3xl px-4">
+        <div class="flex items-center justify-center mb-12 sm:mb-24">
+            <div class="flex items-center w-full max-w-3xl px-2 sm:px-4">
                 <div class="flex flex-col items-center flex-1 relative">
                     <div [class]="activeStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
-                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
-                        <svg *ngIf="activeStep > 1" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         class="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 1" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                         <span *ngIf="activeStep <= 1">1</span>
                     </div>
-                    <span [class]="activeStep >= 1 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Summary</span>
+                    <span [class]="activeStep >= 1 ? 'text-blue-600' : 'text-gray-400'" class="hidden sm:block absolute -bottom-8 text-[10px] uppercase font-bold whitespace-nowrap">Summary</span>
                 </div>
-                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                <div class="flex-1 h-0.5 sm:h-1 bg-gray-200 relative mx-1 sm:mx-2">
                     <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 1 ? '100%' : '0%'"></div>
                 </div>
                 <div class="flex flex-col items-center flex-1 relative">
                     <div [class]="activeStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
-                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
-                        <svg *ngIf="activeStep > 2" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         class="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 2" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                         <span *ngIf="activeStep <= 2">2</span>
                     </div>
-                    <span [class]="activeStep >= 2 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Payment</span>
+                    <span [class]="activeStep >= 2 ? 'text-blue-600' : 'text-gray-400'" class="hidden sm:block absolute -bottom-8 text-[10px] uppercase font-bold whitespace-nowrap">Payment</span>
                 </div>
-                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                <div class="flex-1 h-0.5 sm:h-1 bg-gray-200 relative mx-1 sm:mx-2">
                     <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 2 ? '100%' : '0%'"></div>
                 </div>
                 <div class="flex flex-col items-center flex-1 relative">
                     <div [class]="activeStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-400'" 
-                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
-                        <svg *ngIf="activeStep > 3" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         class="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm z-10 transition-all">
+                        <svg *ngIf="activeStep > 3" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                         </svg>
                         <span *ngIf="activeStep <= 3">3</span>
                     </div>
-                    <span [class]="activeStep >= 3 ? 'text-blue-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Status</span>
+                    <span [class]="activeStep >= 3 ? 'text-blue-600' : 'text-gray-400'" class="hidden sm:block absolute -bottom-8 text-[10px] uppercase font-bold whitespace-nowrap">Status</span>
                 </div>
-                <div class="flex-1 h-1 bg-gray-200 relative mx-2">
+                <div class="flex-1 h-0.5 sm:h-1 bg-gray-200 relative mx-1 sm:mx-2">
                     <div class="absolute inset-0 bg-blue-600 transition-all duration-700" [style.width]="activeStep > 3 ? '100%' : '0%'"></div>
                 </div>
                 <div class="flex flex-col items-center flex-1 relative">
                     <div [class]="activeStep >= 4 ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-400'" 
-                         class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-sm z-10 transition-all">
+                         class="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm z-10 transition-all">
                         <span>4</span>
                     </div>
-                    <span [class]="activeStep >= 4 ? 'text-green-600' : 'text-gray-400'" class="absolute -bottom-10 text-[10px] uppercase font-bold whitespace-nowrap">Finish</span>
+                    <span [class]="activeStep >= 4 ? 'text-green-600' : 'text-gray-400'" class="hidden sm:block absolute -bottom-8 text-[10px] uppercase font-bold whitespace-nowrap">Finish</span>
                 </div>
             </div>
         </div>
 
-        <div *ngIf="activeStep < 4" class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start mt-6 px-4 w-full max-w-[1400px] mx-auto">
+        <div *ngIf="activeStep < 4" class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start mt-16 sm:mt-6 px-2 sm:px-4 w-full max-w-[1400px] mx-auto">
             <!-- Left Side: Integrated Razorpay -->
-            <div class="md:col-span-8 lg:col-span-8 flex justify-end">
-                <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-blue-50/50 border border-slate-100 overflow-hidden min-h-[540px] relative w-full max-w-[550px]">
+            <div class="md:col-span-8 lg:col-span-8 flex justify-center md:justify-end w-full">
+                <div class="bg-white rounded-xl md:rounded-[2.5rem] shadow-2xl shadow-blue-50/50 border border-slate-100 overflow-visible md:overflow-hidden min-h-[900px] md:min-h-[540px] relative w-full max-w-[550px]">
                     <!-- Loading Overlay -->
                     <div *ngIf="isProcessingOrder" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
                         <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-6"></div>
@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Razorpay Inline Container -->
-                    <div id="razorpay-inline-container" class="w-full h-full min-h-[750px] overflow-hidden rounded-[2.5rem]">
+                    <div id="razorpay-inline-container" class="w-full h-full min-h-[900px] md:min-h-[750px] overflow-visible md:overflow-hidden rounded-xl md:rounded-[2.5rem]">
                         <!-- Razorpay will be injected here -->
                     </div>
                 </div>
@@ -105,40 +105,41 @@
         </div>
 
         <!-- Step 4: Success Screen -->
-        <div *ngIf="activeStep === 4" class="max-w-2xl mx-auto py-12 text-center">
-            <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-50 p-12">
-                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-8 shadow-lg shadow-green-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div *ngIf="activeStep === 4" class="max-w-2xl mx-auto py-8 sm:py-12 px-2 sm:px-4 text-center mt-8 md:mt-0">
+            <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-50 p-6 sm:p-12">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-500 rounded-full flex items-center justify-center text-white mx-auto mb-6 sm:mb-8 shadow-lg shadow-green-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <h2 class="text-4xl font-black text-slate-800 mb-4">Payment Successful</h2>
-                <p class="text-slate-400 font-medium mb-12">Your transaction has been processed securely.</p>
-                <div class="bg-slate-50 rounded-3xl p-8 mb-12 text-left border border-slate-100">
-                    <div class="flex justify-between items-center pb-6 border-b border-slate-200">
-                        <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Payment ID</span>
-                            <span class="text-sm font-bold text-slate-700">{{ transactionId }}</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-800 mb-2 sm:mb-4">Payment Successful</h2>
+                <p class="text-xs sm:text-sm text-slate-400 font-medium mb-8 sm:mb-12 px-4">Your transaction has been processed securely.</p>
+                
+                <div class="bg-slate-50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 mb-8 sm:mb-12 text-left border border-slate-100">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-200">
+                        <div class="w-full sm:w-auto">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Payment ID</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-700 break-all">{{ transactionId }}</span>
                         </div>
-                        <div class="text-right">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Date</span>
-                            <span class="text-sm font-bold text-slate-700">{{ today | date:'mediumDate' }}</span>
+                        <div class="w-full sm:w-auto sm:text-right">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Date</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-700">{{ today | date:'mediumDate' }}</span>
                         </div>
                     </div>
-                    <div class="pt-6 flex justify-between items-center">
-                        <div>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Amount Paid</span>
-                            <span class="text-2xl font-black text-blue-600">₹{{ totalAmount | number:'1.2-2' }}</span>
+                    <div class="pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="w-full sm:w-auto">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Amount Paid</span>
+                            <span class="text-xl sm:text-2xl font-black text-blue-600">₹{{ totalAmount | number:'1.2-2' }}</span>
                         </div>
-                        <div class="px-4 py-2 bg-green-100 rounded-full flex items-center gap-2">
+                        <div class="px-4 py-1.5 bg-green-100 rounded-full flex items-center gap-2">
                             <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                            <span class="text-[10px] font-bold text-green-700 uppercase tracking-wider">Confirmed</span>
+                            <span class="text-[9px] font-bold text-green-700 uppercase tracking-wider">Confirmed</span>
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <button (click)="goToDashboard()" class="py-5 bg-blue-600 text-white rounded-2xl font-bold">Dashboard</button>
-                    <button (click)="downloadReceipt()" class="py-5 bg-slate-50 text-slate-700 rounded-2xl font-bold">Receipt</button>
+                <div class="grid grid-cols-2 gap-4 px-2">
+                    <button (click)="goToDashboard()" class="py-4 sm:py-5 bg-blue-600 text-white rounded-xl sm:rounded-2xl font-bold text-xs sm:text-base">Dashboard</button>
+                    <button (click)="downloadReceipt()" class="py-4 sm:py-5 bg-slate-100 text-slate-700 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-base">Receipt</button>
                 </div>
             </div>
         </div>

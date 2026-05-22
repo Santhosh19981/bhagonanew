@@ -28,8 +28,8 @@
         <div *ngIf="bookingData?.eventId && bookingData?.eventDate && !fromServiceFlow" class="mb-8"
             data-aos="fade-down">
             <div
-                class="bg-white/80 backdrop-blur-xl rounded-[2rem] p-5 border border-white/50 shadow-lg flex flex-wrap items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
+            class="bg-white/95 backdrop-blur-xl rounded-3xl md:rounded-[4rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-2">
+                <div class="flex items-center gap-4 p-6 md:p-10">
                     <div
                         class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-[#e87f2c] shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -52,15 +52,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-right">
-                    <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Total Guests</p>
-                    <p class="text-2xl font-black text-gray-800 leading-none">{{bookingData.totalMembers}}</p>
+                <div class="p-6 md:p-10 bg-gray-50 flex items-center justify-end text-right border-t lg:border-t-0 lg:border-l border-gray-100">
+                    <div>
+                        <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Total Guests</p>
+                        <p class="text-3xl font-black text-gray-800 leading-none">{{bookingData.totalMembers}}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- PREMIUM MERGED HERO SECTION -->
-        <div class="relative mb-6 rounded-[2.5rem] overflow-hidden shadow-xl group border-[4px] border-white backdrop-blur-sm bg-slate-900" data-aos="zoom-in">
+        <div class="relative mb-6 rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-xl group border-[4px] border-white backdrop-blur-sm bg-slate-900" data-aos="zoom-in">
             <!-- Hero Content Layer (Banners or Service Image) -->
             <div class="relative h-[380px] sm:h-[480px] w-full">
                 <!-- If Banners Exist: Slider Background -->
@@ -129,7 +131,6 @@
                                     [class.bg-gray-200]="i !== currentBannerIndex"></span>
                             </div>
                         </div>
-...
                         <div>
                             <h1 class="text-3xl font-black text-gray-900 main-font tracking-tighter leading-none mb-2">
                                 <span class="text-orange-600">{{selectedService.name}}</span>
@@ -241,8 +242,8 @@
                         <div class="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full border-2 border-orange-100 shadow-inner z-10"></div>
                     </div>
                     
-                    <!-- Coupon Right -->
-                    <div class="flex-1 px-6 flex flex-col justify-center bg-gradient-to-br from-white to-orange-50/30">
+                    <!-- Right Column: Details -->
+                    <div class="p-6 md:p-14 flex flex-col justify-center bg-gradient-to-br from-white to-orange-50/30">
                         <h4 class="text-sm font-black text-gray-900 truncate mb-1 leading-tight">{{offer.title}}</h4>
                         <p class="text-[10px] text-gray-400 font-medium line-clamp-1 mb-3">{{offer.description || 'Special discount for you'}}</p>
                         <div class="flex items-center justify-between">
@@ -263,7 +264,7 @@
             <div class="lg:col-span-1 space-y-6">
 
                 <!-- Cart Summary (Premium Glass Widget) -->
-                <div class="sidebar-glass rounded-[2.5rem] p-8 border border-white/50 shadow-2xl sticky top-24"
+                <div class="sidebar-glass rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 border border-white/50 shadow-2xl sticky top-24"
                     data-aos="fade-right">
                     <h4 class="text-base font-bold text-gray-800 mb-6 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#e87f2c]" fill="none"
@@ -322,7 +323,7 @@
             <div class="lg:col-span-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                     <div *ngFor="let item of filteredItems"
-                        class="item-card group bg-white rounded-[2.5rem] p-5 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden flex flex-col hover:border-orange-200/50"
+                        class="item-card group bg-white rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden flex flex-col hover:border-orange-200/50"
                         data-aos="fade-up">
 
                         <!-- Image - Reduced height -->
@@ -393,7 +394,7 @@
 
         <!-- Comprehensive Vendor Reviews Section -->
         <div *ngIf="reviews.length > 0"
-            class="mt-6 sidebar-glass rounded-[2.5rem] p-8 sm:p-10 border border-white/50 shadow-xl relative overflow-hidden"
+            class="mt-6 sidebar-glass rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 border border-white/50 shadow-xl relative overflow-hidden"
             data-aos="fade-up">
             
             <div class="absolute -left-10 -top-10 w-40 h-40 bg-orange-500/5 blur-3xl rounded-full"></div>

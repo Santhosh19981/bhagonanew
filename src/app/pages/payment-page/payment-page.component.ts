@@ -208,18 +208,19 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
             (backdrop as HTMLElement).style.opacity = '0';
           }
 
-          // 3. Force the container to be perfectly inline and ultra-compact
+          // 3. Force the container to be perfectly inline and responsive
           if (rzpContainer) {
+            const isMobile = window.innerWidth < 768;
             (rzpContainer as HTMLElement).style.position = 'absolute';
-            (rzpContainer as HTMLElement).style.top = '-5px'; 
+            (rzpContainer as HTMLElement).style.top = isMobile ? '0' : '-5px'; 
             (rzpContainer as HTMLElement).style.left = '50%';
-            (rzpContainer as HTMLElement).style.transform = 'translateX(-50%) scale(1.2)';
+            (rzpContainer as HTMLElement).style.transform = isMobile ? 'translateX(-50%) scale(1.0)' : 'translateX(-50%) scale(1.2)';
             (rzpContainer as HTMLElement).style.transformOrigin = 'top center';
-            (rzpContainer as HTMLElement).style.width = '450px'; 
-            (rzpContainer as HTMLElement).style.height = '540px'; 
+            (rzpContainer as HTMLElement).style.width = isMobile ? '100%' : '450px'; 
+            (rzpContainer as HTMLElement).style.height = isMobile ? '900px' : '540px'; 
             (rzpContainer as HTMLElement).style.boxShadow = 'none';
             (rzpContainer as HTMLElement).style.margin = '0';
-            (rzpContainer as HTMLElement).style.borderRadius = '2.5rem';
+            (rzpContainer as HTMLElement).style.borderRadius = isMobile ? '0' : '2.5rem';
             (rzpContainer as HTMLElement).style.overflow = 'hidden';
             (rzpContainer as HTMLElement).style.zIndex = '1';
             
@@ -227,7 +228,8 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
             const style = document.createElement('style');
             style.innerHTML = `
               .razorpay-container::-webkit-scrollbar { display: none; }
-              .razorpay-container { -ms-overflow-style: none; scrollbar-width: none; }
+              .razorpay-container { -ms-overflow-style: none; scrollbar-width: none; border: none !important; }
+              iframe.razorpay-checkout-frame { border: none !important; }
             `;
             document.head.appendChild(style);
             
