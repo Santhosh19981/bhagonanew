@@ -28,6 +28,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { PartnerOrdersComponent } from './pages/partner-orders/partner-orders.component';
 import { RouterModule } from '@angular/router';
 
+import { MobileNavComponent } from './components/mobile-nav/mobile-nav.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { MessagesComponent } from './pages/messages/messages.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +53,10 @@ import { RouterModule } from '@angular/router';
     ServicesListComponent,
     CartComponent,
     LoginComponent,
-    PartnerOrdersComponent
+    PartnerOrdersComponent,
+    MobileNavComponent,
+    ProfileComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

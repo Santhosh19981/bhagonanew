@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { ApiService } from '../../services/api.service';
-import { forkJoin } from 'rxjs';
+import { ResponsiveService } from '../../services/responsive.service';
+import { forkJoin, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-menu-selection',
   templateUrl: './menu-selection.component.html',
   styleUrl: './menu-selection.component.scss'
 })
-export class MenuSelectionComponent {
+export class MenuSelectionComponent implements OnInit, OnDestroy {
   categories: any[] = [];
   subcategories: any[] = [];
   allItems: any[] = [];
@@ -22,20 +23,33 @@ export class MenuSelectionComponent {
 
   isLoading: boolean = true;
   cart: any[] = [];
+  isMobile: boolean = false;
+  private sub = new Subscription();
 
   constructor(
     private bookingService: BookingService,
     private apiService: ApiService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private responsiveService: ResponsiveService
   ) { }
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe((isMobile: boolean) => {
+        this.isMobile = isMobile;
+      })
+    );
+
     this.fetchInitialData();
     const existingBooking = this.bookingService.getEventBooking();
     if (existingBooking && existingBooking.menuSelection) {
       this.cart = [...existingBooking.menuSelection];
     }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   fetchInitialData() {

@@ -1,28 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { ApiService } from '../../services/api.service';
+import { ResponsiveService } from '../../services/responsive.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chef-selection',
   templateUrl: './chef-selection.component.html',
   styleUrl: './chef-selection.component.scss'
 })
-export class ChefSelectionComponent implements OnInit {
+export class ChefSelectionComponent implements OnInit, OnDestroy {
   primaryChef: any = null;
   alternateChefs: any[] = [];
   chefs: any[] = [];
   isLoading: boolean = true;
+  isMobile: boolean = false;
+  private sub = new Subscription();
 
   constructor(
     private bookingService: BookingService,
     private apiService: ApiService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private responsiveService: ResponsiveService
   ) { }
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe(isMobile => this.isMobile = isMobile)
+    );
     this.fetchChefs();
     const eventData = this.bookingService.getEventBooking();
     if (eventData.selectedChefs && eventData.selectedChefs.length > 0) {
@@ -31,12 +39,19 @@ export class ChefSelectionComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   fetchChefs() {
     this.isLoading = true;
     this.apiService.getChefs().subscribe({
       next: (res: any) => {
         if (res.status && res.data) {
-          this.chefs = res.data;
+          this.chefs = (res.data || []).map((c: any) => ({
+            ...c,
+            image: this.apiService.getImageUrl(c.display_url || c.image)
+          }));
         }
         this.isLoading = false;
       },
@@ -54,26 +69,40 @@ export class ChefSelectionComponent implements OnInit {
   selectChef(chef: any) {
     const chefId = chef.id || chef.chef_id;
 
-    // Check if already primary
+    // Toggle off if already primary
     if (this.primaryChef && (this.primaryChef.id || this.primaryChef.chef_id) === chefId) {
       this.primaryChef = null;
+      this.saveToBooking();
       return;
     }
 
-    // Check if in alternates
+    // Toggle off if already in alternates (reassign array to trigger change detection)
     const altIndex = this.alternateChefs.findIndex(c => (c.id || c.chef_id) === chefId);
     if (altIndex > -1) {
-      this.alternateChefs.splice(altIndex, 1);
+      this.alternateChefs = this.alternateChefs.filter((_, i) => i !== altIndex);
+      this.saveToBooking();
       return;
     }
 
-    // Add to primary if empty
+    // Add as primary if slot is empty
     if (!this.primaryChef) {
       this.primaryChef = chef;
-    } else if (this.alternateChefs.length < 2) {
-      // Add to alternates if less than 2
-      this.alternateChefs.push(chef);
+      this.saveToBooking();
+      return;
     }
+
+    // Add as alternate (max 2)
+    if (this.alternateChefs.length < 2) {
+      this.alternateChefs = [...this.alternateChefs, chef];
+      this.saveToBooking();
+    }
+  }
+
+  private saveToBooking() {
+    const allChefs = this.primaryChef
+      ? [this.primaryChef, ...this.alternateChefs]
+      : [...this.alternateChefs];
+    this.bookingService.updateEventBooking({ selectedChefs: allChefs });
   }
 
   isChefSelected(chef: any) {
@@ -84,9 +113,7 @@ export class ChefSelectionComponent implements OnInit {
   }
 
   proceed() {
-    this.bookingService.updateEventBooking({
-      selectedChefs: [this.primaryChef, ...this.alternateChefs]
-    });
-    this.router.navigate(['/cart']);
+    this.saveToBooking();
+    this.router.navigate(['/checkout']);
   }
 }

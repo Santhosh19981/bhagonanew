@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { ApiService } from '../../services/api.service';
+import { ResponsiveService } from '../../services/responsive.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   styleUrl: './event-details.component.scss'
 })
-export class EventDetailsComponent {
+export class EventDetailsComponent implements OnInit, OnDestroy {
   eventDate: string = '';
   totalMembers: number = 0;
   vegGuests: number = 0;
   nonVegGuests: number = 0;
   selectedEvent: any;
   isLoading: boolean = true;
+  isMobile: boolean = false;
+  private sub = new Subscription();
   events = [
     {
       id: 'marriage',
@@ -66,10 +70,17 @@ export class EventDetailsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private location: Location,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private responsiveService: ResponsiveService
   ) { }
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe((isMobile: boolean) => {
+        this.isMobile = isMobile;
+      })
+    );
+
     this.route.params.subscribe(params => {
       const eventId = params['id'];
       if (eventId) {
@@ -89,6 +100,10 @@ export class EventDetailsComponent {
     }
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   fetchEventDetails(id: any) {
     console.log('Fetching details for event ID:', id);
     this.isLoading = true;
@@ -99,9 +114,7 @@ export class EventDetailsComponent {
         if (res.status && res.data) {
           this.selectedEvent = res.data;
           // Map API data to component structure if needed
-          if (!this.selectedEvent.image && this.selectedEvent.image_url) {
-            this.selectedEvent.image = this.selectedEvent.image_url;
-          }
+          this.selectedEvent.image = this.apiService.getImageUrl(this.selectedEvent.display_url || this.selectedEvent.image_url || this.selectedEvent.image);
           this.bookingService.updateEventBooking({
             eventId: id,
             eventName: this.selectedEvent.name

@@ -18,6 +18,8 @@ import { CartComponent } from './pages/cart/cart.component';
 
 import { LoginComponent } from './pages/login/login.component';
 import { PartnerOrdersComponent } from './pages/partner-orders/partner-orders.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { MessagesComponent } from './pages/messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,6 +42,8 @@ const routes: Routes = [
   { path: 'vendor-selection', component: VendorSelectionComponent },
   { path: 'events', component: EventsListComponent },
   { path: 'services', component: ServicesListComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'messages', component: MessagesComponent },
   { path: '**', redirectTo: 'home' }
 ];
 

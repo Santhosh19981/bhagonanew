@@ -1,3 +1,4 @@
+<ng-container *ngIf="!isMobile; else mobileLayout">
 <div
     class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4 flex items-center justify-center">
     <div class="max-w-3xl w-full bg-white/90 backdrop-blur-3xl rounded-[4rem] p-8 md:p-16 shadow-2xl border border-white/50"
@@ -100,3 +101,98 @@
         </div>
     </div>
 </div>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <div class="min-h-screen bg-[#FDF9F4] pb-32 pt-6 px-4 font-sans flex flex-col justify-start">
+    
+    <!-- Top Header -->
+    <div class="flex items-center justify-between mb-8">
+      <button (click)="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-orange-50/50 text-gray-500 active:scale-90">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#964F08] bg-[#FFF0EC] px-4 py-1.5 rounded-full">
+        Feedback
+      </span>
+      <button class="w-10 h-10 flex items-center justify-center text-[#964F08] hover:text-[#3d1200] transition-colors relative">
+        <i class="bi bi-bell text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Title and Subtitle -->
+    <div class="text-center mb-8">
+      <h1 class="text-2xl font-black text-[#3d1200] leading-none mb-2">Rate Your <span class="text-[#e87f2c]">Journey</span></h1>
+      <p class="text-xs text-gray-500 font-medium">Your feedback is the secret ingredient to our excellence.</p>
+    </div>
+
+    <div class="space-y-6 flex-grow text-left">
+      
+      <!-- Category 1: Hygiene -->
+      <div class="bg-white rounded-[2rem] p-5 border border-orange-50/50 shadow-sm flex flex-col items-center gap-3">
+        <div class="text-center">
+          <h4 class="text-sm font-black text-gray-800 leading-none">{{ labels.cat1.title }}</h4>
+          <p class="text-[8px] text-[#e87f2c] font-black uppercase tracking-widest mt-1">{{ labels.cat1.sub }}</p>
+        </div>
+        <div class="flex gap-1.5">
+          <button *ngFor="let i of [1,2,3,4,5]" (click)="setRating('hygiene', i)"
+            class="w-10 h-10 flex justify-center items-center text-2xl transition-all active:scale-90"
+            [class]="ratings.hygiene >= i ? 'text-yellow-400 drop-shadow-md' : 'text-gray-200 hover:text-orange-200'">
+            ★
+          </button>
+        </div>
+      </div>
+
+      <!-- Category 2: Food Taste -->
+      <div class="bg-white rounded-[2rem] p-5 border border-orange-50/50 shadow-sm flex flex-col items-center gap-3">
+        <div class="text-center">
+          <h4 class="text-sm font-black text-gray-800 leading-none">{{ labels.cat2.title }}</h4>
+          <p class="text-[8px] text-[#e87f2c] font-black uppercase tracking-widest mt-1">{{ labels.cat2.sub }}</p>
+        </div>
+        <div class="flex gap-1.5">
+          <button *ngFor="let i of [1,2,3,4,5]" (click)="setRating('taste', i)"
+            class="w-10 h-10 flex justify-center items-center text-2xl transition-all active:scale-90"
+            [class]="ratings.taste >= i ? 'text-yellow-400 drop-shadow-md' : 'text-gray-200 hover:text-orange-200'">
+            ★
+          </button>
+        </div>
+      </div>
+
+      <!-- Category 3: Behavior -->
+      <div *ngIf="labels.cat3" class="bg-white rounded-[2rem] p-5 border border-orange-50/50 shadow-sm flex flex-col items-center gap-3">
+        <div class="text-center">
+          <h4 class="text-sm font-black text-gray-800 leading-none">{{ labels.cat3.title }}</h4>
+          <p class="text-[8px] text-[#e87f2c] font-black uppercase tracking-widest mt-1">{{ labels.cat3.sub }}</p>
+        </div>
+        <div class="flex gap-1.5">
+          <button *ngFor="let i of [1,2,3,4,5]" (click)="setRating('behavior', i)"
+            class="w-10 h-10 flex justify-center items-center text-2xl transition-all active:scale-90"
+            [class]="ratings.behavior >= i ? 'text-yellow-400 drop-shadow-md' : 'text-gray-200 hover:text-orange-200'">
+            ★
+          </button>
+        </div>
+      </div>
+
+      <!-- Comment Box -->
+      <div class="space-y-2.5">
+        <label class="block text-[8px] font-black text-gray-400 uppercase tracking-[0.2em] ml-4">Additional Chronicles</label>
+        <div class="relative">
+          <textarea [(ngModel)]="comment" rows="4"
+            [placeholder]="orderType === 'event' ? 'Tell us about the magic of your event...' : 'Share your experience with our services...'"
+            class="w-full px-5 py-4 rounded-[1.5rem] bg-white border border-orange-50/50 shadow-sm focus:border-[#e87f2c] focus:outline-none transition-all outline-none resize-none text-xs font-bold text-gray-700"></textarea>
+          <div class="absolute bottom-4 right-5 text-[#e87f2c] opacity-20 pointer-events-none">
+            <i class="bi bi-pencil-fill text-sm"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button (click)="submit()" [disabled]="!isFormValid()"
+        class="w-full py-4 mt-6 bg-[#e87f2c] hover:bg-[#af6429] text-white rounded-2xl font-black text-xs uppercase tracking-wider shadow-md select-none active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+        Submit Testimonial
+        <i class="bi bi-arrow-right"></i>
+      </button>
+
+      <p class="text-center text-[8px] text-gray-400 font-bold uppercase tracking-[0.25em] italic mt-4 mb-8">Bhagona listens • Your voice matters</p>
+    </div>
+  </div>
+</ng-template>

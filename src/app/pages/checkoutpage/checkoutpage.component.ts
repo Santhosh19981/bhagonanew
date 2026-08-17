@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { AuthService } from '../../services/auth.service';
+import { ResponsiveService } from '../../services/responsive.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-checkoutpage',
   templateUrl: './checkoutpage.component.html',
   styleUrl: './checkoutpage.component.scss'
 })
-export class CheckoutpageComponent implements OnInit {
+export class CheckoutpageComponent implements OnInit, OnDestroy {
   eventBooking: any;
   serviceCart: any[] = [];
   groupedServices: any[] = [];
@@ -21,25 +23,36 @@ export class CheckoutpageComponent implements OnInit {
     address: ''
   };
   formError: string = '';
+  isMobile: boolean = false;
+  private sub = new Subscription();
 
   constructor(
     private bookingService: BookingService,
     private authService: AuthService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private responsiveService: ResponsiveService
   ) { }
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe((isMobile: boolean) => this.isMobile = isMobile)
+    );
+
     this.eventBooking = this.bookingService.getEventBooking();
     this.serviceCart = this.bookingService.getServiceCart();
     this.customerDetails = this.bookingService.getCustomerDetails();
 
-    // Default to service tab if no event is booked
-    if (!this.eventBooking.eventId && this.serviceCart.length > 0) {
+    // Default to service tab if no event is booked or event has no selected items
+    if (this.serviceCart.length > 0 && (!this.eventBooking.eventId || !this.eventBooking.menuSelection || this.eventBooking.menuSelection.length === 0)) {
       this.activeTab = 'service';
     }
 
     this.prepareGroupedServices();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   private prepareGroupedServices() {

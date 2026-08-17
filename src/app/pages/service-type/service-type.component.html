@@ -1,86 +1,163 @@
-<div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
-    <div class="max-w-5xl mx-auto">
-        <!-- Back Button -->
-        <button (click)="goBack()"
-            class="mb-8 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[10px] tracking-widest group">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-        </button>
-        <div class="text-center mb-16" data-aos="fade-down">
-            <h1 class="text-5xl font-bold text-gray-900 main-font mb-4">Choose Your <span class="text-[#e87f2c]">Service
-                    Type</span></h1>
-            <p class="text-xl text-gray-600 font-medium">Select how you would like your event to be served.</p>
-        </div>
+<!-- src/app/pages/service-type/service-type.component.html -->
+<ng-container *ngIf="!isMobile; else mobileLayout">
+  <div
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
+      <div class="max-w-5xl mx-auto">
+          <!-- Back Button -->
+          <button (click)="goBack()"
+              class="mb-8 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[10px] tracking-widest group">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+          </button>
+          <div class="text-center mb-16" data-aos="fade-down">
+              <h1 class="text-5xl font-bold text-gray-900 main-font mb-4">Choose Your <span class="text-[#e87f2c]">Service
+                      Type</span></h1>
+              <p class="text-xl text-gray-600 font-medium">Select how you would like your event to be served.</p>
+          </div>
 
-        <div class="grid md:grid-cols-2 gap-12">
-            <!-- Book a Chef -->
-            <div (click)="selectService('chef')"
-                class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
-                data-aos="fade-right">
-                <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Chef"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-6 left-6 text-white text-3xl font-bold main-font">Book a Chef</div>
-                </div>
-                <div class="space-y-4">
-                    <p class="text-gray-600 text-lg leading-relaxed">Hire an expert chef to cook fresh meals at your
-                        venue. Perfect for private gatherings and specialized cuisines.</p>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-3 text-gray-700">
-                            <span
-                                class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
-                            Professional Culinary Experts
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-700">
-                            <span
-                                class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
-                            Fresh On-site Cooking
-                        </li>
-                    </ul>
-                    <button
-                        class="w-full py-4 mt-4 bg-orange-50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white rounded-2xl font-bold text-lg transition-all duration-300">
-                        Continue with Chef
-                    </button>
-                </div>
-            </div>
+          <div class="grid md:grid-cols-2 gap-12">
+              <!-- Book a Chef -->
+              <div (click)="selectService('chef')"
+                  class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
+                  data-aos="fade-right">
+                  <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
+                      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Chef"
+                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      <div class="absolute bottom-6 left-6 text-white text-3xl font-bold main-font">Book a Chef</div>
+                  </div>
+                  <div class="space-y-4">
+                      <p class="text-gray-600 text-lg leading-relaxed">Hire an expert chef to cook fresh meals at your
+                          venue. Perfect for private gatherings and specialized cuisines.</p>
+                      <ul class="space-y-2">
+                          <li class="flex items-center gap-3 text-gray-700">
+                              <span
+                                  class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
+                              Professional Culinary Experts
+                          </li>
+                          <li class="flex items-center gap-3 text-gray-700">
+                              <span
+                                  class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
+                              Fresh On-site Cooking
+                          </li>
+                      </ul>
+                      <button
+                          class="w-full py-4 mt-4 bg-orange-50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white rounded-2xl font-bold text-lg transition-all duration-300">
+                          Continue with Chef
+                      </button>
+                  </div>
+              </div>
 
-            <!-- Book Catering -->
-            <div (click)="selectService('catering')"
-                class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
-                data-aos="fade-left">
-                <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
-                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=800" alt="Catering"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-6 left-6 text-white text-3xl font-bold main-font">Book Catering</div>
-                </div>
-                <div class="space-y-4">
-                    <p class="text-gray-600 text-lg leading-relaxed">Full food service with delivery and setup. Ideal
-                        for larger events, weddings, and hassle-free hosting.</p>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-3 text-gray-700">
-                            <span
-                                class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
-                            Complete Setup & Service
-                        </li>
-                        <li class="flex items-center gap-3 text-gray-700">
-                            <span
-                                class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
-                            Variety of Cuisines
-                        </li>
-                    </ul>
-                    <button
-                        class="w-full py-4 mt-4 bg-orange-50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white rounded-2xl font-bold text-lg transition-all duration-300">
-                        Continue with Catering
-                    </button>
-                </div>
-            </div>
-        </div>
+              <!-- Book Catering -->
+              <div (click)="selectService('catering')"
+                  class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
+                  data-aos="fade-left">
+                  <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
+                      <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=800" alt="Catering"
+                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      <div class="absolute bottom-6 left-6 text-white text-3xl font-bold main-font">Book Catering</div>
+                  </div>
+                  <div class="space-y-4">
+                      <p class="text-gray-600 text-lg leading-relaxed">Full food service with delivery and setup. Ideal
+                          for larger events, weddings, and hassle-free hosting.</p>
+                      <ul class="space-y-2">
+                          <li class="flex items-center gap-3 text-gray-700">
+                              <span
+                                  class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
+                              Complete Setup & Service
+                          </li>
+                          <li class="flex items-center gap-3 text-gray-700">
+                              <span
+                                  class="w-6 h-6 bg-orange-100 rounded-full flex justify-center items-center text-[#e87f2c] text-sm">✓</span>
+                              Variety of Cuisines
+                          </li>
+                      </ul>
+                      <button
+                          class="w-full py-4 mt-4 bg-orange-50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white rounded-2xl font-bold text-lg transition-all duration-300">
+                          Continue with Catering
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <!-- Mobile Wizard Step 3: Service Type Selection -->
+  <div class="min-h-screen bg-[#FDF9F4] pb-24 pt-6 px-4 font-sans flex flex-col justify-start">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <button (click)="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-orange-50/50 text-gray-500 active:scale-90">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#964F08] bg-[#FFF0EC] px-4 py-1.5 rounded-full">
+        Step 3 of 4
+      </span>
+      <button class="w-10 h-10 flex items-center justify-center text-[#964F08] hover:text-[#3d1200] transition-colors relative">
+        <i class="bi bi-bell text-lg"></i>
+      </button>
     </div>
-</div>
+
+    <div class="mb-8 text-left">
+      <h1 class="text-xl font-black text-[#3d1200]">Service Choice</h1>
+      <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1.5">Select how you want your party served</p>
+    </div>
+
+    <!-- Choice Cards -->
+    <div class="space-y-5">
+      
+      <!-- Option 1: Chef Booking Card -->
+      <div (click)="selectService('chef')" 
+        class="bg-white rounded-[2.2rem] p-5 border border-orange-50/50 hover:border-[#964F08] shadow-[0_8px_30px_rgb(0,0,0,0.015)] hover:shadow-md cursor-pointer transition-all duration-300 flex flex-col text-left group">
+        
+        <div class="h-36 w-full rounded-2xl overflow-hidden mb-4 relative bg-gray-100">
+          <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600" alt="Chef" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-3 left-4 text-white text-base font-black uppercase tracking-widest">Book a Chef</div>
+        </div>
+
+        <p class="text-xs text-gray-500 leading-relaxed font-medium mb-3">Hire an expert chef to cook fresh, customized meals directly at your venue. Perfect for private parties.</p>
+        
+        <div class="flex flex-col gap-1.5 mb-4">
+          <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-[#964F08]"></i> On-site Live Cooking</span>
+          <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-[#964F08]"></i> Personalized Spice/Taste Levels</span>
+        </div>
+
+        <button class="w-full py-3.5 bg-[#FFF0EC] border border-orange-100/30 text-[#964F08] font-black text-[10px] uppercase tracking-widest rounded-2xl group-hover:bg-[#964F08] group-hover:text-white transition-all shadow-sm">
+          Hire Expert Chef
+        </button>
+      </div>
+
+      <!-- Option 2: Catering Booking Card -->
+      <div (click)="selectService('catering')" 
+        class="bg-white rounded-[2.2rem] p-5 border border-orange-50/50 hover:border-[#964F08] shadow-[0_8px_30px_rgb(0,0,0,0.015)] hover:shadow-md cursor-pointer transition-all duration-300 flex flex-col text-left group">
+        
+        <div class="h-36 w-full rounded-2xl overflow-hidden mb-4 relative bg-gray-100">
+          <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=600" alt="Catering" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-3 left-4 text-white text-base font-black uppercase tracking-widest">Book Catering</div>
+        </div>
+
+        <p class="text-xs text-gray-500 leading-relaxed font-medium mb-3">Complete food delivery, layout setup, and catering staff. Ideal for weddings, large events, and families.</p>
+        
+        <div class="flex flex-col gap-1.5 mb-4">
+          <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-[#964F08]"></i> Full Layout Setup & Servers</span>
+          <span class="text-[10px] font-bold text-gray-600 flex items-center gap-1.5"><i class="bi bi-check-circle-fill text-[#964F08]"></i> Diverse Food Platters & Drinks</span>
+        </div>
+
+        <button class="w-full py-3.5 bg-[#FFF0EC] border border-orange-100/30 text-[#964F08] font-black text-[10px] uppercase tracking-widest rounded-2xl group-hover:bg-[#964F08] group-hover:text-white transition-all shadow-sm">
+          Select Catering
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</ng-template>

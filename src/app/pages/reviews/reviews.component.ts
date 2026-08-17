@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingService } from '../../services/booking.service';
+import { ResponsiveService } from '../../services/responsive.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
   styleUrl: './reviews.component.scss'
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent implements OnInit, OnDestroy {
   ratings = {
     hygiene: 0,
     taste: 0,
@@ -16,13 +18,22 @@ export class ReviewsComponent implements OnInit {
   comment: string = '';
   orderId: string | null = null;
   orderType: 'event' | 'service' = 'event';
+  isMobile: boolean = false;
+  private sub = new Subscription();
 
   constructor(
     private router: Router,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private responsiveService: ResponsiveService
   ) { }
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe(isMobile => {
+        this.isMobile = isMobile;
+      })
+    );
+
     this.orderId = this.bookingService.getCurrentRatingOrder();
     if (this.orderId) {
       this.bookingService.getOrders().subscribe(orders => {
@@ -36,6 +47,14 @@ export class ReviewsComponent implements OnInit {
     } else {
       this.router.navigate(['/order-history']);
     }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+  goBack() {
+    this.router.navigate(['/order-history']);
   }
 
   get labels(): any {

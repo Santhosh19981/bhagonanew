@@ -1,277 +1,405 @@
-<div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
-    <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-8 md:mb-16" data-aos="fade-down">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 main-font mb-2 md:mb-4">My <span class="text-[#e87f2c]">Orders</span></h1>
-            <p class="text-sm md:text-xl text-gray-500 font-medium">Capture the magic of your past and future events.</p>
-        </div>
+<!-- src/app/pages/order-history/order-history.component.html -->
+<ng-container *ngIf="!isMobile; else mobileLayout">
+  <div class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
+      <div class="max-w-5xl mx-auto">
+          <!-- Page Header -->
+          <div class="text-center mb-10" data-aos="fade-down">
+              <h1 class="text-4xl font-bold text-gray-900 main-font mb-3">My <span class="text-[#e87f2c]">Orders</span></h1>
+              <p class="text-sm text-gray-500 font-medium">Capture the magic of your past and future events.</p>
+          </div>
 
-        <!-- Refined Tabs -->
-        <div class="flex justify-center mb-8 md:mb-16" data-aos="fade-up">
-            <div class="bg-white/70 backdrop-blur-2xl p-1.5 md:p-2 rounded-[3rem] shadow-xl border border-white/50 flex gap-1 md:gap-2">
-                <button (click)="setActiveTab('upcoming')"
-                    [class]="activeTab === 'upcoming' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
-                    Upcoming
-                </button>
-                <button (click)="setActiveTab('processing')"
-                    [class]="activeTab === 'processing' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
-                    Active
-                </button>
-                <button (click)="setActiveTab('completed')"
-                    [class]="activeTab === 'completed' ? 'bg-[#e87f2c] text-white shadow-lg shadow-orange-200' : 'text-gray-600 hover:bg-white'"
-                    class="px-4 md:px-14 py-2.5 md:py-4 rounded-[2.5rem] font-black text-[10px] md:text-sm uppercase tracking-widest transition-all duration-500">
-                    Past
-                </button>
-            </div>
-        </div>
+          <!-- Refined Tab Selector -->
+          <div class="flex justify-center mb-12" data-aos="fade-up">
+              <div class="bg-white/95 backdrop-blur-2xl p-1.5 rounded-full border border-orange-50/50 shadow-sm flex gap-1.5">
+                  <button (click)="setActiveTab('upcoming')"
+                      [class]="activeTab === 'upcoming' ? 'bg-[#964F08] text-white shadow-md' : 'text-gray-500 hover:bg-orange-50/20'"
+                      class="px-10 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300">
+                      Upcoming
+                  </button>
+                  <button (click)="setActiveTab('processing')"
+                      [class]="activeTab === 'processing' ? 'bg-[#964F08] text-white shadow-md' : 'text-gray-500 hover:bg-orange-50/20'"
+                      class="px-10 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300">
+                      Active
+                  </button>
+                  <button (click)="setActiveTab('completed')"
+                      [class]="activeTab === 'completed' ? 'bg-[#964F08] text-white shadow-md' : 'text-gray-500 hover:bg-orange-50/20'"
+                      class="px-10 py-3 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300">
+                      Past
+                  </button>
+              </div>
+          </div>
 
-        <!-- Orders Grid Style -->
-        <div class="grid gap-6 md:gap-10">
-            <div *ngFor="let order of filteredOrders; trackBy: trackByOrderId"
-                class="bg-white/80 backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-12 shadow-xl border border-white/50 flex flex-col items-stretch gap-6 md:gap-8 group transition-all hover:shadow-2xl"
-                data-aos="fade-up">
+          <!-- Loading Spinner -->
+          <div *ngIf="isLoading" class="py-20 flex justify-center">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-[#964F08]"></div>
+          </div>
 
-                <div class="flex flex-col xl:flex-row items-center justify-between gap-6 md:gap-12">
-                    <div
-                        class="flex flex-col sm:flex-row items-center gap-6 md:gap-10 text-center sm:text-left w-full xl:w-auto">
-                        <!-- Icon/Preview -->
-                        <div
-                            class="w-20 h-20 md:w-32 md:h-32 bg-orange-50 rounded-2xl md:rounded-[2.5rem] flex justify-center items-center text-[#e87f2c] shadow-inner relative shrink-0">
-                            <div
-                                class="absolute inset-0 bg-orange-100/50 scale-0 group-hover:scale-110 rounded-2xl md:rounded-[2.5rem] transition-transform duration-700">
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-14 md:w-14 relative z-10" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path
-                                    *ngIf="order.orderType === 'event' && !order.data.eventName?.toLowerCase().includes('birthday') && !order.data.eventName?.toLowerCase().includes('wedding') && !order.data.eventName?.toLowerCase().includes('anniversary')"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.175 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                <path
-                                    *ngIf="order.orderType === 'event' && order.data.eventName?.toLowerCase().includes('birthday')"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18z" />
-                                <path
-                                    *ngIf="order.orderType === 'event' && (order.data.eventName?.toLowerCase().includes('wedding') || order.data.eventName?.toLowerCase().includes('anniversary'))"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                <path *ngIf="order.orderType === 'service'" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                            </svg>
-                        </div>
+          <!-- Orders Grid Container -->
+          <div *ngIf="!isLoading" class="space-y-6">
+              <div *ngFor="let order of filteredOrders; let idx = index; trackBy: trackByOrderId"
+                  class="bg-white rounded-[2rem] p-6 shadow-sm border border-orange-50/50 flex flex-col items-stretch gap-6 transition-all hover:shadow-md"
+                  data-aos="fade-up">
 
-                        <!-- Meta -->
-                        <div class="space-y-4">
-                            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-3 md:gap-4">
-                                <span
-                                    class="text-[9px] md:text-[10px] font-black text-white px-4 md:px-5 py-1.5 md:py-2 bg-[#e87f2c] rounded-full uppercase tracking-[0.2em] shadow-lg shadow-orange-500/20">{{order.id}}</span>
-                                <span
-                                    class="text-gray-400 font-black uppercase text-[9px] md:text-[10px] tracking-widest border-l border-gray-200 pl-3 md:pl-4">{{order.date | date:'mediumDate'}}</span>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-xl md:text-3xl font-extrabold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
-                                    {{order.orderType === 'event' ? (order.data.eventName || 'Event Booking') : 'Service
-                                    Booking'}}</h3>
-                                <p class="text-gray-500 font-bold text-sm md:text-lg mt-1 italic">
-                                    {{order.orderType === 'event' ? (order.data.serviceType === 'chef' ? 'Chef
-                                    Experts' : 'Hospitality Partner') : order.customerDetails.name}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                      <div class="flex flex-row items-center gap-6 text-left w-full md:w-auto">
+                          <!-- Icon block -->
+                          <div [class]="getOrderIconInfo(order, idx).bg + ' ' + getOrderIconInfo(order, idx).text"
+                              class="w-20 h-20 rounded-[1.8rem] flex justify-center items-center shadow-sm shrink-0">
+                              <i class="bi text-3xl" [ngClass]="getOrderIconInfo(order, idx).icon"></i>
+                          </div>
 
-                    <!-- Status & Action Area -->
-                    <div
-                        class="flex flex-col sm:flex-row items-center gap-8 w-full xl:w-auto border-t xl:border-t-0 xl:border-l border-gray-100 pt-10 xl:pt-0 xl:pl-12">
-                        <div class="text-center sm:text-right">
-                            <p class="text-[9px] md:text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Total
-                                Experience
-                                Value</p>
-                            <p class="text-2xl md:text-4xl font-black text-gray-800">₹{{order.amount}}</p>
-                        </div>
+                          <!-- Meta details -->
+                          <div class="space-y-2">
+                              <div class="flex items-center gap-3">
+                                  <span class="text-[9px] font-black text-[#964F08] px-2.5 py-1 bg-[#FFF0EC] rounded-md uppercase tracking-wider">{{ order.id }}</span>
+                                  <span class="text-gray-400 font-bold uppercase text-[9px] tracking-widest">{{ order.date | date:'LLL d, y' }}</span>
+                              </div>
+                              <div>
+                                  <h3 class="text-base font-black text-[#3d1200] leading-none">
+                                      {{ order.orderType === 'event' ? (order.data.eventName || 'Event Booking') : 'Service Booking' }}
+                                  </h3>
+                                  <p class="text-xs text-gray-400 font-bold mt-1.5 uppercase tracking-wide">
+                                      {{ order.chef_name || order.vendor_name || 'Chef Santosh Kumar Tangi' }}
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
 
-                        <div class="w-full sm:w-auto">
-                            <!-- Upcoming Action -->
-                            <div *ngIf="order.status === 'upcoming'"
-                                class="flex flex-col items-center sm:items-end gap-3">
-                                <button (click)="markStart(order)"
-                                    class="w-full sm:w-auto px-8 md:px-12 py-3 md:py-5 bg-[#e87f2c] text-white rounded-2xl md:rounded-3xl font-black text-xs md:text-sm uppercase tracking-widest hover:bg-[#af6429] shadow-2xl shadow-orange-500/30 transition-all hover:scale-[1.05] active:scale-95">
-                                    Start {{order.orderType === 'event' ? 'Event' : 'Service'}}
-                                </button>
-                            </div>
+                      <!-- Right actions & price -->
+                      <div class="flex flex-col items-center md:items-end gap-3 w-full md:w-auto">
+                          <div class="text-center md:text-right">
+                              <p class="text-[8px] text-gray-400 font-black uppercase tracking-wider mb-0.5">Total Experience Value</p>
+                              <p class="text-xl font-black text-gray-800">₹{{ order.amount | number:'1.2-2' }}</p>
+                          </div>
 
-                            <!-- Processing Badge -->
-                            <div *ngIf="order.status === 'processing'"
-                                class="flex flex-col items-center sm:items-end gap-3">
-                                <button (click)="markCompleted(order)"
-                                    class="w-full sm:w-auto px-10 py-4 bg-green-500 text-white rounded-[2rem] font-black text-xs uppercase tracking-widest hover:bg-green-600 shadow-xl shadow-green-500/20 transition-all flex items-center gap-3">
-                                    <div class="w-2 h-2 bg-white rounded-full animate-ping"></div>
-                                    Complete Order
-                                </button>
-                            </div>
+                          <div class="flex items-center gap-3 mt-1">
+                              <!-- View Details Button -->
+                              <button (click)="toggleOrder(order.booking_id)"
+                                  class="px-6 py-3 bg-white border border-[#964F08] text-[#964F08] rounded-full font-black text-[9px] uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+                                  {{ expandedOrderId === order.booking_id ? 'Hide Details' : 'View Details' }}
+                              </button>
 
-                            <!-- Completed Action -->
-                            <div *ngIf="order.status === 'completed'"
-                                class="flex flex-col items-center sm:items-end gap-4">
-                                <!-- Rating Button -->
-                                <button *ngIf="!order.rating" (click)="rateExperience(order)"
-                                    class="px-10 py-4 bg-white border border-[#e87f2c]/20 text-[#e87f2c] rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-[#e87f2c] hover:text-white transition-all shadow-sm">
-                                    Rate Experience
-                                </button>
+                              <!-- Start Button -->
+                              <button *ngIf="order.status === 'upcoming' || order.status === 'confirmed' || order.status === 'accepted'" (click)="markStart(order)"
+                                  class="px-6 py-3 bg-[#964F08] text-white rounded-full font-black text-[9px] uppercase tracking-wider hover:bg-[#703b07] active:scale-95 transition-all shadow-sm">
+                                  Start Service
+                              </button>
 
-                                <!-- Display Rating -->
-                                <div *ngIf="order.rating" class="text-right">
-                                    <div class="flex gap-0.5 text-yellow-400 text-lg">
-                                        <span *ngFor="let star of [1,2,3,4,5]">
-                                            <ng-container
-                                                *ngIf="((order.rating.hygiene + order.rating.taste + order.rating.behavior) / 3) >= star; else emptyStar">★</ng-container>
-                                            <ng-template #emptyStar>☆</ng-template>
-                                        </span>
-                                    </div>
-                                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1">
-                                        Experience Rated</p>
-                                </div>
+                              <!-- Complete Button -->
+                              <button *ngIf="order.status === 'processing'" (click)="markCompleted(order)"
+                                  class="px-6 py-3 bg-green-600 text-white rounded-full font-black text-[9px] uppercase tracking-wider hover:bg-green-700 active:scale-95 transition-all shadow-sm">
+                                  Complete Service
+                              </button>
 
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                                    <p class="text-[9px] text-green-600 font-black uppercase tracking-widest">Delivered
-                                        with
-                                        Excellence</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                              <!-- Rate Button -->
+                              <button *ngIf="order.status === 'completed' && !order.rating" (click)="rateExperience(order)"
+                                  class="px-6 py-3 bg-[#964F08] text-white rounded-full font-black text-[9px] uppercase tracking-wider hover:bg-[#703b07] active:scale-95 transition-all shadow-sm">
+                                  Rate Experience
+                              </button>
 
-                <!-- Order Details Toggle -->
-                <div class="border-t border-gray-100 pt-6">
-                    <button (click)="toggleOrder(order.booking_id)"
-                        class="text-[10px] font-black uppercase tracking-widest text-[#e87f2c] flex items-center gap-2 hover:opacity-70">
-                        {{expandedOrderId === order.booking_id ? 'Hide Details' : 'View Details'}}
-                        <svg class="w-3 h-3 transition-transform" [class.rotate-180]="expandedOrderId === order.booking_id"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
+                              <!-- Rating stars -->
+                              <div *ngIf="order.status === 'completed' && order.rating" class="flex gap-0.5 text-yellow-400 text-sm">
+                                  <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" 
+                                     [ngClass]="((order.rating.hygiene + order.rating.taste + order.rating.behavior) / 3) >= star ? 'text-yellow-400' : 'text-gray-200'"></i>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
-                    <div *ngIf="expandedOrderId === order.booking_id"
-                        class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Items Ordered</h4>
-                            <div class="space-y-2">
-                                <div *ngIf="!activeOrder" class="text-xs text-gray-400">Loading...</div>
-                                <div *ngFor="let item of activeOrder?.menu_items"
-                                    class="flex justify-between items-center p-3 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <span class="text-xs font-bold text-gray-700">{{item.item_name || item.name || 'Service Item'}}</span>
-                                    <span class="text-[10px] font-black text-gray-400">{{item.quantity || 1}} x ₹{{item.price}}</span>
-                                </div>
-                                <div *ngIf="activeOrder && activeOrder.menu_items?.length === 0" class="text-xs text-gray-400 p-3">
-                                    No items recorded
-                                </div>
-                            </div>
-                        </div>
+                  <!-- Details Section (when expanded) -->
+                  <div *ngIf="expandedOrderId === order.booking_id" class="border-t border-dashed border-orange-100 pt-6">
+                      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                          
+                          <!-- Items List -->
+                          <div class="space-y-4 text-left">
+                              <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400">Items Ordered</h4>
+                              <div class="space-y-2">
+                                  <div *ngIf="!activeOrder" class="text-xs text-gray-400">Loading items...</div>
+                                  <div *ngFor="let item of activeOrder?.menu_items"
+                                      class="flex justify-between items-center p-3 bg-orange-50/20 rounded-2xl border border-orange-100/10">
+                                      <span class="text-xs font-bold text-gray-700">{{item.item_name || item.name || 'Service Item'}}</span>
+                                      <span class="text-[10px] font-black text-gray-400">{{item.quantity || 1}} x ₹{{item.price}}</span>
+                                  </div>
+                                  <div *ngIf="activeOrder && activeOrder.menu_items?.length === 0" class="text-xs text-gray-400 p-3">
+                                      No items recorded
+                                  </div>
+                              </div>
+                          </div>
 
-                        <!-- Provider Info -->
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Provider Info</h4>
-                            <div *ngIf="!activeOrder?.primary_chef && !activeOrder?.primary_vendor" class="bg-gray-50 p-6 rounded-2xl border border-gray-100 text-center">
-                                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-                                    <i class="bi bi-clock-history text-[#e87f2c]"></i>
-                                </div>
-                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Assigning Partner...</p>
-                                <p class="text-[9px] text-gray-300 mt-1 font-medium">Matching with the best expert for you.</p>
-                            </div>
+                          <!-- Provider details -->
+                          <div class="space-y-4 text-left">
+                              <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400">Provider Info</h4>
+                              <div *ngIf="!activeOrder?.primary_chef && !activeOrder?.primary_vendor" class="bg-gray-50/50 p-6 rounded-2xl border border-gray-100 text-center">
+                                  <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                                      <i class="bi bi-clock-history text-[#e87f2c]"></i>
+                                  </div>
+                                  <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Assigning Partner...</p>
+                              </div>
 
-                            <!-- Chef Info -->
-                            <div *ngIf="activeOrder?.primary_chef" class="bg-white p-4 rounded-3xl border border-orange-100 shadow-sm space-y-4">
-                                <div class="flex items-center gap-4 pb-4 border-b border-gray-50">
-                                    <img [src]="getImageUrl(activeOrder.primary_chef.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100">
-                                    <div>
-                                        <p class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest">Lead Chef</p>
-                                        <p class="text-sm font-black text-gray-800">{{activeOrder.primary_chef.fullName || activeOrder.primary_chef.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-3">
-                                        <i class="bi bi-telephone text-gray-400 text-xs"></i>
-                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.mobile}}</p>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <i class="bi bi-envelope text-gray-400 text-xs"></i>
-                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.email}}</p>
-                                    </div>
-                                </div>
-                            </div>
+                              <!-- Lead Chef info -->
+                              <div *ngIf="activeOrder?.primary_chef" class="bg-orange-50/20 p-4 rounded-3xl border border-orange-100/10 space-y-4">
+                                  <div class="flex items-center gap-4 pb-4 border-b border-orange-100/20">
+                                      <img [src]="getImageUrl(activeOrder.primary_chef.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100 shrink-0">
+                                      <div>
+                                          <span class="text-[7px] bg-[#e87f2c]/10 text-[#e87f2c] font-black uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">Lead Chef</span>
+                                          <p class="text-sm font-black text-gray-800 mt-1 leading-none">{{activeOrder.primary_chef.fullName || activeOrder.primary_chef.name}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="space-y-2">
+                                      <div class="flex items-center gap-3">
+                                          <i class="bi bi-telephone text-gray-400 text-xs"></i>
+                                          <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.mobile}}</p>
+                                      </div>
+                                      <div class="flex items-center gap-3">
+                                          <i class="bi bi-envelope text-gray-400 text-xs"></i>
+                                          <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_chef.email}}</p>
+                                      </div>
+                                  </div>
+                              </div>
 
-                            <!-- Vendor Info -->
-                            <div *ngIf="activeOrder?.primary_vendor" class="bg-white p-4 rounded-3xl border border-orange-100 shadow-sm space-y-4">
-                                <div class="flex items-center gap-4 pb-4 border-b border-gray-50">
-                                    <img [src]="getImageUrl(activeOrder.primary_vendor.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100">
-                                    <div>
-                                        <p class="text-[10px] font-black text-[#e87f2c] uppercase tracking-widest">Hospitality Partner</p>
-                                        <p class="text-sm font-black text-gray-800">{{activeOrder.primary_vendor.businessname || activeOrder.primary_vendor.name}}</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-3">
-                                        <i class="bi bi-person-badge text-gray-400 text-xs"></i>
-                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.name}} (Lead)</p>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <i class="bi bi-telephone text-gray-400 text-xs"></i>
-                                        <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.mobile}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                              <!-- Vendor Info -->
+                              <div *ngIf="activeOrder?.primary_vendor" class="bg-orange-50/20 p-4 rounded-3xl border border-orange-100/10 space-y-4">
+                                  <div class="flex items-center gap-4 pb-4 border-b border-orange-100/20">
+                                      <img [src]="getImageUrl(activeOrder.primary_vendor.image)" class="w-12 h-12 rounded-2xl object-cover border border-gray-100 shrink-0">
+                                      <div>
+                                          <span class="text-[7px] bg-[#e87f2c]/10 text-[#e87f2c] font-black uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">Hospitality Partner</span>
+                                          <p class="text-sm font-black text-gray-800 mt-1 leading-none">{{activeOrder.primary_vendor.businessname || activeOrder.primary_vendor.name}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="space-y-2">
+                                      <div class="flex items-center gap-3">
+                                          <i class="bi bi-person-badge text-gray-400 text-xs"></i>
+                                          <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.name}} (Lead)</p>
+                                      </div>
+                                      <div class="flex items-center gap-3">
+                                          <i class="bi bi-telephone text-gray-400 text-xs"></i>
+                                          <p class="text-[11px] font-bold text-gray-600">{{activeOrder.primary_vendor.mobile}}</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
 
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-black uppercase tracking-widest text-gray-400">Customer Info</h4>
-                            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 space-y-2 h-full">
-                                <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">For:</span>
-                                    {{activeOrder?.order?.customer_name || order.customerDetails?.name}}</p>
-                                <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Phone:</span>
-                                    {{activeOrder?.order?.customer_mobile || order.customerDetails?.mobile}}</p>
-                                <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Email:</span>
-                                    {{activeOrder?.order?.customer_email || order.customerDetails?.email}}</p>
-                                <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Address:</span>
-                                    {{activeOrder?.order?.customer_address || order.customerDetails?.address}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                          <!-- Customer Info / Address -->
+                          <div class="space-y-4 text-left">
+                              <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400">Customer Info</h4>
+                              <div class="bg-orange-50/20 p-4 rounded-2xl border border-orange-100/10 space-y-2">
+                                  <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">For:</span> {{activeOrder?.order?.customer_name || order.customerDetails?.name}}</p>
+                                  <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Phone:</span> {{activeOrder?.order?.customer_mobile || order.customerDetails?.mobile}}</p>
+                                  <p class="text-xs text-gray-600"><span class="font-bold text-gray-800">Email:</span> {{activeOrder?.order?.customer_email || order.customerDetails?.email}}</p>
+                                  <p class="text-xs text-gray-600 leading-normal"><span class="font-bold text-gray-800">Address:</span> {{activeOrder?.order?.customer_address || order.customerDetails?.address}}</p>
+                              </div>
+                          </div>
 
-            <!-- Empty State -->
-            <div *ngIf="filteredOrders.length === 0" class="text-center py-32" data-aos="fade-up">
-                <div class="w-24 h-24 bg-gray-50 rounded-full flex justify-center items-center mx-auto mb-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h2 class="text-3xl font-bold text-gray-300 main-font">No {{activeTab}} events</h2>
-                <button routerLink="/home"
-                    class="mt-8 px-10 py-4 bg-[#e87f2c] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#af6429] shadow-lg transition-all">
-                    Plan an Event Now
-                </button>
-            </div>
-        </div>
+                      </div>
+                  </div>
+
+              </div>
+
+              <!-- Empty State -->
+              <div *ngIf="filteredOrders.length === 0" class="text-center py-24" data-aos="fade-up">
+                  <div class="w-24 h-24 bg-white border border-orange-50/50 shadow-sm rounded-full flex justify-center items-center mx-auto mb-6">
+                      <i class="bi bi-calendar-x text-3xl text-gray-300"></i>
+                  </div>
+                  <h2 class="text-xl font-black text-[#3d1200] main-font">No {{activeTab}} events</h2>
+                  <button routerLink="/home"
+                      class="mt-6 px-10 py-4 bg-[#964F08] text-white rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#703b07] active:scale-95 transition-all shadow-md">
+                      Plan an Event Now
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <!-- Mobile Bookings Screen -->
+  <div class="min-h-screen bg-[#FDF9F4] pb-32 pt-10 px-4 font-sans flex flex-col justify-start">
+    
+    <!-- Title and Subtitle -->
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-black text-[#3d1200] leading-none mb-2">My Orders</h1>
+      <p class="text-xs text-gray-500 font-medium">Capture the magic of your past and future events.</p>
     </div>
-</div>
 
-<style>
-    @keyframes shimmer {
-        0% {
-            transform: translateX(-100%);
-        }
+    <!-- Booking Tab Pills -->
+    <div class="flex gap-1.5 p-1.5 bg-white rounded-full border border-orange-50/50 shadow-sm mb-6 max-w-sm mx-auto w-full">
+      <button (click)="setActiveTab('upcoming')"
+        [class.bg-[#964F08]]="activeTab === 'upcoming'"
+        [class.text-white]="activeTab === 'upcoming'"
+        [class.text-gray-400]="activeTab !== 'upcoming'"
+        class="flex-1 py-3 text-[10px] font-black uppercase tracking-wider rounded-full transition-all duration-300">
+        Upcoming
+      </button>
+      <button (click)="setActiveTab('processing')"
+        [class.bg-[#964F08]]="activeTab === 'processing'"
+        [class.text-white]="activeTab === 'processing'"
+        [class.text-gray-400]="activeTab !== 'processing'"
+        class="flex-1 py-3 text-[10px] font-black uppercase tracking-wider rounded-full transition-all duration-300">
+        Active
+      </button>
+      <button (click)="setActiveTab('completed')"
+        [class.bg-[#964F08]]="activeTab === 'completed'"
+        [class.text-white]="activeTab === 'completed'"
+        [class.text-gray-400]="activeTab !== 'completed'"
+        class="flex-1 py-3 text-[10px] font-black uppercase tracking-wider rounded-full transition-all duration-300">
+        Past
+      </button>
+    </div>
 
-        100% {
-            transform: translateX(100%);
-        }
-    }
-</style>
+    <!-- Loader -->
+    <div *ngIf="isLoading" class="py-12 flex justify-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#964F08]"></div>
+    </div>
+
+    <!-- Bookings Cards Container -->
+    <div *ngIf="!isLoading" class="space-y-5">
+      
+      <!-- Card Loop -->
+      <div *ngFor="let order of filteredOrders; let idx = index; trackBy: trackByOrderId" 
+        class="bg-white rounded-[2rem] p-6 border border-orange-50/50 shadow-sm flex flex-col items-center gap-4 text-center">
+        
+        <!-- Icon block -->
+        <div [class]="getOrderIconInfo(order, idx).bg + ' ' + getOrderIconInfo(order, idx).text"
+            class="w-20 h-20 rounded-[1.8rem] flex justify-center items-center shadow-sm shrink-0 mb-1">
+            <i class="bi text-3xl" [ngClass]="getOrderIconInfo(order, idx).icon"></i>
+        </div>
+
+        <!-- Meta info -->
+        <div class="flex items-center justify-center gap-3">
+            <span class="text-[9px] font-black text-[#964F08] px-2.5 py-1 bg-[#FFF0EC] rounded-md uppercase tracking-wider leading-none">{{ order.id }}</span>
+            <span class="text-gray-400 font-bold uppercase text-[9px] tracking-widest leading-none">{{ order.date | date:'LLL d, y' }}</span>
+        </div>
+
+        <!-- Title details -->
+        <div class="space-y-1.5 mt-1">
+            <h3 class="text-sm font-black text-[#3d1200] leading-tight">
+              {{ order.orderType === 'event' ? (order.data.eventName || 'Event Booking') : 'Service Booking' }}
+            </h3>
+            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wide">
+              {{ order.chef_name || order.vendor_name || 'Chef Santosh Kumar Tangi' }}
+            </p>
+        </div>
+
+        <!-- Price -->
+        <div class="mt-1">
+            <span class="text-[8px] text-gray-400 font-black uppercase tracking-wider block">Total Experience Value</span>
+            <span class="text-lg font-black text-gray-800 mt-1 block">₹{{ order.amount | number:'1.2-2' }}</span>
+        </div>
+
+        <!-- Status & Action Buttons -->
+        <div class="flex items-center gap-3 w-full mt-3 border-t border-orange-50/30 pt-4">
+          <!-- Details button -->
+          <button (click)="toggleOrder(order.booking_id)" 
+            class="flex-1 py-3 bg-white border border-[#964F08] text-[#964F08] rounded-full font-black text-[9px] uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+            {{ expandedOrderId === order.booking_id ? 'Hide Details' : 'View Details' }}
+          </button>
+
+          <!-- Start button for upcoming -->
+          <button *ngIf="order.status === 'upcoming' || order.status === 'confirmed' || order.status === 'accepted'" (click)="markStart(order)" 
+            class="flex-1 py-3 bg-[#964F08] text-white rounded-full font-black text-[9px] uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+            Start Service
+          </button>
+
+          <!-- Complete button for processing -->
+          <button *ngIf="order.status === 'processing'" (click)="markCompleted(order)" 
+            class="flex-1 py-3 bg-green-600 text-white rounded-full font-black text-[9px] uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+            Complete
+          </button>
+
+          <!-- Rating Button for completed -->
+          <button *ngIf="order.status === 'completed' && !order.rating" (click)="rateExperience(order)" 
+            class="flex-1 py-3 bg-[#964F08] text-white rounded-full font-black text-[9px] uppercase tracking-wider active:scale-95 transition-all shadow-sm">
+            Rate Service
+          </button>
+          
+          <!-- Star display when completed and rated -->
+          <div *ngIf="order.status === 'completed' && order.rating" class="flex-1 flex gap-0.5 text-yellow-400 text-sm justify-center items-center">
+             <i class="bi bi-star-fill" *ngFor="let star of [1,2,3,4,5]" 
+                [ngClass]="((order.rating.hygiene + order.rating.taste + order.rating.behavior) / 3) >= star ? 'text-yellow-400' : 'text-gray-200'"></i>
+          </div>
+
+          <!-- Cancelled badge -->
+          <span *ngIf="order.status === 'cancelled'" class="flex-1 bg-red-50 text-red-500 text-[8px] font-black uppercase tracking-widest py-3 rounded-full">
+            Cancelled
+          </span>
+        </div>
+
+        <!-- Expanded details block -->
+        <div *ngIf="expandedOrderId === order.booking_id" class="pt-4 border-t border-dashed border-orange-100 flex flex-col gap-4 text-left w-full mt-2">
+          
+          <!-- Items List -->
+          <div>
+            <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Selected Items</h4>
+            <div class="space-y-1.5">
+              <div *ngIf="!activeOrder" class="text-[10px] text-gray-400">Loading items...</div>
+              <div *ngFor="let item of activeOrder?.menu_items" 
+                class="flex justify-between items-center bg-orange-50/20 p-2.5 rounded-xl border border-orange-100/10">
+                <span class="text-xs font-bold text-gray-700 truncate pr-2">{{ item.item_name || item.name || 'Service Item' }}</span>
+                <span class="text-[10px] font-black text-gray-400 shrink-0">{{ item.quantity || 1 }} x ₹{{ item.price }}</span>
+              </div>
+              <div *ngIf="activeOrder && activeOrder.menu_items?.length === 0" class="text-[10px] text-gray-400 p-2">
+                No items recorded for this order.
+              </div>
+            </div>
+          </div>
+
+          <!-- Provider details -->
+          <div>
+            <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Provider</h4>
+            <div *ngIf="!activeOrder?.primary_chef && !activeOrder?.primary_vendor" class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100 text-center">
+              <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Assigning Partner...</p>
+            </div>
+            
+            <!-- Lead Chef info -->
+            <div *ngIf="activeOrder?.primary_chef" class="bg-orange-50/20 p-3 rounded-2xl border border-orange-100/10 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-orange-100/60 overflow-hidden shrink-0">
+                <img [src]="getImageUrl(activeOrder.primary_chef.image)" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <span class="text-[7px] bg-[#e87f2c]/10 text-[#e87f2c] font-black uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">Chef</span>
+                <p class="text-xs font-bold text-gray-800 mt-1 leading-none">{{ activeOrder.primary_chef.fullName || activeOrder.primary_chef.name }}</p>
+                <p class="text-[10px] text-gray-500 font-bold mt-1 leading-none">{{ activeOrder.primary_chef.mobile }}</p>
+              </div>
+            </div>
+
+            <!-- Vendor Info -->
+            <div *ngIf="activeOrder?.primary_vendor" class="bg-orange-50/20 p-3 rounded-2xl border border-orange-100/10 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-orange-100/60 overflow-hidden shrink-0">
+                <img [src]="getImageUrl(activeOrder.primary_vendor.image)" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <span class="text-[7px] bg-[#e87f2c]/10 text-[#e87f2c] font-black uppercase tracking-wider px-1.5 py-0.5 rounded leading-none">Vendor</span>
+                <p class="text-xs font-bold text-gray-800 mt-1 leading-none">{{ activeOrder.primary_vendor.businessname || activeOrder.primary_vendor.name }}</p>
+                <p class="text-[10px] text-gray-500 font-bold mt-1 leading-none">{{ activeOrder.primary_vendor.mobile }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer details -->
+          <div>
+            <h4 class="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Delivery Address</h4>
+            <div class="bg-orange-50/20 p-3.5 rounded-2xl border border-orange-100/10 text-xs text-gray-600 space-y-1">
+              <p><span class="font-bold text-gray-800">Phone:</span> {{ activeOrder?.order?.customer_mobile || order.customerDetails?.mobile }}</p>
+              <p class="leading-normal"><span class="font-bold text-gray-800">Address:</span> {{ activeOrder?.order?.customer_address || order.customerDetails?.address }}</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredOrders.length === 0" class="text-center py-20">
+        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-300 text-2xl mx-auto mb-4 border border-orange-50 shadow-sm animate-pulse">
+          <i class="bi bi-calendar-x"></i>
+        </div>
+        <h3 class="text-sm font-black text-gray-400 uppercase tracking-widest">No {{activeTab}} bookings</h3>
+        <button routerLink="/home" class="mt-4 px-8 py-3.5 bg-[#964F08] text-white rounded-full text-xs font-black uppercase tracking-wider shadow-md select-none active:scale-95 transition-all">
+          Book Event
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</ng-template>

@@ -1,346 +1,675 @@
-<div
-    class="mt-10 bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')]">
-    <section class="Main-Slider">
-        <div class="swiper p-0 m-0">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="w-full h-full relative "><!-- web banner --><img class="w-full h-full hidden md:block"
-                            src="assets/Sliders/Slider1.png" />
-                        <!-- mobile banner --> <img alt="web banner" class="w-full h-full block md:hidden"
-                            src="assets/Mobile-Sliders/Mobile-Slider-1.png" />
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="w-full h-full relative  "><!-- web banner --><img class="w-full h-full hidden md:block"
-                            src="assets/Sliders/Slider2.png" />
-                        <!-- mobile banner --> <img class="w-full h-full block md:hidden"
-                            src="assets/Mobile-Sliders/Mobile-Slider-2.png" />
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="w-full h-full relative "><!-- web banner --><img class="w-full h-full hidden md:block"
-                            src="assets/Sliders/Slider3.png" />
-                        <!-- mobile banner --> <img class="w-full h-full block md:hidden"
-                            src="assets/Mobile-Sliders/Mobile-Slider-3.png" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="swiper-pagination !mt-2">&nbsp;</div>
-        </div>
-    </section>
-
-    <section class="pt-8 lg:pt-12 pb-6">
-        <div class="flex justify-center px-4">
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#000] mb-3 main-font text-center"
-                data-aos="zoom-in" data-aos-duration="3000">Welcome to <span class="text-[#e87f2c]">
-                    Bhagona</span></h1>
-        </div>
-
-        <div class="mx-auto md:w-9/12 w-full px-4 md:px-6">
-            <p class="main-font text-center text-xl md:text-2xl text-[#e87f2c] tracking-wide font-bold mb-4">" Bhagona:
-                Where moments
-                become memories "</p>
-            <p class="text-base md:text-lg font-normal text-gray-500 mt-3 text-center leading-relaxed text-font"
-                data-aos="zoom-in" data-aos-duration="3000">Bhagona was created with a simple belief: food has the power
-                to connect people, comfort hearts, and celebrate life. Every dish we serve is crafted with passion,
-                purity, and attention to detail — bringing you flavors that feel like home, with a touch of elegance. We
-                cater to moments big and small — from joyful celebrations
-                such as Marriages, Birthdays, Baby Showers, Engagements, and Puberty Ceremonies to sensitive moments
-                like Funeral gatherings.
-            </p>
-
-            <p class="text-base md:text-lg font-normal text-gray-500 mt-4 text-center leading-relaxed text-font"
-                data-aos="zoom-in" data-aos-duration="3000">Our dedicated team ensures thoughtfully prepared meals,
-                seamless service, and a respectful approach for each occasion. With Bhagona, you don't just get food —
-                you get care, warmth, and exceptional hospitality.</p>
-        </div>
-    </section>
-
-    <section class="relative pt-0 px-0 lg:pb-[60px] pb-0 block mt-16 md:mt-[100px]">
-        <div
-            class="h-[80px] md:h-[110px] -top-[79px] md:-top-[110px] absolute w-full overflow-hidden before:content-[''] before:absolute before:bottom-[0] before:-left-[4%] before:w-[108%] before:h-[249px] before:rounded-[100%] before:bg-transparent before:[box-shadow:0_0_0_110px_#e87f2c]">
-            &nbsp;</div>
-
-        <div class="bg-[#e87f2c] pt-8 md:pt-[40px] px-4 pb-20 md:pb-[100px]">
-            <div class="flex justify-center relative flex-col text-center">
-                <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#fff] mb-5 main-font">
-                    Events</h2>
-                <p
-                    class="text-base md:text-lg font-normal text-[#fff] mb-4 text-center leading-relaxed text-font md:w-9/12 w-full px-2 m-auto">
-                    Our dedicated team ensures thoughtfully prepared meals, seamless service, and a respectful approach
-                    for each occasion. With Bhagona, you don't just get food —
-                    you get care, warmth, and exceptional hospitality.</p>
-            </div>
-        </div>
-
-        <div class="-mt-[80px] lg:bg-transparent bg-[#e87f2c] lg:px-10 lg:pb-0 px-4 pb-12 text-center">
-            <div
-                class="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-2 lg:gap-y-6 gap-y-3 gap-x-8">
-                <div *ngFor="let event of events | slice:0:6" class="product cursor-pointer group"
-                    [routerLink]="['/event-details', event.event_id]">
-                    <div
-                        class="lg:w-[176px] lg:h-[176px] md:w-[150px] md:h-[150px] w-[130px] h-[130px] rounded-[50%] mt-0 mx-auto mb-2 p-[2px] border-2 border-dashed border-white/60 group-hover:border-white transition-colors">
-                        <figure class="rounded-[50%] h-full bg-white/20 overflow-hidden"
-                            data-aos="zoom-in" data-aos-duration="3000"><img
-                                class="w-full h-full object-cover drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
-                                [src]="event.image_url || 'assets/Events-Round/Marriage.png'">
-                        </figure>
-                    </div>
-
-                    <h3 class="my-2 md:my-4 text-sm md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-white tracking-wide transition-all duration-500 main-font"
-                        data-aos="zoom-in" data-aos-duration="3000">{{event.name}}</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="flex items-center justify-center md:py-12 p-2.5 relative z-10 overflow-hidden">
-        <div class="container mx-auto max-w-7xl ">
-            <div class="flex flex-col lg:flex-row items-center md:gap-12 flex-col-reverse">
-                <div class="w-full flex justify-center"><img alt="Fresh fruit drinks"
-                        class="max-w-full h-auto rounded-t-[200px] drop-shadow-lg md:m-auto" loading="lazy"
-                        src="../../../assets/About-Us/2.png"></div>
-
-                <div class="w-full">
-                    <div class="w-full lg:w-full flex flex-col justify-start text-start lg:text-center">
-                        <div class="main-font text-3xl md:text-4xl text-[#e87f2c] leading-snug mb-4 mt-2.5 font-bold">
-                            About
-                            Us</div>
-
-                        <div>
-                            <p class="text-gray-500 md:mb-2.5 leading-relaxed text-lg text-font">Bhagona was created
-                                with a simple belief — <strong>food has the power to bring people together, comfort
-                                    hearts, and
-                                    celebrate life.</strong> Every dish we prepare is crafted with passion, purity, and
-                                attention to
-                                detail, delivering flavors that feel like home with a touch of elegance.</p>
-                        </div>
-
-                        <div>
-                            <p class="text-gray-500 md:mb-2.5 leading-relaxed text-lg text-font">We proudly cater to
-                                <strong>moments both big and small</strong> — from joyful celebrations such as
-                                <strong>Marriages, Birthdays, Baby
-                                    Showers, Engagements, and Puberty Ceremonies</strong> to sensitive and heartfelt
-                                occasions like
-                                Funeral gatherings.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full flex justify-center lg:block md:hidden hidden"><img alt="Fresh fruit drinks"
-                        class="max-w-full h-auto rounded-t-[200px] drop-shadow-lg m-auto" loading="lazy"
-                        src="../../../assets/About-Us/1.png"></div>
-            </div>
-        </div>
-
-        <div class="absolute bottom-0 right-0 -z-10"><img alt=""
-                src="https://demo2.themelexus.com/liquory/wp-content/uploads/2022/07/h4_bg.png"></div>
-    </section>
-    <section class="md:p-10 p-6 relative w-full overflow-hidden z-10">
-        <div class="flex flex-col justify-center items-center gap-5 px-4 mb-12">
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#e87f2c] main-font">Events</h2>
-
-            <p class="text-base md:text-lg text-gray-800 leading-relaxed text-font max-w-4xl text-center">From intimate
-                gatherings to grand celebrations, Bhagona offers thoughtfully crafted food services for every occasion.
-                Whether it's a joyful moment or a heartfelt ceremony, we ensure delicious flavors, seamless
-                arrangements, and warm hospitality.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <div class="md:col-span-2 space-y-6">
-                <div class="flex justify-between items-center mb-6 pb-4 border-b border-solid border-gray-300/50">
-                    <h3 class="text-xl md:text-2xl lg:text-3xl font-semibold text-[#e87f2c] main-font">Events</h3>
-                    <a class="text-font rounded-full bg-[#e87f2c] text-[#fff] font-bold text-xs md:text-sm px-5 md:px-6 py-2 md:py-2.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 hover:brightness-110 hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out"
-                        routerLink="/events">Show More →</a>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
-
-                    <div *ngFor="let event of events | slice:0:6" class="flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-4 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        [routerLink]="['/event-details', event.event_id]">
-                        <div class="w-full sm:w-48 h-36 rounded-lg overflow-hidden relative shrink-0"><img [alt]="event.name"
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                [src]="event.image_url || 'assets/Events-new/Marriage.png'">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-base md:text-lg font-bold text-red-800 text-font mb-2">{{event.name}}</h4>
-
-                            <p class="text-gray-600 text-sm md:text-base line-clamp-3 mb-3 text-font leading-relaxed">
-                                {{event.description}} </p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button [routerLink]="['/event-details', event.event_id]"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-xs md:text-sm px-5 md:px-6 py-2 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Event</button>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </div>
-
-            <div
-                class="xl:h-[617px] h-full xl:w-[458px] w-full bg-orange-100 rounded-lg flex flex-col items-center justify-center text-center"><!-- <h4 class="font-extrabold text-2xl mb-3">MOIS CHEESY PIZZA!</h4>
-                <p class="text-orange-700 font-black text-3xl mb-6">$15.55</p> --><img alt="Excited woman eating pizza"
-                    class="h-full w-full rounded-lg object-cover" src="../../../assets/Services-New/Events-Bg.png">
-            </div>
-        </div>
-    </section>
-
-
-
-    <section
-        class="md:my-10 my-5 px-0 bg-no-repeat bg-cover bg-center bg-[url('https://assets.growith.io/Industry/straunt/banners/tikkamasala-bg2.png')]">
-        <div class="py-10 md:px-4 lg:px-0 relative z-10 overflow-hidden mb-5 h-full w-full">
-            <div class="group overflow-hidden md:max-w-7xl mx-auto px-4">
-                <div class="flex flex-col items-center justify-center lg:flex-row h-full group">
-                    <div class="md:w-1/2 p-4 h-full overflow-hidden">
-                        <div class="relative border-4 rounded-[2rem] h-full w-3/4 group">
-                            <div class="group-hover:scale-105  duration-700 transition-all"><img alt=""
-                                    class="w-full h-full rounded-[2rem]" src="../../../assets/About-Us/Catering.png">
-                            </div>
-
-                            <div
-                                class="absolute -right-[4.7rem] top-1/2  group -translate-y-1/2 -rotate-[136deg] flex items-center justify-center">
-                                <div class="border-2 z-50 border-solid rounded-3xl h-36 w-36 bg-[#000] overflow-hidden">
-                                    <img alt=""
-                                        class="w-full h-full rotate-[136deg] group-hover:scale-110 duration-700 transition-all"
-                                        src="../../../assets/About-Us/Catering.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="md:w-1/2 xl:p-8 p-3 lg:py-20 h-full">
-                        <div class="space-y-6">
-                            <div class="relative">
-                                <h3 class="main-font text-3xl md:text-3xl text-[#fff] mb-4 mt-2.5 font-bold">Catering
-                                    for Every Occasion</h3>
-
-                                <div class="space-y-4 text-white">
-                                    <p
-                                        class="text-lg text-[#fff] leading-9 text-font max-w-4xl md:text-left text-center">
-                                        At Bhagona, we believe every moment deserves exceptional food and thoughtful
-                                        service. Our catering is designed to elevate all types of occasions — from
-                                        joyful celebrations to heartfelt gatherings. Whether you’re hosting a Marriage,
-                                        Birthday, Baby Shower, Engagement, Puberty Ceremony, or a Funeral service, we
-                                        provide fresh, delicious meals crafted with care and respect.</p>
-
-                                    <p
-                                        class="text-lg text-[#fff] leading-9 text-font max-w-4xl md:text-left text-center">
-                                        Call us at <a href="tel:+14699931399">+1 469-993-1399</a> or complete our
-                                        catering form below to start creating your custom menu today.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="md:p-10 p-4 relative w-full overflow-hidden z-10">
-        <div class="flex flex-col justify-center items-center gap-4 px-0 mb-10">
-            <div class="md:text-4xl text-2xl font-semibold text-[#e87f2c] main-font">Services
-            </div>
-
-            <p class="text-lg text-gray-800 leading-9 text-font max-w-4xl md:text-center text-left">We offer
-                thoughtfully curated services designed to make every occasion memorable. From joyful celebrations to
-                heartfelt gatherings, Bhagona delivers quality food, warm hospitality, and seamless event support
-                tailored to your needs.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <div
-                class="xl:h-[617px] h-full xl:w-[458px] w-full bg-orange-100 rounded-lg flex flex-col items-center justify-center text-center"><!-- <h4 class="font-extrabold text-2xl mb-3">MOIS CHEESY PIZZA!</h4>
-                <p class="text-orange-700 font-black text-3xl mb-6">$15.55</p> --><img alt="Excited woman eating pizza"
-                    class="h-full w-full rounded-lg object-cover" src="../../../assets/Services-New/Services-Bg.png">
-            </div>
-            <div class="md:col-span-2 space-y-6">
-                <div class="flex justify-between items-center mb-4 pb-4 border-b border-solid border-gray-300/50">
-                    <h3 class="md:text-2xl text-base font-semibold text-[#e87f2c] main-font">Services</h3>
-                    <a class="text-font rounded-full bg-[#e87f2c] text-[#fff] font-bold text-sm px-6 lg:py-2 md:py-1.5 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 hover:brightness-110 hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out"
-                        routerLink="/services">Show More →</a>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
-
-                    <div *ngFor="let service of services | slice:0:6" class="flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
-[box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
-group cursor-pointer p-4 
-hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
-                        [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}">
-                        <div class="w-full sm:w-48 h-36 rounded-lg overflow-hidden relative shrink-0"><img [alt]="service.name"
-                                class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-                                [src]="service.image_data || 'assets/Services-New/Function-Hall.png'">
-                            <div
-                                class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
-                                <div class="flex justify-center items-center h-full">
-                                    <div
-                                        class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
-                                        <div
-                                            class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
-                                            <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
-                                                height="24" viewBox="0 0 24 24" width="24"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path clip-rule="evenodd"
-                                                    d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
-                                                    fill-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="w-full">
-                            <h4 class="text-lg font-bold text-red-800 text-font mb-1">{{service.name}}</h4>
-
-                            <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
-                                {{service.description | slice:0:60}}...</p>
-
-                            <div class="flex justify-between items-center">
-                                <div class="text-lg font-bold text-red-800 text-font"></div>
-                                <button [routerLink]="['/vendor-selection']"
-                                    [queryParams]="{serviceId: service.service_id}"
-                                    class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
-                                    Service</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </section>
-
-
+<!-- src/app/pages/home/home.component.html -->
+<div *ngIf="isLoading" class="fixed inset-0 bg-[#FDF9F4] z-40 flex flex-col items-center justify-center">
+  <div class="loader-container">
+    <div class="bhagona-loader"></div>
+    <div class="loader-ring"></div>
+  </div>
+  <p class="text-xs text-[#964F08] font-black uppercase tracking-[0.2em] mt-6 animate-pulse">Brewing the Magic...</p>
 </div>
+
+<ng-container *ngIf="!isMobile; else mobileLayout">
+  <div
+      class="mt-10 bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')]">
+      <section class="Main-Slider">
+          <div class="swiper p-0 m-0">
+              <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                      <div class="w-full h-full relative "><!-- web banner --><img class="w-full h-full hidden md:block"
+                              src="assets/Sliders/Slider1.png" />
+                          <!-- mobile banner --> <img alt="web banner" class="w-full h-full block md:hidden"
+                              src="assets/Mobile-Sliders/Mobile-Slider-1.png" />
+                      </div>
+                  </div>
+                  <div class="swiper-slide">
+                      <div class="w-full h-full relative  "><!-- web banner --><img class="w-full h-full hidden md:block"
+                              src="assets/Sliders/Slider2.png" />
+                          <!-- mobile banner --> <img class="w-full h-full block md:hidden"
+                              src="assets/Mobile-Sliders/Mobile-Slider-2.png" />
+                      </div>
+                  </div>
+                  <div class="swiper-slide">
+                      <div class="w-full h-full relative "><!-- web banner --><img class="w-full h-full hidden md:block"
+                              src="assets/Sliders/Slider3.png" />
+                          <!-- mobile banner --> <img class="w-full h-full block md:hidden"
+                              src="assets/Mobile-Sliders/Mobile-Slider-3.png" />
+                      </div>
+                  </div>
+              </div>
+
+              <div class="swiper-pagination !mt-2">&nbsp;</div>
+          </div>
+      </section>
+
+      <section class="pt-8 lg:pt-12 pb-6">
+          <div class="flex justify-center px-4">
+              <h1 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#000] mb-3 main-font text-center"
+                  data-aos="zoom-in" data-aos-duration="3000">Welcome to <span class="text-[#e87f2c]">
+                      Bhagona</span></h1>
+          </div>
+
+          <div class="mx-auto md:w-9/12 w-full px-4 md:px-6">
+              <p class="main-font text-center text-xl md:text-2xl text-[#e87f2c] tracking-wide font-bold mb-4">" Bhagona:
+                  Where moments
+                  become memories "</p>
+              <p class="text-base md:text-lg font-normal text-gray-500 mt-3 text-center leading-relaxed text-font"
+                  data-aos="zoom-in" data-aos-duration="3000">Bhagona was created with a simple belief: food has the power
+                  to connect people, comfort hearts, and celebrate life. Every dish we serve is crafted with passion,
+                  purity, and attention to detail — bringing you flavors that feel like home, with a touch of elegance. We
+                  cater to moments big and small — from joyful celebrations
+                  such as Marriages, Birthdays, Baby Showers, Engagements, and Puberty Ceremonies to sensitive moments
+                  like Funeral gatherings.
+              </p>
+
+              <p class="text-base md:text-lg font-normal text-gray-500 mt-4 text-center leading-relaxed text-font"
+                  data-aos="zoom-in" data-aos-duration="3000">Our dedicated team ensures thoughtfully prepared meals,
+                  seamless service, and a respectful approach for each occasion. With Bhagona, you don't just get food —
+                  you get care, warmth, and exceptional hospitality.</p>
+          </div>
+      </section>
+
+      <section class="relative pt-0 px-0 lg:pb-[60px] pb-0 block mt-16 md:mt-[100px]">
+          <div
+              class="h-[80px] md:h-[110px] -top-[79px] md:-top-[110px] absolute w-full overflow-hidden before:content-[''] before:absolute before:bottom-[0] before:-left-[4%] before:w-[108%] before:h-[249px] before:rounded-[100%] before:bg-transparent before:[box-shadow:0_0_0_110px_#e87f2c]">
+              &nbsp;</div>
+
+          <div class="bg-[#e87f2c] pt-8 md:pt-[40px] px-4 pb-20 md:pb-[100px]">
+              <div class="flex justify-center relative flex-col text-center">
+                  <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-[#fff] mb-5 main-font">
+                      Events</h2>
+                  <p
+                      class="text-base md:text-lg font-normal text-[#fff] mb-4 text-center leading-relaxed text-font md:w-9/12 w-full px-2 m-auto">
+                      Our dedicated team ensures thoughtfully prepared meals, seamless service, and a respectful approach
+                      for each occasion. With Bhagona, you don't just get food —
+                      you get care, warmth, and exceptional hospitality.</p>
+              </div>
+          </div>
+
+          <div class="-mt-[80px] lg:bg-transparent bg-[#e87f2c] lg:px-10 lg:pb-0 px-4 pb-12 text-center">
+              <div
+                  class="grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 grid-cols-2 lg:gap-y-6 gap-y-3 gap-x-8">
+                  <div *ngFor="let event of events | slice:0:6" class="product cursor-pointer group"
+                      [routerLink]="['/event-details', event.event_id]">
+                      <div
+                          class="lg:w-[176px] lg:h-[176px] md:w-[150px] md:h-[150px] w-[130px] h-[130px] rounded-[50%] mt-0 mx-auto mb-2 p-[2px] border-2 border-dashed border-white/60 group-hover:border-white transition-colors">
+                          <figure class="rounded-[50%] h-full bg-white/20 overflow-hidden"
+                              data-aos="zoom-in" data-aos-duration="3000"><img
+                                  class="w-full h-full object-cover drop-shadow-lg group-hover:scale-110 transition-transform duration-500"
+                                  [src]="event.image_url || 'assets/Events-Round/Marriage.png'">
+                          </figure>
+                      </div>
+
+                      <h3 class="my-2 md:my-4 text-sm md:text-lg lg:text-xl h-auto font-bold lg:text-[#e87f2c] text-white tracking-wide transition-all duration-500 main-font"
+                          data-aos="zoom-in" data-aos-duration="3000">{{event.name}}</h3>
+                  </div>
+              </div>
+          </div>
+      </section>
+      <section class="flex items-center justify-center md:py-12 p-2.5 relative z-10 overflow-hidden">
+          <div class="container mx-auto max-w-7xl ">
+              <div class="flex flex-col lg:flex-row items-center md:gap-12 flex-col-reverse">
+                  <div class="w-full flex justify-center"><img alt="Fresh fruit drinks"
+                          class="max-w-full h-auto rounded-t-[200px] drop-shadow-lg md:m-auto" loading="lazy"
+                          src="../../../assets/About-Us/2.png"></div>
+
+                  <div class="w-full">
+                      <div class="w-full lg:w-full flex flex-col justify-start text-start lg:text-center">
+                          <div class="main-font text-3xl md:text-4xl text-[#e87f2c] leading-snug mb-4 mt-2.5 font-bold">
+                              About
+                              Us</div>
+
+                          <div>
+                              <p class="text-gray-500 md:mb-2.5 leading-relaxed text-lg text-font">Bhagona was created
+                                  with a simple belief — <strong>food has the power to bring people together, comfort
+                                      hearts, and
+                                      celebrate life.</strong> Every dish we prepare is crafted with passion, purity, and
+                                  attention to
+                                  detail, delivering flavors that feel like home with a touch of elegance.</p>
+                          </div>
+
+                          <div>
+                              <p class="text-gray-500 md:mb-2.5 leading-relaxed text-lg text-font">We proudly cater to
+                                  <strong>moments both big and small</strong> — from joyful celebrations such as
+                                  <strong>Marriages, Birthdays, Baby
+                                      Showers, Engagements, and Puberty Ceremonies</strong> to sensitive and heartfelt
+                                  occasions like
+                                  Funeral gatherings.
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="w-full flex justify-center lg:block md:hidden hidden"><img alt="Fresh fruit drinks"
+                          class="max-w-full h-auto rounded-t-[200px] drop-shadow-lg m-auto" loading="lazy"
+                          src="../../../assets/About-Us/1.png"></div>
+              </div>
+          </div>
+
+          <div class="absolute bottom-0 right-0 -z-10"><img alt=""
+                  src="https://demo2.themelexus.com/liquory/wp-content/uploads/2022/07/h4_bg.png"></div>
+      </section>
+      <section class="md:p-10 p-6 relative w-full overflow-hidden z-10">
+          <div class="flex flex-col justify-center items-center gap-5 px-4 mb-12">
+              <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#e87f2c] main-font">Events</h2>
+
+              <p class="text-base md:text-lg text-gray-800 leading-relaxed text-font max-w-4xl text-center">From intimate
+                  gatherings to grand celebrations, Bhagona offers thoughtfully crafted food services for every occasion.
+                  Whether it's a joyful moment or a heartfelt ceremony, we ensure delicious flavors, seamless
+                  arrangements, and warm hospitality.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div class="md:col-span-2 space-y-6">
+                  <div class="flex justify-between items-center mb-6 pb-4 border-b border-solid border-gray-300/50">
+                      <h3 class="text-xl md:text-2xl lg:text-3xl font-semibold text-[#e87f2c] main-font">Events</h3>
+                      <a class="text-font rounded-full bg-[#e87f2c] text-[#fff] font-bold text-xs md:text-sm px-5 md:px-6 py-2 md:py-2.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 hover:brightness-110 hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out"
+                          routerLink="/events">Show More →</a>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
+
+                      <div *ngFor="let event of events | slice:0:6" class="flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
+  [box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
+  group cursor-pointer p-4 
+  hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
+                          [routerLink]="['/event-details', event.event_id]">
+                          <div class="w-full sm:w-48 h-36 rounded-lg overflow-hidden relative shrink-0"><img [alt]="event.name"
+                                  class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
+                                  [src]="event.image_url || 'assets/Events-new/Marriage.png'">
+                              <div
+                                  class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
+                                  <div class="flex justify-center items-center h-full">
+                                      <div
+                                          class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
+                                          <div
+                                              class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
+                                              <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
+                                                  height="24" viewBox="0 0 24 24" width="24"
+                                                  xmlns="http://www.w3.org/2000/svg">
+                                                  <path clip-rule="evenodd"
+                                                      d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
+                                                      fill-rule="evenodd"></path>
+                                              </svg>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="w-full">
+                              <h4 class="text-base md:text-lg font-bold text-red-800 text-font mb-2">{{event.name}}</h4>
+
+                              <p class="text-gray-600 text-sm md:text-base line-clamp-3 mb-3 text-font leading-relaxed">
+                                  {{event.description}} </p>
+
+                              <div class="flex justify-between items-center">
+                                  <div class="text-lg font-bold text-red-800 text-font"></div>
+                                  <button [routerLink]="['/event-details', event.event_id]"
+                                      class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-xs md:text-sm px-5 md:px-6 py-2 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
+                                      Event</button>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+
+                  </div>
+              </div>
+
+              <div
+                  class="xl:h-[617px] h-full xl:w-[458px] w-full bg-orange-100 rounded-lg flex flex-col items-center justify-center text-center"><!-- <h4 class="font-extrabold text-2xl mb-3">MOIS CHEESY PIZZA!</h4>
+                  <p class="text-orange-700 font-black text-3xl mb-6">$15.55</p> --><img alt="Excited woman eating pizza"
+                      class="h-full w-full rounded-lg object-cover" src="../../../assets/Services-New/Events-Bg.png">
+              </div>
+          </div>
+      </section>
+
+
+
+      <section
+          class="md:my-10 my-5 px-0 bg-no-repeat bg-cover bg-center bg-[url('https://assets.growith.io/Industry/straunt/banners/tikkamasala-bg2.png')]">
+          <div class="py-10 md:px-4 lg:px-0 relative z-10 overflow-hidden mb-5 h-full w-full">
+              <div class="group overflow-hidden md:max-w-7xl mx-auto px-4">
+                  <div class="flex flex-col items-center justify-center lg:flex-row h-full group">
+                      <div class="md:w-1/2 p-4 h-full overflow-hidden">
+                          <div class="relative border-4 rounded-[2rem] h-full w-3/4 group">
+                              <div class="group-hover:scale-105  duration-700 transition-all"><img alt=""
+                                      class="w-full h-full rounded-[2rem]" src="../../../assets/About-Us/Catering.png">
+                              </div>
+
+                              <div
+                                  class="absolute -right-[4.7rem] top-1/2  group -translate-y-1/2 -rotate-[136deg] flex items-center justify-center">
+                                  <div class="border-2 z-50 border-solid rounded-3xl h-36 w-36 bg-[#000] overflow-hidden">
+                                      <img alt=""
+                                          class="w-full h-full rotate-[136deg] group-hover:scale-110 duration-700 transition-all"
+                                          src="../../../assets/About-Us/Catering.png">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="md:w-1/2 xl:p-8 p-3 lg:py-20 h-full">
+                          <div class="space-y-6">
+                              <div class="relative">
+                                  <h3 class="main-font text-3xl md:text-3xl text-[#fff] mb-4 mt-2.5 font-bold">Catering
+                                      for Every Occasion</h3>
+
+                                  <div class="space-y-4 text-white">
+                                      <p
+                                          class="text-lg text-[#fff] leading-9 text-font max-w-4xl md:text-left text-center">
+                                          At Bhagona, we believe every moment deserves exceptional food and thoughtful
+                                          service. Our catering is designed to elevate all types of occasions — from
+                                          joyful celebrations to heartfelt gatherings. Whether you’re hosting a Marriage,
+                                          Birthday, Baby Shower, Engagement, Puberty Ceremony, or a Funeral service, we
+                                          provide fresh, delicious meals crafted with care and respect.</p>
+
+                                      <p
+                                          class="text-lg text-[#fff] leading-9 text-font max-w-4xl md:text-left text-center">
+                                          Call us at <a href="tel:+14699931399">+1 469-993-1399</a> or complete our
+                                          catering form below to start creating your custom menu today.</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <section class="md:p-10 p-4 relative w-full overflow-hidden z-10">
+          <div class="flex flex-col justify-center items-center gap-4 px-0 mb-10">
+              <div class="md:text-4xl text-2xl font-semibold text-[#e87f2c] main-font">Services
+              </div>
+
+              <p class="text-lg text-gray-800 leading-9 text-font max-w-4xl md:text-center text-left">We offer
+                  thoughtfully curated services designed to make every occasion memorable. From joyful celebrations to
+                  heartfelt gatherings, Bhagona delivers quality food, warm hospitality, and seamless event support
+                  tailored to your needs.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div
+                  class="xl:h-[617px] h-full xl:w-[458px] w-full bg-orange-100 rounded-lg flex flex-col items-center justify-center text-center"><!-- <h4 class="font-extrabold text-2xl mb-3">MOIS CHEESY PIZZA!</h4>
+                  <p class="text-orange-700 font-black text-3xl mb-6">$15.55</p> --><img alt="Excited woman eating pizza"
+                      class="h-full w-full rounded-lg object-cover" src="../../../assets/Services-New/Services-Bg.png">
+              </div>
+              <div class="md:col-span-2 space-y-6">
+                  <div class="flex justify-between items-center mb-4 pb-4 border-b border-solid border-gray-300/50">
+                      <h3 class="md:text-2xl text-base font-semibold text-[#e87f2c] main-font">Services</h3>
+                      <a class="text-font rounded-full bg-[#e87f2c] text-[#fff] font-bold text-sm px-6 lg:py-2 md:py-1.5 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 hover:brightness-110 hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out"
+                          routerLink="/services">Show More →</a>
+                  </div>
+
+                  <div class="grid md:grid-cols-2 lg:grid-cols-2 grid-cols-1 md:gap-4 gap-2.5">
+
+                      <div *ngFor="let service of services | slice:0:6" class="flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-gradient-to-br from-slate-200 via-slate-50 to-white 
+  [box-shadow:rgba(50,_50,_93,_0.25)_0px_2px_5px_-1px,_rgba(0,_0,_0,_0.3)_0px_1px_3px_-1px] 
+  group cursor-pointer p-4 
+  hover:from-[#e87f2c2b] hover:via-[#e87f2c42] hover:to-[#af642973] transition-all duration-300"
+                          [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}">
+                          <div class="w-full sm:w-48 h-36 rounded-lg overflow-hidden relative shrink-0"><img [alt]="service.name"
+                                  class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
+                                  [src]="service.image_data || 'assets/Services-New/Function-Hall.png'">
+                              <div
+                                  class="w-full h-full  absolute top-0 left-0  before:content-[''] before:rounded-lg before:absolute before:left-[0px] before:[transition:all_0.8s] before:top-[0px] before:right-[0px] before:bottom-[0px] before:bg-[#ffc222] group-hover:before:bg-red-400 group-hover:before:scale-x-100 before:scale-x-0 hover:before:[transition:0.4s_ease-in-out] before:opacity-[.1]">
+                                  <div class="flex justify-center items-center h-full">
+                                      <div
+                                          class="group-hover:block transition-all duration-1000 opacity-5 group-hover:opacity-100 group-hover:translate-x-0 translate-x-56 translate-x-[30px] [transition:0.4s_ease-in-out]">
+                                          <div
+                                              class="w-10 h-10 rounded-full flex justify-center items-center bg-[#ff9c00]">
+                                              <svg aria-hidden="true" class="w-5 h-5 text-white" fill="currentColor"
+                                                  height="24" viewBox="0 0 24 24" width="24"
+                                                  xmlns="http://www.w3.org/2000/svg">
+                                                  <path clip-rule="evenodd"
+                                                      d="M14 7h-4v3a1 1 0 0 1-2 0V7H6a1 1 0 0 0-.997.923l-.917 11.924A2 2 0 0 0 6.08 22h11.84a2 2 0 0 0 1.994-2.153l-.917-11.924A1 1 0 0 0 18 7h-2v3a1 1 0 1 1-2 0V7Zm-2-3a2 2 0 0 0-2 2v1H8V6a4 4 0 0 1 8 0v1h-2V6a2 2 0 0 0-2-2Z"
+                                                      fill-rule="evenodd"></path>
+                                              </svg>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="w-full">
+                              <h4 class="text-lg font-bold text-red-800 text-font mb-1">{{service.name}}</h4>
+
+                              <p class="text-gray-600 text-sm caudex-regular-italic line-clamp-3 mb-2.5 text-font ">
+                                  {{service.description | slice:0:60}}...</p>
+
+                              <div class="flex justify-between items-center">
+                                  <div class="text-lg font-bold text-red-800 text-font"></div>
+                                  <button [routerLink]="['/vendor-selection']"
+                                      [queryParams]="{serviceId: service.service_id}"
+                                      class="text-font rounded-full bg-[#e87f2c] group-hover:bg-gradient-to-br group-hover:from-gray-900 group-hover:via-gray-900 group-hover:to-gray-900 [transition:all_0.8s] text-[#fff] font-bold text-sm px-6 py-1.5 shadow-lg shadow-red-800/40 border-b-4 border-red-900 group-hover:brightness-110 group-hover:shadow-xl active:translate-y-1 active:shadow-md transition-all duration-200 ease-in-out">Book
+                                      Service</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+
+          </div>
+      </section>
+
+
+  </div>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <!-- Mobile Onboarding Slider -->
+  <div *ngIf="showOnboarding" class="min-h-screen bg-white flex flex-col justify-between p-6 select-none font-sans">
+    
+    <!-- Onboarding Header -->
+    <div class="flex justify-between items-center pt-4">
+      <img src="assets/home-logo.png" alt="Bhagona" class="h-10 w-auto">
+      <button (click)="skipOnboarding()" class="text-xs font-black uppercase tracking-wider text-gray-400 hover:text-gray-600">
+        Skip
+      </button>
+    </div>
+
+    <!-- Slide Content -->
+    <div class="flex flex-col items-center text-center my-auto px-4">
+      <!-- Illustrative Visual Core -->
+      <div class="w-64 h-64 rounded-full bg-orange-50 flex items-center justify-center mb-10 shadow-inner">
+        <i *ngIf="onboardingStep === 0" class="bi bi-balloon-heart text-6xl text-[#e87f2c] animate-bounce-slow"></i>
+        <i *ngIf="onboardingStep === 1" class="bi bi-person-hearts text-6xl text-[#e87f2c] animate-pulse"></i>
+        <i *ngIf="onboardingStep === 2" class="bi bi-award-fill text-6xl text-[#e87f2c]"></i>
+      </div>
+
+      <h2 class="text-2xl font-black text-[#3d1200] leading-tight mb-4 tracking-tight">
+        <span *ngIf="onboardingStep === 0">Plan • Book • Celebrate</span>
+        <span *ngIf="onboardingStep === 1">Events & Celebrations</span>
+        <span *ngIf="onboardingStep === 2">All Services In One Place</span>
+      </h2>
+      
+      <p class="text-xs text-gray-400 font-bold uppercase tracking-widest leading-6 max-w-xs">
+        <span *ngIf="onboardingStep === 0">Using this app you can book professional chefs & custom catering services with ease.</span>
+        <span *ngIf="onboardingStep === 1">Perfected event catering plans to ensure your special moment has extraordinary culinary tastes.</span>
+        <span *ngIf="onboardingStep === 2">Hire expert chefs, select catering food lists, book venues, and decorators directly in seconds.</span>
+      </p>
+    </div>
+
+    <!-- Onboarding Footer -->
+    <div class="flex flex-col gap-6 pb-6">
+      
+      <!-- Dots Indicator -->
+      <div class="flex justify-center gap-2">
+        <span *ngFor="let dot of [0,1,2]" 
+          [class.bg-[#e87f2c]]="onboardingStep === dot" 
+          [class.w-6]="onboardingStep === dot"
+          [class.bg-gray-200]="onboardingStep !== dot"
+          class="h-2 w-2 rounded-full transition-all duration-300"></span>
+      </div>
+
+      <!-- Action Button -->
+      <button (click)="nextOnboarding()" 
+        class="w-full py-4 bg-[#e87f2c] text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-orange-500/25 active:scale-95 transition-all text-center">
+        {{ onboardingStep === 2 ? "Let's Start" : 'Next' }}
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Mobile App Home Screen -->
+  <div *ngIf="!showOnboarding" class="min-h-screen bg-[#FDF9F4] pb-24 pt-6 px-4 font-sans overflow-y-auto">
+    
+    <!-- Top Header -->
+    <div class="flex items-center justify-between mb-6">
+      
+      <!-- Location Selector -->
+      <div (click)="openLocationModal()" class="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-orange-50 shadow-sm cursor-pointer hover:bg-orange-50/20 active:scale-95 transition-all">
+        <i class="bi bi-geo-alt-fill text-[#964F08]"></i>
+        <div class="flex flex-col text-left">
+          <span class="text-[8px] text-gray-400 font-black uppercase tracking-tight leading-none">Location</span>
+          <span class="text-[10px] font-black text-[#3d1200] leading-none mt-0.5">{{ selectedLocation }}</span>
+        </div>
+        <i class="bi bi-chevron-down text-[8px] text-gray-400 ml-1"></i>
+      </div>
+
+      <!-- Header Actions (Cart & Notifications) -->
+      <div class="flex items-center gap-2.5">
+        <!-- Cart Button -->
+        <button routerLink="/cart" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-orange-50 text-gray-400 relative hover:bg-orange-50/10 active:scale-95 transition-all">
+          <i class="bi bi-cart3"></i>
+          <span *ngIf="cartCount > 0" class="absolute -top-1 -right-1 bg-[#964F08] text-white text-[8px] font-black rounded-full w-4 h-4 flex items-center justify-center border border-white">
+            {{ cartCount }}
+          </span>
+        </button>
+
+        <!-- Notification bell -->
+        <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-orange-50 text-gray-400 relative">
+          <i class="bi bi-bell"></i>
+          <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Greetings -->
+    <div class="mb-6 px-1">
+      <h1 class="text-2xl font-black text-[#3d1200]">Hi, Guest 👋</h1>
+      <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">What are you planning today?</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="relative mb-6">
+      <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+        <i class="bi bi-search"></i>
+      </span>
+      <input type="text" placeholder="Search for chefs, catering, decorators..." 
+        class="w-full pl-11 pr-4 py-3.5 bg-white border border-orange-50 rounded-2xl text-xs font-bold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#e87f2c] shadow-[0_4px_15px_rgba(0,0,0,0.01)]" />
+    </div>
+
+    <!-- Custom Promo Card / Slider -->
+    <div class="bg-gradient-to-r from-[#e17a24] to-[#a24e07] rounded-[2rem] p-5 text-white mb-8 relative overflow-hidden shadow-lg shadow-orange-500/10">
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 w-16 h-16 opacity-10">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-white">
+          <path d="M17,2V13h1v9h1V2C19,2,17,2,17,2z M10,2v9H9V2H8v9H7V2H6v9c0,2.21,1.79,4,4,4v7h1v-7c2.21,0,4-1.79,4-4V2H10z"/>
+        </svg>
+      </div>
+      <div class="relative z-10 max-w-[65%] text-left">
+        <span class="bg-white/20 text-white text-[8px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase leading-none">Special Offer</span>
+        <h3 class="text-lg font-black leading-tight mt-2.5 mb-1.5">Book Chefs & Catering with ease</h3>
+        <p class="text-[9px] text-orange-200/90 font-bold tracking-wider leading-relaxed">Unlock premium traditional tastes for any gathering size.</p>
+      </div>
+    </div>
+
+    <!-- Categories Grid (Chefs + Dynamic Services) -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-4 px-1">
+        <h2 class="text-xs font-black text-[#3d1200] uppercase tracking-wider">Top Categories</h2>
+        <a routerLink="/services" class="text-[10px] font-black text-[#964F08] uppercase tracking-wider">View All</a>
+      </div>
+
+      <div class="grid grid-cols-4 gap-y-5 gap-x-2">
+        
+        <!-- Chef Item (Always first) -->
+        <a routerLink="/chef-selection" class="flex flex-col items-center text-center group">
+          <div class="w-14 h-14 rounded-2xl bg-[#FFF0EC] text-[#964F08] flex items-center justify-center shadow-sm border border-orange-100/10 group-hover:scale-105 transition-transform duration-300">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 18V9a6 6 0 0 1 12 0v9" />
+              <path d="M9 9a3 3 0 0 1 6 0" />
+              <path d="M5 18h14v3H5z" />
+            </svg>
+          </div>
+          <span class="text-[10px] font-bold text-gray-800 mt-2 truncate max-w-[70px] leading-tight">Chefs</span>
+        </a>
+
+        <!-- Dynamic Services -->
+        <a *ngFor="let service of services | slice:0:7"
+          [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}"
+          class="flex flex-col items-center text-center group">
+          <div class="w-14 h-14 rounded-2xl bg-[#FFF0EC] text-[#964F08] flex items-center justify-center shadow-sm border border-orange-100/10 group-hover:scale-105 transition-transform duration-300">
+            <ng-container [ngSwitch]="getShortName(service.name)">
+              <svg *ngSwitchCase="'Function halls'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="3" width="16" height="18" rx="2" />
+                <path d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h6" />
+                <path d="M12 21v-4" />
+              </svg>
+              <svg *ngSwitchCase="'Kirana'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+              <svg *ngSwitchCase="'Poultry'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C12 2 6 10 6 14a6 6 0 0 0 12 0C18 10 12 2 12 2z" />
+              </svg>
+              <svg *ngSwitchCase="'Vegetables'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="13" r="7" />
+                <path d="M12 6V3M10 4c2-2 4-2 6 0" />
+              </svg>
+              <svg *ngSwitchCase="'Tenthouse'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18M3 10h18M3 10l9-7l9 7" />
+                <path d="M4 10v11M20 10v11M12 10v11" />
+                <path d="M4 14c2-1 4-1 6 0s4 1 6 0s2-1 4 0" />
+              </svg>
+              <svg *ngSwitchCase="'Dairy'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                <path d="M6 2v3M10 2v3M14 2v3" />
+              </svg>
+              <svg *ngSwitchCase="'Beverage'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 3h14l-7 8-7-8z" />
+                <path d="M12 11v9" />
+                <path d="M19 20H5" />
+              </svg>
+              <i *ngSwitchDefault class="bi bi-award"></i>
+            </ng-container>
+          </div>
+          <span class="text-[10px] font-bold text-gray-800 mt-2 truncate max-w-[70px] leading-tight">{{ getShortName(service.name) }}</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Popular Events (Swiper with Dots) -->
+    <div class="mb-8" *ngIf="events.length > 0">
+      <div class="flex justify-between items-center mb-4 px-1">
+        <h2 class="text-xs font-black text-[#3d1200] uppercase tracking-wider">Top Events</h2>
+        <a routerLink="/events" class="text-[10px] font-black text-[#964F08] uppercase tracking-wider">View All</a>
+      </div>
+
+      <div class="swiper swiper-events p-0 m-0 w-full overflow-hidden relative pb-8">
+        <div class="swiper-wrapper">
+          <!-- Event Card (Sliced to 4 items for 4 pagination dots) -->
+          <div *ngFor="let event of events | slice:0:4" 
+            [routerLink]="['/event-details', event.event_id]"
+            class="swiper-slide !w-[88%] select-none px-1">
+            <div class="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.02)] border border-gray-100 h-full flex flex-col justify-between">
+              <div>
+                <div class="h-44 w-full bg-gray-100">
+                  <img [src]="event.image_url || 'assets/Events-new/Marriage.png'" [alt]="event.name" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4 text-left">
+                  <h3 class="text-sm font-extrabold text-gray-900 leading-snug mb-1">{{ event.name }}</h3>
+                  <p class="text-[10px] text-gray-500 font-medium leading-normal line-clamp-2">{{ event.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Pagination dots -->
+        <div class="swiper-pagination swiper-pagination-events !bottom-0"></div>
+      </div>
+    </div>
+
+    <!-- Popular Services (Vertical Stack Cards) -->
+    <div class="mb-8" *ngIf="services.length > 0">
+      <div class="flex justify-between items-center mb-4 px-1">
+        <h2 class="text-xs font-black text-[#3d1200] uppercase tracking-wider">Popular Services</h2>
+        <a routerLink="/services" class="text-[10px] font-black text-[#964F08] uppercase tracking-wider">View All</a>
+      </div>
+
+      <div class="space-y-5">
+        <!-- Service Card -->
+        <div *ngFor="let service of services | slice:0:3" 
+          class="bg-white rounded-[2rem] overflow-hidden border border-orange-100/30 shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+          
+          <div>
+            <div class="h-44 w-full bg-gray-100">
+              <img [src]="service.image_data || 'assets/Services-New/Function-Hall.png'" [alt]="service.name" class="w-full h-full object-cover">
+            </div>
+
+            <div class="p-5 text-left flex flex-col gap-2.5">
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-extrabold text-[#3d1200] leading-none">{{ service.name }}</h3>
+                <span class="text-[8px] font-black uppercase tracking-widest text-[#964F08] bg-[#FFF0EC] border border-orange-100 px-2.5 py-1 rounded">Premium</span>
+              </div>
+              
+              <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">{{ service.description }}</p>
+
+              <div class="flex justify-end mt-1">
+                <button [routerLink]="['/vendor-selection']" [queryParams]="{serviceId: service.service_id}"
+                  class="px-8 py-2.5 bg-[#964F08] text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-sm hover:brightness-110 active:scale-95 transition-all select-none">
+                  Book
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Bottom Sheet Modal -->
+    <div *ngIf="showLocationModal" class="fixed inset-0 z-50 flex items-end justify-center">
+      <!-- Backdrop overlay -->
+      <div (click)="closeLocationModal()" class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
+      
+      <!-- Content Sheet container -->
+      <div class="relative bg-[#FDF9F4] w-full rounded-t-[2.5rem] p-6 shadow-2xl z-10 flex flex-col gap-5 max-w-md animate-slide-up select-none font-sans border-t border-orange-100/30">
+        <!-- Drag handle bar -->
+        <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-2"></div>
+        
+        <!-- Title & Close -->
+        <div class="flex justify-between items-center">
+          <h3 class="text-base font-extrabold text-[#3d1200] uppercase tracking-wider">Select Location</h3>
+          <button (click)="closeLocationModal()" class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors border border-orange-50/50">
+            <i class="bi bi-x-lg text-xs"></i>
+          </button>
+        </div>
+        
+        <!-- Search bar / Manual input -->
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+            <i class="bi bi-search text-xs"></i>
+          </span>
+          <input type="text" [(ngModel)]="locationSearchQuery" (keydown.enter)="selectManualLocation()" placeholder="Type city or area..." 
+            class="w-full pl-10 pr-4 py-3.5 bg-white border border-orange-50 rounded-2xl text-xs font-bold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#964F08] shadow-sm" />
+        </div>
+        
+        <!-- Current location GPS button -->
+        <button (click)="getCurrentLocation()" 
+          class="flex items-center justify-between p-4 bg-white hover:bg-orange-50/20 border border-orange-100/30 rounded-2xl transition-all duration-300 w-full group shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-orange-50 text-[#964F08] flex items-center justify-center shadow-sm relative overflow-hidden">
+              <span *ngIf="loadingLocation" class="absolute inset-0 bg-[#964F08]/10 animate-ping rounded-xl"></span>
+              <i class="bi bi-crosshair text-base" [class.animate-spin]="loadingLocation"></i>
+            </div>
+            <div class="flex flex-col text-left">
+              <span class="text-xs font-black text-[#3d1200] leading-none">Use Current Location</span>
+              <span class="text-[10px] text-gray-400 font-bold mt-1.5 uppercase tracking-tight">
+                {{ loadingLocation ? 'Detecting position...' : 'Using Geolocation API' }}
+              </span>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right text-gray-400 group-hover:translate-x-0.5 transition-transform"></i>
+        </button>
+        
+        <!-- Popular cities list -->
+        <div class="flex flex-col gap-2">
+          <span class="text-[9px] font-black uppercase text-gray-400 tracking-widest pl-1 mb-1.5">Popular Cities</span>
+          <div class="grid grid-cols-2 gap-2">
+            <button *ngFor="let city of popularCities" (click)="selectCity(city)"
+              class="flex items-center gap-2.5 px-4 py-3.5 bg-white border border-orange-50 rounded-2xl hover:bg-orange-50/20 transition-all text-left group shadow-sm active:scale-95">
+              <i class="bi bi-geo-alt text-gray-400 group-hover:text-[#964F08] transition-colors text-xs"></i>
+              <span class="text-xs font-bold text-gray-700 leading-none group-hover:text-[#3d1200] transition-colors">{{ city }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

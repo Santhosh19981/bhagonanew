@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
@@ -12,6 +12,7 @@ export class CartComponent implements OnInit {
   eventBooking: any;
   serviceCart: any[] = [];
   groupedServiceCart: any[] = [];
+  isMobile: boolean = false;
 
   constructor(
     private bookingService: BookingService,
@@ -20,7 +21,13 @@ export class CartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isMobile = window.innerWidth < 768;
     this.refreshCartData();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < 768;
   }
 
   refreshCartData() {

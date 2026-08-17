@@ -26,7 +26,10 @@ export class EventsListComponent implements OnInit {
             next: (res: any) => {
                 this.isLoading = false;
                 if (res.status) {
-                    this.events = res.data.sort((a: any, b: any) => a.event_id - b.event_id);
+                    this.events = (res.data || []).map((e: any) => ({
+                        ...e,
+                        image_url: this.apiService.getImageUrl(e.display_url || e.image_url)
+                    })).sort((a: any, b: any) => a.event_id - b.event_id);
                 }
             },
             error: (err) => {

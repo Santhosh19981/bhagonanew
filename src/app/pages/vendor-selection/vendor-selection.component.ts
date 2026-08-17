@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { ApiService } from '../../services/api.service';
+import { ResponsiveService } from '../../services/responsive.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-vendor-selection',
   templateUrl: './vendor-selection.component.html',
   styleUrl: './vendor-selection.component.scss'
 })
-export class VendorSelectionComponent {
+export class VendorSelectionComponent implements OnInit, OnDestroy {
   primaryVendor: any = null;
   serviceId: string | null = null;
   selectedService: any = null;
   isLoading: boolean = false;
   vendorTitle: string = 'Catering';
+  isMobile: boolean = false;
+  private sub = new Subscription();
 
   vendors: any[] = [];
 
   ngOnInit() {
+    this.sub.add(
+      this.responsiveService.isMobile$.subscribe((isMobile: boolean) => this.isMobile = isMobile)
+    );
+
     this.route.queryParams.subscribe(params => {
       this.serviceId = params['serviceId'];
       if (this.serviceId) {
@@ -47,6 +55,9 @@ export class VendorSelectionComponent {
         this.isLoading = false;
         if (res.status === 'success' || res.status === true) {
           this.selectedService = res.data;
+          if (this.selectedService) {
+            this.selectedService.image_data = this.apiService.getImageUrl(this.selectedService.display_url || this.selectedService.image_data);
+          }
           this.updateVendorTitle(this.selectedService.name);
         }
       },
@@ -96,12 +107,17 @@ export class VendorSelectionComponent {
     }
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   constructor(
     private bookingService: BookingService,
     private apiService: ApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private responsiveService: ResponsiveService
   ) { }
 
   goBack() {

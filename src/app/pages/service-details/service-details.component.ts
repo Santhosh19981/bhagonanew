@@ -76,11 +76,11 @@ export class ServiceDetailsComponent implements OnInit {
         if (res.status === 'success') {
           this.selectedService = res.data;
           if (this.selectedService) {
-            this.selectedService.image_data = this.apiService.getImageUrl(this.selectedService.image_data);
+            this.selectedService.image_data = this.apiService.getImageUrl(this.selectedService.display_url || this.selectedService.image_data);
           }
           this.filteredItems = (res.data.items || []).map((item: any) => ({
             ...item,
-            image: this.apiService.getImageUrl(item.image)
+            image: this.apiService.getImageUrl(item.display_url || item.image || item.image_url)
           }));
         }
       },

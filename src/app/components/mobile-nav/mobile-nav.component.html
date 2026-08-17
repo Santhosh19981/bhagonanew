@@ -1,0 +1,56 @@
+<nav *ngIf="shouldShowNav()" 
+  class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-t border-orange-100/60 shadow-[0_-8px_30px_rgb(0,0,0,0.04)] px-4 py-2 flex items-center justify-around pb-safe-bottom">
+  
+  <!-- Home Tab -->
+  <a routerLink="/home" 
+    [class.text-[#964F08]]="isActive('/home')" 
+    [class.text-[#a89283]]="!isActive('/home')"
+    class="flex flex-col items-center justify-center py-1 transition-all duration-300 w-16">
+    <i class="text-xl leading-none" [ngClass]="isActive('/home') ? 'bi-house-fill' : 'bi-house'"></i>
+    <span class="text-[9px] font-bold mt-1 tracking-wider uppercase">Home</span>
+  </a>
+
+  <!-- Bookings Tab -->
+  <a routerLink="/order-history" 
+    [class.text-[#964F08]]="isActive('/order-history')" 
+    [class.text-[#a89283]]="!isActive('/order-history')"
+    class="flex flex-col items-center justify-center py-1 transition-all duration-300 w-16">
+    <i class="text-xl leading-none" [ngClass]="isActive('/order-history') ? 'bi-calendar-check-fill' : 'bi-calendar-check'"></i>
+    <span class="text-[9px] font-bold mt-1 tracking-wider uppercase">Bookings</span>
+  </a>
+
+  <!-- Categories Tab -->
+  <a routerLink="/services" 
+    [class.text-[#964F08]]="isActive('/services')" 
+    [class.text-[#a89283]]="!isActive('/services')"
+    class="flex flex-col items-center justify-center py-1 transition-all duration-300 w-16 relative">
+    <i class="text-xl leading-none" [ngClass]="isActive('/services') ? 'bi-grid-fill' : 'bi-grid'"></i>
+    <span class="text-[9px] font-bold mt-1 tracking-wider uppercase">Services</span>
+    <span *ngIf="cartCount > 0" 
+      class="absolute top-0 right-3 bg-[#964F08] text-white text-[8px] font-black rounded-full w-4 h-4 flex items-center justify-center border border-white animate-bounce-slow">
+      {{ cartCount }}
+    </span>
+  </a>
+
+  <!-- Messages Tab (with a red notification dot as in the mockup) -->
+  <a routerLink="/messages" 
+    [class.text-[#964F08]]="isActive('/messages')" 
+    [class.text-[#a89283]]="!isActive('/messages')"
+    class="flex flex-col items-center justify-center py-1 transition-all duration-300 w-16 relative">
+    <div class="relative">
+      <i class="text-xl leading-none" [ngClass]="isActive('/messages') ? 'bi-chat-left-dots-fill' : 'bi-chat-left-dots'"></i>
+      <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+    </div>
+    <span class="text-[9px] font-bold mt-1 tracking-wider uppercase">Messages</span>
+  </a>
+
+  <!-- Profile Tab -->
+  <a routerLink="/profile" 
+    [class.text-[#964F08]]="isActive('/profile')" 
+    [class.text-[#a89283]]="!isActive('/profile')"
+    class="flex flex-col items-center justify-center py-1 transition-all duration-300 w-16">
+    <i class="text-xl leading-none" [ngClass]="isActive('/profile') ? 'bi-person-fill' : 'bi-person'"></i>
+    <span class="text-[9px] font-bold mt-1 tracking-wider uppercase">Profile</span>
+  </a>
+
+</nav>

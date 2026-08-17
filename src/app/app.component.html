@@ -1,8 +1,28 @@
 <!-- src/app/app.component.html -->
-<app-header></app-header>
+<div *ngIf="showSplash" class="splash-screen" [class.fade-out]="fadeSplash">
+  <div class="splash-content">
+    <img src="assets/home-logo.png" alt="Bhagona" class="splash-logo">
+    <div class="splash-loader"></div>
+    <span class="splash-tagline">Plan • Book • Celebrate</span>
+  </div>
+</div>
 
-<main class="min-h-screen bg-gray-50">
-  <router-outlet></router-outlet>
-</main>
+<ng-container *ngIf="!isMobile; else mobileLayout">
+  <app-header></app-header>
 
-<app-footer></app-footer>
+  <main class="min-h-screen bg-gray-50 pt-[70px]">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer></app-footer>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <!-- Mobile App Layout Shell -->
+  <div class="flex flex-col min-h-screen bg-[#FDF9F4] mobile-shell">
+    <main class="flex-grow w-full">
+      <router-outlet></router-outlet>
+    </main>
+    <app-mobile-nav></app-mobile-nav>
+  </div>
+</ng-template>

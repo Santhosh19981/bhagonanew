@@ -28,7 +28,7 @@ export class ServicesListComponent implements OnInit {
                 if (res.status) {
                     this.services = (res.data || []).map((s: any) => ({
                         ...s,
-                        image_data: this.apiService.getImageUrl(s.image_data)
+                        image_data: this.apiService.getImageUrl(s.display_url || s.image_data)
                     })).sort((a: any, b: any) => a.service_id - b.service_id);
                 }
             },

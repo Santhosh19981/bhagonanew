@@ -1,149 +1,345 @@
-<div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-8 px-4 relative">
+<!-- src/app/pages/chef-selection/chef-selection.component.html -->
+<ng-container *ngIf="!isMobile; else mobileLayout">
+  <div
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-8 px-4 relative">
 
-    <!-- Loader Overlay -->
-    <div *ngIf="isLoading"
-        class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center min-h-[400px]">
-        <div class="loader-container">
-            <div class="bhagona-loader"></div>
-            <div class="loader-ring"></div>
-        </div>
-        <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Finding
-            Experts...</p>
+      <!-- Loader Overlay -->
+      <div *ngIf="isLoading"
+          class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center min-h-[400px]">
+          <div class="loader-container">
+              <div class="bhagona-loader"></div>
+              <div class="loader-ring"></div>
+          </div>
+          <p class="mt-4 text-[#e87f2c] font-black uppercase text-[10px] tracking-[0.4em] animate-pulse">Finding
+              Experts...</p>
+      </div>
+
+      <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
+          <!-- Back Button -->
+          <div class="mb-10">
+              <button (click)="goBack()"
+                  class="flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                      class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back
+              </button>
+          </div>
+          <!-- Sticky Selection Summary -->
+          <div class="sticky top-24 z-40 mb-10" data-aos="fade-down">
+              <div
+                  class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-4 shadow-xl border border-white/50 flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div class="flex items-center gap-6">
+                      <div class="hidden sm:block">
+                          <h1 class="text-xl font-bold text-gray-900 main-font">Expert <span
+                                  class="text-[#e87f2c]">Chefs</span></h1>
+                          <p class="text-gray-500 text-[11px] font-medium leading-none">Select your Dream Team</p>
+                      </div>
+
+                      <div class="h-10 w-px bg-gray-200 hidden md:block"></div>
+
+                      <!-- Selection Slots -->
+                      <div class="flex items-center gap-4">
+                          <div class="text-center group">
+                              <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-1.5">Primary</p>
+                              <div
+                                  class="w-10 h-10 rounded-full border border-dashed border-orange-300 p-0.5 flex justify-center items-center overflow-hidden bg-orange-50/50">
+                                  <img *ngIf="primaryChef" [src]="primaryChef.image || primaryChef.image_url"
+                                      class="w-full h-full object-cover">
+                                  <span *ngIf="!primaryChef" class="text-orange-300 text-[10px]">?</span>
+                              </div>
+                          </div>
+                          <div class="text-center group">
+                              <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-1.5">Alternates
+                              </p>
+                              <div class="flex gap-1.5">
+                                  <div *ngFor="let i of [0,1]"
+                                      class="w-10 h-10 rounded-full border border-dashed border-gray-200 p-0.5 flex justify-center items-center overflow-hidden bg-gray-50/50">
+                                      <img *ngIf="alternateChefs[i]"
+                                          [src]="alternateChefs[i].image || alternateChefs[i].image_url"
+                                          class="w-full h-full object-cover">
+                                      <span *ngIf="!alternateChefs[i]" class="text-gray-300 text-[10px]">?</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <button (click)="proceed()" [disabled]="!primaryChef"
+                      class="w-full md:w-auto px-8 py-3 bg-[#e87f2c] text-white rounded-xl font-bold text-sm shadow-lg shadow-orange-500/20 hover:bg-[#af6429] transition-all disabled:opacity-50 flex items-center justify-center gap-2 group">
+                      Review Order
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                  </button>
+              </div>
+          </div>
+
+          <!-- Chefs Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div *ngFor="let chef of chefs" (click)="selectChef(chef)"
+                  [class]="primaryChef === chef ? 'border-[#e87f2c] ring-2 ring-orange-100 bg-orange-50/20' : alternateChefs.includes(chef) ? 'border-[#af6429] ring-2 ring-orange-50' : 'border-gray-100 bg-white/90'"
+                  class="group relative rounded-[2rem] p-4 shadow-sm hover:shadow-xl transition-all duration-500 border-2 cursor-pointer flex flex-col"
+                  data-aos="zoom-in">
+
+                  <!-- Selection Badges -->
+                  <div *ngIf="primaryChef === chef"
+                      class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#e87f2c] text-white px-3 py-1 rounded-full text-[8px] font-black tracking-widest z-10 shadow-lg">
+                      PRIMARY
+                  </div>
+                  <div *ngIf="alternateChefs.includes(chef)"
+                      class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#af6429] text-white px-3 py-1 rounded-full text-[8px] font-black tracking-widest z-10 shadow-lg">
+                      ALTERNATE
+                  </div>
+
+                  <!-- Profile Image -->
+                  <div class="relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-5">
+                      <img [src]="chef.image || chef.image_url" [alt]="chef.name"
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                      <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                          <div
+                              class="bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-lg w-fit flex items-center gap-1.5 border border-white/30">
+                              <span class="text-yellow-400 text-sm">★</span>
+                              <span class="font-bold text-white tracking-widest text-[11px]">{{chef.rating
+                                  ||'4.8'}}</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Info -->
+                  <div class="text-center space-y-3 px-1 flex-grow flex flex-col">
+                      <div>
+                          <h3
+                              class="text-lg font-bold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
+                              {{chef.name}}</h3>
+                          <p class="text-[#e87f2c] font-black uppercase text-[8px] tracking-[0.2em] mt-0.5">
+                              {{chef.specialty || chef.specialization || 'Professional Chef'}}</p>
+                      </div>
+
+                      <div class="grid grid-cols-2 gap-2 py-3 border-y border-gray-100 mt-auto">
+                          <div class="text-left border-r border-gray-100">
+                              <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest">EXP</p>
+                              <p class="font-bold text-gray-700 text-[11px]">{{chef.experience || chef.experience_years +
+                                  ' Years' || '10+ Years'}}</p>
+                          </div>
+                          <div class="text-right">
+                              <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest">STATUS</p>
+                              <p class="font-bold text-green-600 text-[11px] flex items-center justify-end gap-1">
+                                  <span class="w-1 h-1 bg-green-500 rounded-full"></span>
+                                  Online
+                              </p>
+                          </div>
+                      </div>
+
+                      <div [class]="isChefSelected(chef) ? 'bg-[#e87f2c] text-white' : 'bg-orange-50/50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white'"
+                          class="w-full py-2.5 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all shadow-sm">
+                          {{primaryChef === chef ? 'Selected' : 'Select Chef'}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="chefs.length === 0" class="py-20 text-center">
+              <p class="text-gray-400 font-bold uppercase tracking-widest text-xs">No experts found at the moment</p>
+          </div>
+      </div>
+  </div>
+</ng-container>
+
+<ng-template #mobileLayout>
+  <!-- Mobile Wizard Step 3: Chef Selection — redesigned to match reference mockup -->
+  <div class="min-h-screen bg-[#FDF9F4] pt-6 pb-36 px-4 font-sans flex flex-col">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-7">
+      <button (click)="goBack()"
+        class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 text-gray-500 active:scale-90 transition-transform">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#964F08] bg-[#FFF0EC] px-5 py-2 rounded-full border border-orange-100/60">
+        Step 3 of 4
+      </span>
+      <!-- Spacer keeps pill centered -->
+      <div class="w-10 h-10"></div>
     </div>
 
-    <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
-        <!-- Back Button -->
-        <div class="mb-10">
-            <button (click)="goBack()"
-                class="flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
-                </svg>
-                Back
-            </button>
-        </div>
-        <!-- Sticky Selection Summary - More compact -->
-        <div class="sticky top-24 z-40 mb-10" data-aos="fade-down">
-            <div
-                class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-4 shadow-xl border border-white/50 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-6">
-                    <div class="hidden sm:block">
-                        <h1 class="text-xl font-bold text-gray-900 main-font">Expert <span
-                                class="text-[#e87f2c]">Chefs</span></h1>
-                        <p class="text-gray-500 text-[11px] font-medium leading-none">Select your Dream Team</p>
-                    </div>
-
-                    <div class="h-10 w-px bg-gray-200 hidden md:block"></div>
-
-                    <!-- Selection Slots - Compact -->
-                    <div class="flex items-center gap-4">
-                        <div class="text-center group">
-                            <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-1.5">Primary</p>
-                            <div
-                                class="w-10 h-10 rounded-full border border-dashed border-orange-300 p-0.5 flex justify-center items-center overflow-hidden bg-orange-50/50">
-                                <img *ngIf="primaryChef" [src]="primaryChef.image || primaryChef.image_url"
-                                    class="w-full h-full object-cover">
-                                <span *ngIf="!primaryChef" class="text-orange-300 text-[10px]">?</span>
-                            </div>
-                        </div>
-                        <div class="text-center group">
-                            <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest mb-1.5">Alternates
-                            </p>
-                            <div class="flex gap-1.5">
-                                <div *ngFor="let i of [0,1]"
-                                    class="w-10 h-10 rounded-full border border-dashed border-gray-200 p-0.5 flex justify-center items-center overflow-hidden bg-gray-50/50">
-                                    <img *ngIf="alternateChefs[i]"
-                                        [src]="alternateChefs[i].image || alternateChefs[i].image_url"
-                                        class="w-full h-full object-cover">
-                                    <span *ngIf="!alternateChefs[i]" class="text-gray-300 text-[10px]">?</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button (click)="proceed()" [disabled]="!primaryChef"
-                    class="w-full md:w-auto px-8 py-3 bg-[#e87f2c] text-white rounded-xl font-bold text-sm shadow-lg shadow-orange-500/20 hover:bg-[#af6429] transition-all disabled:opacity-50 flex items-center justify-center gap-2 group">
-                    Review Order
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Chefs Grid - More compact -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div *ngFor="let chef of chefs" (click)="selectChef(chef)"
-                [class]="primaryChef === chef ? 'border-[#e87f2c] ring-2 ring-orange-100 bg-orange-50/20' : alternateChefs.includes(chef) ? 'border-[#af6429] ring-2 ring-orange-50' : 'border-gray-100 bg-white/90'"
-                class="group relative rounded-[2rem] p-4 shadow-sm hover:shadow-xl transition-all duration-500 border-2 cursor-pointer flex flex-col"
-                data-aos="zoom-in">
-
-                <!-- Selection Badges - Smaller -->
-                <div *ngIf="primaryChef === chef"
-                    class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#e87f2c] text-white px-3 py-1 rounded-full text-[8px] font-black tracking-widest z-10 shadow-lg">
-                    PRIMARY
-                </div>
-                <div *ngIf="alternateChefs.includes(chef)"
-                    class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#af6429] text-white px-3 py-1 rounded-full text-[8px] font-black tracking-widest z-10 shadow-lg">
-                    ALTERNATE
-                </div>
-
-                <!-- Profile Image - Reduced height -->
-                <div class="relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden mb-5">
-                    <img [src]="chef.image || chef.image_url" [alt]="chef.name"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                        <div
-                            class="bg-white/20 backdrop-blur-md px-2 py-0.5 rounded-lg w-fit flex items-center gap-1.5 border border-white/30">
-                            <span class="text-yellow-400 text-sm">★</span>
-                            <span class="font-bold text-white tracking-widest text-[11px]">{{chef.rating
-                                ||'4.8'}}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Info -->
-                <div class="text-center space-y-3 px-1 flex-grow flex flex-col">
-                    <div>
-                        <h3
-                            class="text-lg font-bold text-gray-900 leading-tight group-hover:text-[#e87f2c] transition-colors">
-                            {{chef.name}}</h3>
-                        <p class="text-[#e87f2c] font-black uppercase text-[8px] tracking-[0.2em] mt-0.5">
-                            {{chef.specialty || chef.specialization || 'Professional Chef'}}</p>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 py-3 border-y border-gray-100 mt-auto">
-                        <div class="text-left border-r border-gray-100">
-                            <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest">EXP</p>
-                            <p class="font-bold text-gray-700 text-[11px]">{{chef.experience || chef.experience_years +
-                                ' Years' || '10+ Years'}}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[8px] text-gray-400 font-black uppercase tracking-widest">STATUS</p>
-                            <p class="font-bold text-green-600 text-[11px] flex items-center justify-end gap-1">
-                                <span class="w-1 h-1 bg-green-500 rounded-full"></span>
-                                Online
-                            </p>
-                        </div>
-                    </div>
-
-                    <div [class]="isChefSelected(chef) ? 'bg-[#e87f2c] text-white' : 'bg-orange-50/50 text-[#e87f2c] group-hover:bg-[#e87f2c] group-hover:text-white'"
-                        class="w-full py-2.5 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all shadow-sm">
-                        {{primaryChef === chef ? 'Selected' : 'Select Chef'}}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Empty State -->
-        <div *ngIf="chefs.length === 0" class="py-20 text-center">
-            <p class="text-gray-400 font-bold uppercase tracking-widest text-xs">No experts found at the moment</p>
-        </div>
+    <!-- Page Title -->
+    <div class="mb-5 text-left">
+      <h1 class="text-[30px] font-black text-[#1a0800] leading-tight tracking-tight">Choose Expert Chef</h1>
+      <p class="text-[8.5px] font-bold text-[#964F08]/50 uppercase tracking-[0.2em] mt-1.5">
+        Tap a chef card to hire primary &amp; alternates
+      </p>
     </div>
-</div>
+
+    <!-- Selection Tracker Bar -->
+    <div class="bg-white rounded-2xl px-5 py-4 border border-gray-100 shadow-sm flex items-center justify-between mb-6">
+      <!-- Primary Slot -->
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full border-2 border-dashed border-[#e87f2c] flex items-center justify-center bg-[#FFF8F4] overflow-hidden shrink-0">
+          <img *ngIf="primaryChef" [src]="primaryChef.image || primaryChef.image_url" class="w-full h-full object-cover rounded-full">
+          <span *ngIf="!primaryChef" class="text-base font-black text-[#e87f2c]">P</span>
+        </div>
+        <div class="flex flex-col text-left">
+          <span class="text-[8px] font-black text-gray-400 uppercase tracking-[0.15em] leading-none">Primary</span>
+          <span class="text-[14px] font-bold text-[#1a0800] leading-tight mt-0.5 max-w-[90px] truncate">
+            {{ primaryChef ? primaryChef.name.split(' ')[0] : 'Choose Chef' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="h-10 w-px bg-gray-100 mx-1"></div>
+
+      <!-- Alternates Slots -->
+      <div class="flex items-center gap-2">
+        <div class="flex gap-1.5">
+          <div *ngFor="let idx of [0, 1]"
+            class="w-12 h-12 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden transition-all"
+            [class.border-[#af6429]]="alternateChefs[idx]"
+            [class.bg-amber-50]="alternateChefs[idx]"
+            [class.border-gray-200]="!alternateChefs[idx]"
+            [class.bg-gray-50]="!alternateChefs[idx]">
+            <img *ngIf="alternateChefs[idx]" [src]="alternateChefs[idx].image || alternateChefs[idx].image_url" class="w-full h-full object-cover rounded-full">
+            <span *ngIf="!alternateChefs[idx]" class="text-base font-black text-gray-300">A</span>
+          </div>
+        </div>
+        <div class="flex flex-col text-left ml-1">
+          <span class="text-[8px] font-black text-gray-400 uppercase tracking-[0.15em] leading-none">Alternates</span>
+          <span class="text-[14px] font-bold text-[#1a0800] leading-tight mt-0.5">
+            {{ alternateChefs.length }} / 2
+          </span>
+          <span class="text-[10px] leading-none font-semibold"
+            [class.text-green-500]="alternateChefs.length === 2"
+            [class.text-gray-400]="alternateChefs.length < 2">
+            {{ alternateChefs.length === 2 ? 'Full' : 'Selected' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loader -->
+    <div *ngIf="isLoading" class="py-16 flex justify-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e87f2c]"></div>
+    </div>
+
+    <!-- Chef Cards -->
+    <div *ngIf="!isLoading" class="space-y-3 text-left">
+
+      <!-- Contextual hint -->
+      <div class="text-center py-2 mb-1">
+        <span *ngIf="!primaryChef" class="text-[9px] font-bold text-[#964F08]/60 uppercase tracking-widest">
+          Tap a card to choose your primary chef
+        </span>
+        <span *ngIf="primaryChef && alternateChefs.length < 2" class="text-[9px] font-bold text-[#af6429]/70 uppercase tracking-widest">
+          ✓ Primary set &nbsp;·&nbsp; Tap up to {{ 2 - alternateChefs.length }} more for alternates
+        </span>
+        <span *ngIf="primaryChef && alternateChefs.length === 2" class="text-[9px] font-bold text-green-500/80 uppercase tracking-widest">
+          ✓ Full team selected &nbsp;·&nbsp; Review when ready
+        </span>
+      </div>
+
+      <div *ngFor="let chef of chefs"
+        (click)="selectChef(chef)"
+        class="bg-white rounded-3xl px-4 py-5 border cursor-pointer transition-all duration-200 flex items-center gap-4 relative select-none active:scale-[0.98]"
+        [ngClass]="{
+          'border-[#e87f2c] shadow-md shadow-orange-100': primaryChef === chef,
+          'border-[#af6429] shadow-md shadow-amber-50': alternateChefs.includes(chef) && primaryChef !== chef,
+          'border-gray-100 shadow-sm': primaryChef !== chef && !alternateChefs.includes(chef)
+        }">
+
+        <!-- Selection Badge -->
+        <span *ngIf="primaryChef === chef"
+          class="absolute top-4 right-4 bg-[#e87f2c] text-white text-[7px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
+          Primary
+        </span>
+        <span *ngIf="alternateChefs.includes(chef) && primaryChef !== chef"
+          class="absolute top-4 right-4 bg-[#af6429] text-white text-[7px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
+          Alternate
+        </span>
+
+        <!-- Circular Avatar + Orange Ring -->
+        <div class="relative shrink-0">
+          <!-- Gradient ring outer wrapper -->
+          <div class="w-[80px] h-[80px] rounded-full p-[3px]"
+            style="background: linear-gradient(145deg, #e87f2c 0%, #964F08 100%);">
+            <!-- White gap ring -->
+            <div class="w-full h-full rounded-full bg-white p-[2.5px]">
+              <!-- Photo circle -->
+              <div class="w-full h-full rounded-full overflow-hidden bg-gray-100">
+                <img
+                  [src]="chef.image || 'assets/Events-Round/Marriage.png'"
+                  [alt]="chef.name"
+                  class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+          <!-- Star + rating badge, overlapping bottom edge of circle -->
+          <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 bg-[#1a0800] text-white px-2.5 py-0.5 rounded-full flex items-center gap-0.5 shadow-lg whitespace-nowrap z-10">
+            <span class="text-yellow-400 text-[10px] leading-none">★</span>
+            <span class="text-[10px] font-black leading-none">{{ chef.rating || '4.0' }}</span>
+          </div>
+        </div>
+
+        <!-- Chef Details -->
+        <div class="flex-grow min-w-0 pl-1 pt-1">
+          <!-- Name -->
+          <h3 class="text-[17px] font-black text-[#1a0800] leading-tight" style="max-width: calc(100% - 60px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            {{ chef.name }}
+          </h3>
+          <!-- Specialty -->
+          <p class="text-[8.5px] font-black text-[#e87f2c] uppercase tracking-[0.12em] mt-1 leading-snug">
+            {{ chef.specialty || chef.specialization || 'North Indian Specialist' }}
+          </p>
+
+          <!-- Experience + Status two-column row -->
+          <div class="flex items-start gap-8 mt-3 pt-3 border-t border-gray-50">
+            <div>
+              <span class="text-[7px] font-black text-gray-400 uppercase tracking-widest block leading-none">Experience</span>
+              <span class="text-[20px] font-black text-[#1a0800] leading-none mt-0.5 block">
+                {{ chef.experience_years || chef.experience || 'N/A' }}
+              </span>
+            </div>
+            <div>
+              <span class="text-[7px] font-black text-gray-400 uppercase tracking-widest block leading-none">Status</span>
+              <span class="text-[18px] font-black text-green-500 leading-none mt-0.5 flex items-center gap-1">
+                <span class="w-2.5 h-2.5 bg-green-500 rounded-full inline-block shrink-0"></span>
+                Active
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="chefs.length === 0"
+        class="text-center py-16 text-gray-300 font-bold uppercase tracking-widest text-[10px]">
+        No chefs available.
+      </div>
+    </div>
+
+    <!-- Sticky "Review Order" bar — slides up when primary is selected -->
+    <div *ngIf="primaryChef" class="fixed bottom-[60px] left-0 right-0 z-50 px-4 pb-2">
+      <div class="bg-[#1a0800] rounded-[2rem] px-5 py-4 flex items-center justify-between shadow-2xl shadow-black/40">
+        <div class="text-left">
+          <span class="text-[7px] text-orange-300 font-black uppercase tracking-[0.2em] leading-none block">Assigned Team</span>
+          <span class="text-sm font-black text-white mt-0.5 block truncate max-w-[160px]">
+            {{ primaryChef.name }}
+            <span class="text-orange-300/70 text-[10px] font-bold">(+{{ alternateChefs.length }} alt)</span>
+          </span>
+        </div>
+        <button (click)="proceed()"
+          class="px-6 py-3 bg-[#e87f2c] hover:bg-[#af6429] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5 active:scale-95 transition-all select-none">
+          Review Order
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
