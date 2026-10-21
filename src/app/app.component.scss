@@ -26,8 +26,10 @@
   }
 
   .splash-logo {
-    width: 160px;
+    width: 220px;
+    max-width: 80vw;
     height: auto;
+    filter: drop-shadow(0 10px 25px rgba(150, 79, 8, 0.22));
     animation: zoomPulse 2s ease-in-out infinite alternate;
   }
 

@@ -57,3 +57,62 @@
         opacity: .5;
     }
 }
+
+/* Custom Modern Date Input Styling */
+input[type="date"] {
+  position: relative;
+  font-family: inherit;
+  color: #1f2937;
+  cursor: pointer;
+
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 6px;
+    filter: invert(48%) sepia(75%) saturate(850%) hue-rotate(345deg) brightness(98%) contrast(92%);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+    opacity: 0.85;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  &::-webkit-datetime-edit {
+    padding: 2px 0;
+  }
+
+  &::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-datetime-edit-text {
+    color: #9ca3af;
+    padding: 0 2px;
+  }
+
+  &::-webkit-datetime-edit-month-field,
+  &::-webkit-datetime-edit-day-field,
+  &::-webkit-datetime-edit-year-field {
+    color: #111827;
+    font-weight: 700;
+    &:focus {
+      background-color: #fef3c7;
+      color: #92400e;
+      border-radius: 4px;
+    }
+  }
+}
+
+/* Vibrant orange blinking caret for guest inputs */
+.guest-count-input {
+  caret-color: #e87f2c !important;
+  cursor: text !important;
+
+  &::selection {
+    background-color: rgba(232, 127, 44, 0.35) !important;
+    color: #ffffff !important;
+  }
+}
+

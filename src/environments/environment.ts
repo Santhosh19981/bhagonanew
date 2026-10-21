@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  qa: false,
-  apiUrl: 'http://localhost:3000'
+  qa: true,
+  apiUrl: 'https://qa-api.bhagona.in'
 };

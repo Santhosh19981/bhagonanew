@@ -20,9 +20,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { PartnerOrdersComponent } from './pages/partner-orders/partner-orders.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { LaunchingSoonComponent } from './pages/launching-soon/launching-soon.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', component: LaunchingSoonComponent, pathMatch: 'full' },
+  { path: 'launching-soon', component: LaunchingSoonComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'event-details/:id', component: EventDetailsComponent },

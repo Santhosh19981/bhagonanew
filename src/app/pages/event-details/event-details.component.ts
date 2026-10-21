@@ -19,6 +19,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   selectedEvent: any;
   isLoading: boolean = true;
   isMobile: boolean = false;
+  
+  readonly MAX_VEG: number = 5000;
+  readonly MAX_NON_VEG: number = 10000;
+  vegError: string = '';
+  nonVegError: string = '';
+  minDate: string = '';
+
   private sub = new Subscription();
   events = [
     {
@@ -91,12 +98,18 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    this.minDate = `${yyyy}-${mm}-${dd}`;
+
     const existingBooking = this.bookingService.getEventBooking();
     if (existingBooking) {
       if (existingBooking.eventDate) this.eventDate = existingBooking.eventDate;
+      if (existingBooking.vegGuests) this.onVegChange(existingBooking.vegGuests);
+      if (existingBooking.nonVegGuests) this.onNonVegChange(existingBooking.nonVegGuests);
       if (existingBooking.totalMembers) this.totalMembers = existingBooking.totalMembers;
-      if (existingBooking.vegGuests) this.vegGuests = existingBooking.vegGuests;
-      if (existingBooking.nonVegGuests) this.nonVegGuests = existingBooking.nonVegGuests;
     }
   }
 
@@ -136,18 +149,238 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  onlyNumbers(event: KeyboardEvent) {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'];
+    if (allowedKeys.includes(event.key)) {
+      return;
+    }
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  onVegChange(value: any, inputEl?: HTMLInputElement) {
+    if (value === null || value === undefined || value === '') {
+      this.vegGuests = null as any;
+      this.vegError = '';
+      this.updateTotal();
+      return;
+    }
+    let strVal = String(value).replace(/[^0-9]/g, '');
+    if (!strVal) {
+      this.vegGuests = null as any;
+      if (inputEl) inputEl.value = '';
+      this.vegError = '';
+      this.updateTotal();
+      return;
+    }
+    if (strVal.length > 1 && strVal.startsWith('0')) {
+      strVal = strVal.replace(/^0+/, '') || '0';
+    }
+    const parsed = Math.floor(Number(strVal));
+    if (isNaN(parsed) || parsed < 0) {
+      this.vegGuests = 0;
+      this.vegError = 'Please enter a valid guest count';
+    } else if (parsed > this.MAX_VEG) {
+      this.vegGuests = parsed;
+      this.vegError = `Maximum limit is ${this.MAX_VEG.toLocaleString()} vegetarian guests`;
+    } else {
+      this.vegGuests = parsed;
+      this.vegError = '';
+    }
+    if (inputEl && inputEl.value !== strVal) {
+      inputEl.value = strVal;
+    }
+    this.updateTotal();
+  }
+
+  focusVegInput(input: HTMLInputElement) {
+    if (!input) return;
+    input.focus();
+    if (this.vegGuests === 0 || !this.vegGuests || input.value === '0') {
+      input.value = '';
+      this.vegGuests = null as any;
+      this.updateTotal();
+    } else {
+      setTimeout(() => {
+        try {
+          const len = input.value.length;
+          input.setSelectionRange(len, len);
+        } catch (e) {}
+      }, 0);
+    }
+  }
+
+  onVegFocus(event: FocusEvent) {
+    const input = event.target as HTMLInputElement;
+    if (this.vegGuests === 0 || !this.vegGuests || input.value === '0') {
+      input.value = '';
+      this.vegGuests = null as any;
+      this.updateTotal();
+    } else {
+      setTimeout(() => {
+        try {
+          if (input && input.selectionStart !== input.selectionEnd) {
+            const len = input.value.length;
+            input.setSelectionRange(len, len);
+          }
+        } catch (e) {}
+      }, 0);
+    }
+  }
+
+  onVegBlur(event: FocusEvent) {
+    const input = event.target as HTMLInputElement;
+    if (!input.value || this.vegGuests === null || this.vegGuests === undefined) {
+      this.vegGuests = 0;
+      input.value = '0';
+      this.vegError = '';
+      this.updateTotal();
+    }
+  }
+
+  onNonVegChange(value: any, inputEl?: HTMLInputElement) {
+    if (value === null || value === undefined || value === '') {
+      this.nonVegGuests = null as any;
+      this.nonVegError = '';
+      this.updateTotal();
+      return;
+    }
+    let strVal = String(value).replace(/[^0-9]/g, '');
+    if (!strVal) {
+      this.nonVegGuests = null as any;
+      if (inputEl) inputEl.value = '';
+      this.nonVegError = '';
+      this.updateTotal();
+      return;
+    }
+    if (strVal.length > 1 && strVal.startsWith('0')) {
+      strVal = strVal.replace(/^0+/, '') || '0';
+    }
+    const parsed = Math.floor(Number(strVal));
+    if (isNaN(parsed) || parsed < 0) {
+      this.nonVegGuests = 0;
+      this.nonVegError = 'Please enter a valid guest count';
+    } else if (parsed > this.MAX_NON_VEG) {
+      this.nonVegGuests = parsed;
+      this.nonVegError = `Maximum limit is ${this.MAX_NON_VEG.toLocaleString()} non-vegetarian guests`;
+    } else {
+      this.nonVegGuests = parsed;
+      this.nonVegError = '';
+    }
+    if (inputEl && inputEl.value !== strVal) {
+      inputEl.value = strVal;
+    }
+    this.updateTotal();
+  }
+
+  focusNonVegInput(input: HTMLInputElement) {
+    if (!input) return;
+    input.focus();
+    if (this.nonVegGuests === 0 || !this.nonVegGuests || input.value === '0') {
+      input.value = '';
+      this.nonVegGuests = null as any;
+      this.updateTotal();
+    } else {
+      setTimeout(() => {
+        try {
+          const len = input.value.length;
+          input.setSelectionRange(len, len);
+        } catch (e) {}
+      }, 0);
+    }
+  }
+
+  onNonVegFocus(event: FocusEvent) {
+    const input = event.target as HTMLInputElement;
+    if (this.nonVegGuests === 0 || !this.nonVegGuests || input.value === '0') {
+      input.value = '';
+      this.nonVegGuests = null as any;
+      this.updateTotal();
+    } else {
+      setTimeout(() => {
+        try {
+          if (input && input.selectionStart !== input.selectionEnd) {
+            const len = input.value.length;
+            input.setSelectionRange(len, len);
+          }
+        } catch (e) {}
+      }, 0);
+    }
+  }
+
+  onNonVegBlur(event: FocusEvent) {
+    const input = event.target as HTMLInputElement;
+    if (!input.value || this.nonVegGuests === null || this.nonVegGuests === undefined) {
+      this.nonVegGuests = 0;
+      input.value = '0';
+      this.nonVegError = '';
+      this.updateTotal();
+    }
+  }
+
+  adjustVeg(delta: number) {
+    const current = Number(this.vegGuests) || 0;
+    const nextVal = current + delta;
+    if (nextVal < 0) {
+      this.onVegChange(0);
+      return;
+    }
+    if (nextVal > this.MAX_VEG) {
+      this.vegGuests = nextVal;
+      this.vegError = `Maximum limit is ${this.MAX_VEG.toLocaleString()} vegetarian guests`;
+      this.updateTotal();
+      return;
+    }
+    this.onVegChange(nextVal);
+  }
+
+  adjustNonVeg(delta: number) {
+    const current = Number(this.nonVegGuests) || 0;
+    const nextVal = current + delta;
+    if (nextVal < 0) {
+      this.onNonVegChange(0);
+      return;
+    }
+    if (nextVal > this.MAX_NON_VEG) {
+      this.nonVegGuests = nextVal;
+      this.nonVegError = `Maximum limit is ${this.MAX_NON_VEG.toLocaleString()} non-vegetarian guests`;
+      this.updateTotal();
+      return;
+    }
+    this.onNonVegChange(nextVal);
+  }
+
+  updateTotal() {
+    this.totalMembers = (Number(this.vegGuests) || 0) + (Number(this.nonVegGuests) || 0);
+  }
+
+  get isValid(): boolean {
+    const veg = Number(this.vegGuests) || 0;
+    const nonVeg = Number(this.nonVegGuests) || 0;
+    return (
+      !!this.eventDate &&
+      this.totalMembers > 0 &&
+      veg >= 0 &&
+      veg <= this.MAX_VEG &&
+      nonVeg >= 0 &&
+      nonVeg <= this.MAX_NON_VEG &&
+      !this.vegError &&
+      !this.nonVegError
+    );
+  }
+
   selectMenu() {
+    if (!this.isValid) {
+      return;
+    }
     this.bookingService.updateEventBooking({
       eventName: this.selectedEvent?.name,
       eventDate: this.eventDate,
       totalMembers: this.totalMembers,
-      vegGuests: this.vegGuests,
-      nonVegGuests: this.nonVegGuests
+      vegGuests: Number(this.vegGuests) || 0,
+      nonVegGuests: Number(this.nonVegGuests) || 0
     });
     this.router.navigate(['/menu-selection']);
-  }
-
-  updateTotal() {
-    this.totalMembers = this.vegGuests + this.nonVegGuests;
   }
 }

@@ -31,6 +31,7 @@ import { RouterModule } from '@angular/router';
 import { MobileNavComponent } from './components/mobile-nav/mobile-nav.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MessagesComponent } from './pages/messages/messages.component';
+import { LaunchingSoonComponent } from './pages/launching-soon/launching-soon.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MessagesComponent } from './pages/messages/messages.component';
     PartnerOrdersComponent,
     MobileNavComponent,
     ProfileComponent,
-    MessagesComponent
+    MessagesComponent,
+    LaunchingSoonComponent
   ],
   imports: [
     BrowserModule,

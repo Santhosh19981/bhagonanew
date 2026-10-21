@@ -3,6 +3,7 @@ import { BookingService } from '../../services/booking.service';
 import { Router } from '@angular/router';
 import { ResponsiveService } from '../../services/responsive.service';
 import { Subscription } from 'rxjs';
+import { config } from '../../config';
 
 @Component({
   selector: 'app-order-history',
@@ -111,7 +112,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   getImageUrl(path: string | null): string {
     if (!path) return 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
     if (path.startsWith('data:') || path.startsWith('http')) return path;
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = config.apiUrl;
     return path.startsWith('/') ? `${baseUrl}${path}` : `${baseUrl}/${path}`;
   }
 }

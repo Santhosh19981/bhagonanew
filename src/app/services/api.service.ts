@@ -7,7 +7,9 @@ import { config } from '../config';
     providedIn: 'root'
 })
 export class ApiService {
-    private baseUrl = config.apiUrl;
+    get baseUrl(): string {
+        return config.apiUrl;
+    }
 
     constructor(private http: HttpClient) { }
 

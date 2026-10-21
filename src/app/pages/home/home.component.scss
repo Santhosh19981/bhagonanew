@@ -8,8 +8,55 @@
     font-family: "Ubuntu", sans-serif;
 }
 
-/* Custom Swiper Pagination Dots (Mockup Match) */
+/* Hero Banner Animations & Styling */
+.hero-bg-img {
+  animation: kenburns 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.025);
+  }
+}
+
+/* Custom Swiper Pagination Dots & Controls */
 ::ng-deep {
+  .main-hero-swiper {
+    .swiper-wrapper {
+      transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1) !important;
+    }
+
+    .swiper-pagination-bullet {
+      width: 10px !important;
+      height: 10px !important;
+      background: rgba(255, 255, 255, 0.4) !important;
+      opacity: 1 !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      margin: 0 5px !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+      cursor: pointer;
+    }
+
+    .swiper-pagination-bullet-active {
+      width: 32px !important;
+      border-radius: 9999px !important;
+      background: linear-gradient(90deg, #e87f2c 0%, #f5c842 100%) !important;
+      border-color: #f5c842 !important;
+      box-shadow: 0 0 14px rgba(245, 200, 66, 0.7) !important;
+    }
+
+    /* Completely hide navigation arrows as requested */
+    .swiper-button-prev, .swiper-button-next {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+  }
+
   .swiper-events {
     .swiper-pagination-bullet {
       width: 6px !important;

@@ -1,67 +1,66 @@
 <!-- HEADER -->
-<header class="w-full fixed top-0 left-0 z-50"
-  style="background: linear-gradient(135deg, #1a0a00 0%, #3d1200 35%, #5c1a00 60%, #7a2800 80%, #3d1200 100%); border-bottom: 2px solid #c8860a; box-shadow: 0 4px 24px rgba(200,134,10,0.25);">
+<header class="w-full fixed top-0 left-0 z-50 header-theme">
 
-  <!-- Decorative top border stripe (rangoli/kolam-inspired) -->
-  <div class="w-full h-[3px]" style="background: linear-gradient(90deg, #c8860a, #f5c842, #e87f2c, #f5c842, #c8860a, #f5c842, #e87f2c, #f5c842, #c8860a);"></div>
+  <!-- Festive Celebration Top Accent Stripe -->
+  <div class="w-full h-[3px]" style="background: linear-gradient(90deg, #c8860a 0%, #e87f2c 25%, #f5c842 50%, #e87f2c 75%, #c8860a 100%);"></div>
 
-  <!-- Subtle pattern overlay -->
-  <div class="absolute inset-0 opacity-[0.06] pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #f5c842 0px, #f5c842 1px, transparent 1px, transparent 12px), repeating-linear-gradient(-45deg, #f5c842 0px, #f5c842 1px, transparent 1px, transparent 12px);"></div>
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-2.5 relative z-10">
 
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-3 relative z-10">
-
-    <!-- Logo -->
-    <a routerLink="/home" class="flex items-center cursor-pointer">
-      <img src="../../../assets/home-logo.png" alt="Logo"
-        class="h-11 md:h-12 w-auto hover:opacity-80 transition-opacity">
+    <!-- Brand Logo -->
+    <a routerLink="/home" class="flex items-center cursor-pointer group py-1 select-none" id="nav-brand-logo" aria-label="Bhagona.in Home">
+      <div class="relative flex items-center">
+        <!-- Ambient Warm Radiance on Hover -->
+        <div class="absolute -inset-2 bg-gradient-to-r from-amber-400/25 via-orange-400/20 to-transparent rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        <img src="assets/bhagona-logo-official.png" alt="Bhagona.in"
+          class="h-14 sm:h-16 md:h-18 w-auto object-contain brand-glow transition-all duration-300 group-hover:scale-105">
+      </div>
     </a>
 
     <!-- Menu (Desktop) -->
-    <nav class="hidden md:flex space-x-8 font-bold text-[#f5c842] uppercase tracking-widest text-[10px]">
-      <a routerLink="/home" routerLinkActive="text-white"
-        class="hover:text-white transition-colors py-1.5">Home</a>
-      <a routerLink="/events" routerLinkActive="text-white"
-        class="hover:text-white transition-colors py-1.5">Events</a>
-      <a routerLink="/services" routerLinkActive="text-white"
-        class="hover:text-white transition-colors py-1.5">Services</a>
-      <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" routerLinkActive="text-white"
-        class="hover:text-white transition-colors py-1.5">Orders</a>
+    <nav class="hidden md:flex space-x-8 font-bold uppercase tracking-widest text-[11px]">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        class="nav-item">Home</a>
+      <a routerLink="/events" routerLinkActive="active"
+        class="nav-item">Events</a>
+      <a routerLink="/services" routerLinkActive="active"
+        class="nav-item">Services</a>
+      <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" routerLinkActive="active"
+        class="nav-item">Orders</a>
     </nav>
 
     <!-- Right Side Actions -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3.5 sm:gap-4">
       <!-- Cart Icon -->
-      <div routerLink="/cart" class="relative flex cursor-pointer hover:scale-105 transition-transform">
-        <svg class="w-6 h-6 md:w-7 md:h-7 text-[#f5c842]" viewbox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      <div routerLink="/cart" class="relative flex items-center justify-center p-2 rounded-full hover:bg-orange-50/80 cursor-pointer text-[#2e1e16] hover:text-[#e87f2c] transition-all hover:scale-105 active:scale-95" aria-label="Shopping Cart">
+        <svg class="w-6 h-6 md:w-6.5 md:h-6.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <span
-          class="absolute -right-2 -top-2 rounded-full bg-[#e87f2c] w-5 h-5 text-white font-black text-[10px] flex items-center justify-center border-2 border-[#3d1200]">{{
-          cartCount$ | async }}
+          class="absolute -right-0.5 -top-0.5 rounded-full bg-gradient-to-r from-[#e87f2c] to-[#f59e0b] min-w-[20px] h-5 px-1 text-white font-black text-[10px] flex items-center justify-center border-2 border-white shadow-sm">
+          {{ cartCount$ | async }}
         </span>
       </div>
 
-      <div class="hidden md:flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-3.5">
         <!-- Auth Button -->
         <ng-container *ngIf="!authService.isLoggedIn(); else userProfile">
           <button routerLink="/login"
-            class="text-[#f5c842] border-2 border-[#f5c842] hover:bg-[#f5c842] hover:text-[#3d1200] px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all active:scale-95">
+            class="text-[#e87f2c] border-2 border-[#e87f2c] hover:bg-[#e87f2c] hover:text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95">
             Login
           </button>
         </ng-container>
         <ng-template #userProfile>
           <div class="relative group">
-            <div class="flex items-center gap-3 bg-white/15 hover:bg-white/25 px-4 py-1.5 rounded-full border border-[#f5c842]/60 hover:border-[#f5c842] transition-all cursor-pointer shadow-lg">
-              <div class="w-8 h-8 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-xs font-black shadow-inner border-2 border-[#f5c842]/40">
+            <div class="flex items-center gap-2.5 bg-orange-50/70 hover:bg-orange-100/70 px-3.5 py-1.5 rounded-full border border-orange-200/80 hover:border-[#e87f2c] transition-all cursor-pointer shadow-sm">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#e87f2c] to-[#f59e0b] text-white flex items-center justify-center text-xs font-black shadow-inner border border-white">
                 {{authService.currentUserValue?.name?.charAt(0)}}
               </div>
               <div class="flex flex-col">
-                <span class="text-[9px] font-black text-white uppercase leading-tight tracking-wide">{{authService.currentUserValue?.name}}</span>
-                <span class="text-[7px] font-bold text-[#f5c842] uppercase tracking-tighter">Verified Account</span>
+                <span class="text-[9px] font-black text-gray-900 uppercase leading-tight tracking-wide">{{authService.currentUserValue?.name}}</span>
+                <span class="text-[7px] font-bold text-[#e87f2c] uppercase tracking-tighter">Verified Account</span>
               </div>
               <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3 text-[#f5c842]/70 group-hover:text-[#f5c842] transition-colors" viewBox="0 0 20 20"
+                class="h-3 w-3 text-gray-400 group-hover:text-[#e87f2c] transition-colors" viewBox="0 0 20 20"
                 fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -95,16 +94,17 @@
           </div>
         </ng-template>
 
+        <!-- Book Services CTA -->
         <button routerLink="/services"
-          class="bg-[#e87f2c] hover:bg-[#af6429] text-white px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center gap-2">
+          class="bg-gradient-to-r from-[#e87f2c] to-[#f59e0b] hover:from-[#d56d1a] hover:to-[#df8b00] text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300 shadow-[0_4px_14px_rgba(232,127,44,0.32)] hover:shadow-[0_6px_20px_rgba(232,127,44,0.45)] hover:scale-105 active:scale-95 flex items-center gap-1.5">
           <span class="lg:block hidden">Book Services</span>
           <span class="lg:hidden">Book</span>
         </button>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button (click)="toggleMenu()" class="md:hidden focus:outline-none p-2 rounded-lg bg-white/5 border border-[#f5c842]/20 hover:bg-white/10 transition-colors">
-        <svg class="w-6 h-6 text-[#f5c842]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <button (click)="toggleMenu()" class="md:hidden focus:outline-none p-2 rounded-xl bg-orange-50 border border-orange-200/80 hover:bg-orange-100 transition-colors" aria-label="Toggle Navigation Menu">
+        <svg class="w-6 h-6 text-[#e87f2c]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path *ngIf="!isMenuOpen" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           <path *ngIf="isMenuOpen" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -112,34 +112,51 @@
     </div>
   </div>
 
-  <!-- Mobile Menu -->
+  <!-- Mobile Menu Drawer -->
   <div id="mobileMenu"
     [ngClass]="{'hidden': !isMenuOpen, 'flex': isMenuOpen}"
-    class="flex-col border-t md:hidden px-6 py-5 space-y-4 font-bold text-[#f5c842] text-[13px] uppercase tracking-widest shadow-lg"
-    style="background: linear-gradient(135deg, #1a0a00, #3d1200);">
-    <a routerLink="/home" (click)="closeMenu()" class="hover:text-white transition py-2">Home</a>
-    <a routerLink="/events" (click)="closeMenu()" class="hover:text-white transition py-2">Events</a>
-    <a routerLink="/services" (click)="closeMenu()" class="hover:text-white transition py-2">Services</a>
-    <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" (click)="closeMenu()"
-      class="hover:text-white transition py-2">Orders</a>
+    class="flex-col border-t border-orange-100/80 md:hidden px-6 py-5 space-y-4 font-bold text-[#2e1e16] text-[13px] uppercase tracking-widest shadow-xl bg-white/98 backdrop-blur-xl">
+    <a routerLink="/home" (click)="closeMenu()" routerLinkActive="text-[#e87f2c]" [routerLinkActiveOptions]="{exact: true}"
+      class="hover:text-[#e87f2c] transition py-2 flex items-center justify-between">
+      <span>Home</span>
+      <i class="bi bi-chevron-right text-xs opacity-40"></i>
+    </a>
+    <a routerLink="/events" (click)="closeMenu()" routerLinkActive="text-[#e87f2c]"
+      class="hover:text-[#e87f2c] transition py-2 flex items-center justify-between">
+      <span>Events</span>
+      <i class="bi bi-chevron-right text-xs opacity-40"></i>
+    </a>
+    <a routerLink="/services" (click)="closeMenu()" routerLinkActive="text-[#e87f2c]"
+      class="hover:text-[#e87f2c] transition py-2 flex items-center justify-between">
+      <span>Services</span>
+      <i class="bi bi-chevron-right text-xs opacity-40"></i>
+    </a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/order-history" (click)="closeMenu()" routerLinkActive="text-[#e87f2c]"
+      class="hover:text-[#e87f2c] transition py-2 flex items-center justify-between">
+      <span>Orders</span>
+      <i class="bi bi-chevron-right text-xs opacity-40"></i>
+    </a>
 
     <ng-container *ngIf="!authService.isLoggedIn(); else mobileUser">
-      <a routerLink="/login" (click)="closeMenu()" class="hover:text-white transition py-2">Login</a>
+      <a routerLink="/login" (click)="closeMenu()"
+        class="block text-center py-2.5 rounded-xl border-2 border-[#e87f2c] text-[#e87f2c] font-black text-xs uppercase tracking-widest hover:bg-[#e87f2c] hover:text-white transition-all">
+        Login
+      </a>
     </ng-container>
     <ng-template #mobileUser>
-      <div class="flex items-center justify-between p-4 bg-orange-50/10 rounded-2xl border border-[#f5c842]/20 mb-2">
+      <div class="flex items-center justify-between p-4 bg-orange-50/80 rounded-2xl border border-orange-100 mb-2">
         <div class="flex items-center gap-3">
           <div
-            class="w-12 h-12 rounded-full bg-[#e87f2c] text-white flex items-center justify-center text-base font-black shadow-md border-2 border-[#f5c842]/40">
+            class="w-11 h-11 rounded-full bg-gradient-to-tr from-[#e87f2c] to-[#f59e0b] text-white flex items-center justify-center text-base font-black shadow-md border-2 border-white">
             {{authService.currentUserValue?.name?.charAt(0)}}
           </div>
           <div class="flex flex-col">
-            <p class="text-sm font-black text-white leading-tight">{{authService.currentUserValue?.name}}</p>
-            <p class="text-[10px] text-[#f5c842]/60 font-bold tracking-tight">{{authService.currentUserValue?.email ||
+            <p class="text-sm font-black text-gray-900 leading-tight">{{authService.currentUserValue?.name}}</p>
+            <p class="text-[10px] text-gray-400 font-bold tracking-tight">{{authService.currentUserValue?.email ||
               authService.currentUserValue?.mobile}}</p>
           </div>
         </div>
-        <button (click)="logout(); closeMenu()" class="p-2 bg-red-500/20 text-red-400 rounded-xl active:bg-red-500/40 transition-colors border border-red-500/30">
+        <button (click)="logout(); closeMenu()" class="p-2.5 bg-red-100 text-red-500 rounded-xl active:bg-red-200 transition-colors border border-red-200" aria-label="Logout">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -149,8 +166,8 @@
     </ng-template>
 
     <a routerLink="/services" (click)="closeMenu()"
-      class="bg-[#e87f2c] text-white px-5 py-3.5 rounded-xl shadow-md text-center font-black text-[13px] hover:bg-[#af6429] transition-colors">
-      Book Service
+      class="bg-gradient-to-r from-[#e87f2c] to-[#f59e0b] text-white px-5 py-3.5 rounded-xl shadow-md text-center font-black text-[13px] hover:shadow-lg transition-all active:scale-95 block">
+      Book Services
     </a>
   </div>
-</header>
+</header>

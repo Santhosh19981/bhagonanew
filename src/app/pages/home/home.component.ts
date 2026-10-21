@@ -29,6 +29,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedLocation: string = 'Delhi, India';
   popularCities: string[] = ['Delhi', 'Mumbai', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Noida'];
   
+  heroSwiper: any;
   eventsSwiper: any;
   servicesSwiper: any;
   
@@ -65,11 +66,22 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
   checkLoading() {
     if (!this.loadingStates.events && !this.loadingStates.services && !this.loadingStates.chefs) {
       this.isLoading = false;
+      setTimeout(() => {
+        if (this.heroSwiper) {
+          this.heroSwiper.update();
+          this.heroSwiper.autoplay?.start();
+        } else {
+          this.initHeroSwiper();
+        }
+      }, 100);
     }
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    if (this.heroSwiper) {
+      this.heroSwiper.destroy(true, true);
+    }
     if (this.eventsSwiper) {
       this.eventsSwiper.destroy(true, true);
     }
@@ -305,20 +317,39 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     });
   }
 
+  initHeroSwiper() {
+    if (this.isMobile) return;
+    if (this.heroSwiper) {
+      this.heroSwiper.destroy(true, true);
+      this.heroSwiper = null;
+    }
+
+    const swiperEl = document.querySelector('.main-hero-swiper');
+    if (!swiperEl) return;
+
+    this.heroSwiper = new Swiper('.main-hero-swiper', {
+      modules: [Pagination, Autoplay],
+      loop: true,
+      autoplay: {
+        delay: 3800,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+        waitForTransition: true,
+      },
+      speed: 1200,
+      grabCursor: true,
+      pagination: {
+        el: '.main-hero-swiper .swiper-pagination',
+        clickable: true
+      },
+    });
+  }
+
   ngAfterViewInit() {
     if (!this.isMobile) {
       setTimeout(() => {
-        new Swiper('.swiper', {
-          modules: [Navigation, Pagination, Autoplay],
-          loop: true,
-          autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-          },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        });
-      }, 500);
+        this.initHeroSwiper();
+      }, 150);
     }
   }
 }
