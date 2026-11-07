@@ -48,7 +48,116 @@ export class LaunchingSoonComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   ];
 
+  phoneNumber = '7416868881';
+  phoneFormatted = '+91 74168 68881';
+  emailAddress = 'bhagonaindia@gmail.com';
+  
+  copiedType: 'phone' | 'email' | null = null;
+  copiedMessage = '';
+
+  isInquiryOpen = false;
+  inquirySubmitted = false;
+  inquiryForm = {
+    name: '',
+    phone: '',
+    eventType: 'Royal Wedding & Banquet',
+    guests: '100 - 300 Guests',
+    date: '',
+    city: '',
+    notes: ''
+  };
+
   ngOnInit(): void {}
+
+  copyToClipboard(text: string, type: 'phone' | 'email'): void {
+    const successMsg = type === 'phone' ? 'Phone number 7416868881 copied!' : 'Email bhagonaindia@gmail.com copied!';
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        this.setCopiedState(type, successMsg);
+      }).catch(() => {
+        this.fallbackCopy(text, type, successMsg);
+      });
+    } else {
+      this.fallbackCopy(text, type, successMsg);
+    }
+  }
+
+  private fallbackCopy(text: string, type: 'phone' | 'email', successMsg: string): void {
+    try {
+      const input = document.createElement('textarea');
+      input.value = text;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      this.setCopiedState(type, successMsg);
+    } catch (e) {
+      console.error('Copy failed', e);
+    }
+  }
+
+  private setCopiedState(type: 'phone' | 'email', msg: string): void {
+    this.copiedType = type;
+    this.copiedMessage = msg;
+    setTimeout(() => {
+      if (this.copiedType === type) {
+        this.copiedType = null;
+        this.copiedMessage = '';
+      }
+    }, 3000);
+  }
+
+  toggleInquiry(): void {
+    this.isInquiryOpen = !this.isInquiryOpen;
+  }
+
+  scrollToOffline(): void {
+    const el = document.getElementById('offline-orders-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  openWhatsAppDirect(): void {
+    const message = `Namaste Bhagona Team! 🙏 I want to inquire about offline catering and event bookings. Please share details.`;
+    window.open(`https://wa.me/917416868881?text=${encodeURIComponent(message)}`, '_blank');
+  }
+
+  submitInquiryViaWhatsApp(): void {
+    const name = this.inquiryForm.name ? this.inquiryForm.name.trim() : 'Guest';
+    const phone = this.inquiryForm.phone ? this.inquiryForm.phone.trim() : 'Not provided';
+    const event = this.inquiryForm.eventType || 'Catering Feast';
+    const guests = this.inquiryForm.guests || 'Standard';
+    const dateStr = this.inquiryForm.date ? `\n📅 Event Date: ${this.inquiryForm.date}` : '';
+    const cityStr = this.inquiryForm.city ? `\n📍 City / Venue: ${this.inquiryForm.city}` : '';
+    const notesStr = this.inquiryForm.notes ? `\n📝 Specific Requirements: ${this.inquiryForm.notes}` : '';
+
+    const fullMsg = `Namaste Bhagona Team! 🙏\n\nI would like to place an *OFFLINE ORDER / EVENT BOOKING*:\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n🎉 *Occasion:* ${event}${dateStr}${cityStr}\n👥 *Guest Count:* ${guests}${notesStr}\n\nPlease share menu curation & pricing. Thank you!`;
+
+    window.open(`https://wa.me/917416868881?text=${encodeURIComponent(fullMsg)}`, '_blank');
+    this.inquirySubmitted = true;
+  }
+
+  submitCallback(): void {
+    if (!this.inquiryForm.phone) {
+      alert('Please enter your contact phone number.');
+      return;
+    }
+    this.inquirySubmitted = true;
+  }
+
+  resetInquiry(): void {
+    this.inquirySubmitted = false;
+    this.inquiryForm = {
+      name: '',
+      phone: '',
+      eventType: 'Royal Wedding & Banquet',
+      guests: '100 - 300 Guests',
+      date: '',
+      city: '',
+      notes: ''
+    };
+  }
 
   ngAfterViewInit(): void {
     this.initEmberEngine();

@@ -32,6 +32,7 @@ import { MobileNavComponent } from './components/mobile-nav/mobile-nav.component
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MessagesComponent } from './pages/messages/messages.component';
 import { LaunchingSoonComponent } from './pages/launching-soon/launching-soon.component';
+import { ThemeDatePickerComponent } from './components/theme-date-picker/theme-date-picker.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { LaunchingSoonComponent } from './pages/launching-soon/launching-soon.co
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ThemeDatePickerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

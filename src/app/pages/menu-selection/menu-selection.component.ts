@@ -22,6 +22,8 @@ export class MenuSelectionComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
 
   isLoading: boolean = true;
+  loadError: boolean = false;
+  readonly fallbackImage = 'assets/Events-new/Marriage.png';
   cart: any[] = [];
   isMobile: boolean = false;
   private sub = new Subscription();
@@ -41,11 +43,12 @@ export class MenuSelectionComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.fetchInitialData();
     const existingBooking = this.bookingService.getEventBooking();
     if (existingBooking && existingBooking.menuSelection) {
-      this.cart = [...existingBooking.menuSelection];
+      // Menu is select-only (no quantities): normalise any older saved carts to 1 each
+      this.cart = existingBooking.menuSelection.map((i: any) => ({ ...i, quantity: 1 }));
     }
+    this.fetchInitialData();
   }
 
   ngOnDestroy() {
@@ -53,36 +56,109 @@ export class MenuSelectionComponent implements OnInit, OnDestroy {
   }
 
   fetchInitialData() {
-    this.isLoading = true;
-    forkJoin({
-      categories: this.apiService.getMenuCategories(),
-      subcategories: this.apiService.getMenuSubcategories(),
-      items: this.apiService.getMenuItems()
-    }).subscribe({
-      next: (res: any) => {
-        this.isLoading = false;
-        if (res.categories.status) {
-          this.categories = res.categories.data.sort((a: any, b: any) => a.id - b.id);
-        }
-        if (res.subcategories.status) this.subcategories = res.subcategories.data;
-        if (res.items.status) this.allItems = res.items.data;
+    this.loadError = false;
 
-        // Set default selections
-        if (this.categories.length > 0) {
-          this.selectCategory(this.categories[0].id);
+    // 1) Paint instantly from the last saved menu (if any)
+    const cached = {
+      categories: this.apiService.getCachedSnapshot('/menu-categories'),
+      subcategories: this.apiService.getCachedSnapshot('/menu-subcategories'),
+      items: this.apiService.getCachedSnapshot('/menu-items')
+    };
+    const hasCache = !!(cached.categories && cached.subcategories && cached.items);
+    if (hasCache) {
+      this.applyMenuData(cached);
+    }
+    this.isLoading = !hasCache;
+
+    // 2) Refresh from the server (timeout + retry + stale fallback live in ApiService)
+    this.sub.add(
+      forkJoin({
+        categories: this.apiService.getMenuCategories(),
+        subcategories: this.apiService.getMenuSubcategories(),
+        items: this.apiService.getMenuItems()
+      }).subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          this.applyMenuData(res);
+        },
+        error: (err) => {
+          console.error('Error fetching menu data:', err);
+          this.isLoading = false;
+          this.loadError = !hasCache;
         }
-      },
-      error: (err) => {
-        console.error('Error fetching menu data:', err);
-        this.isLoading = false;
+      })
+    );
+  }
+
+  private applyMenuData(res: any) {
+    const prevCategory = this.selectedCategoryId;
+    const prevSubcategory = this.selectedSubcategoryId;
+
+    if (res.categories?.status) {
+      this.categories = [...res.categories.data].sort((a: any, b: any) => a.id - b.id);
+    }
+    if (res.subcategories?.status) this.subcategories = res.subcategories.data;
+    if (res.items?.status) this.allItems = res.items.data;
+
+    this.syncCartWithMenu();
+
+    // Keep the user's current tab when fresh data arrives; otherwise pick defaults
+    if (prevCategory != null && this.categories.some(c => c.id == prevCategory)) {
+      this.selectedCategoryId = prevCategory;
+      const subs = this.getCurrentCategorySubcategories();
+      this.currentSubcategories = subs;
+      if (prevSubcategory != null && subs.some(s => s.id == prevSubcategory)) {
+        this.selectedSubcategoryId = prevSubcategory;
+        this.filterItems();
+      } else {
+        this.selectCategory(prevCategory);
       }
+    } else if (this.categories.length > 0) {
+      this.selectCategory(this.categories[0].id);
+    }
+  }
+
+  /** Refresh image/price of items already in the cart from the latest menu data. */
+  private syncCartWithMenu() {
+    if (!this.cart.length || !this.allItems.length) return;
+    const byId = new Map<any, any>();
+    for (const item of this.allItems) {
+      byId.set(String(item.id || item.menu_item_id || item.item_id || item.dish_id), item);
+    }
+    this.cart = this.cart.map(c => {
+      const fresh = byId.get(String(c.id || c.menu_item_id || c.item_id || c.dish_id));
+      return fresh ? { ...c, image_url: fresh.image_url, display_url: fresh.display_url } : c;
     });
+  }
+
+  getItemImage(item: any): string {
+    return this.apiService.getImageUrl(item?.display_url || item?.image_url) || this.fallbackImage;
+  }
+
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    if (img && !img.src.endsWith(this.fallbackImage)) {
+      img.src = this.fallbackImage;
+    }
+  }
+
+  trackByItem(_index: number, item: any) {
+    return item.id || item.menu_item_id || item.item_id || item.dish_id || _index;
   }
 
   selectCategory(categoryId: any) {
     this.selectedCategoryId = categoryId;
     const CategorySubcategories = this.getCurrentCategorySubcategories();
-    if (CategorySubcategories.length > 0) {
+    this.currentSubcategories = CategorySubcategories;
+    // Keep the same course when switching diet (e.g. Veg Biryanies -> Non-Veg Biryanies)
+    const sameName = CategorySubcategories.find(s =>
+      this.selectedSubcategoryId != null &&
+      (s.id == this.selectedSubcategoryId ||
+        (s.name || '').trim().toLowerCase() === (this.subcategories.find(x => x.id == this.selectedSubcategoryId)?.name || '').trim().toLowerCase())
+    );
+    if (sameName) {
+      this.selectSubcategory(sameName.id);
+    } else if (CategorySubcategories.length > 0) {
       this.selectSubcategory(CategorySubcategories[0].id);
     } else {
       this.selectedSubcategoryId = null;
@@ -95,10 +171,25 @@ export class MenuSelectionComponent implements OnInit, OnDestroy {
     this.filterItems();
   }
 
+  /** Subcategories linked to the selected category, in creation order (cached for the template). */
+  currentSubcategories: any[] = [];
+
   getCurrentCategorySubcategories() {
-    return this.subcategories.filter(sub =>
-      sub.categories && sub.categories.some((cat: any) => cat.id == this.selectedCategoryId)
-    );
+    return this.subcategories
+      .filter(sub => sub.categories && sub.categories.some((cat: any) => cat.id == this.selectedCategoryId))
+      .sort((a: any, b: any) => (Number(a.id) || 0) - (Number(b.id) || 0));
+  }
+
+  getCategoryImage(cat: any): string | null {
+    return this.apiService.getImageUrl(cat?.display_url || cat?.image);
+  }
+
+  /** 'veg' | 'nonveg' | null based on the name (used for the diet symbol / pill dot). */
+  dietType(name: string): 'veg' | 'nonveg' | null {
+    const n = (name || '').toLowerCase();
+    if (/non[\s-]*veg/.test(n)) return 'nonveg';
+    if (/veg/.test(n)) return 'veg';
+    return null;
   }
 
   filterItems() {

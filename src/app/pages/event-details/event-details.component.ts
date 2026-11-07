@@ -88,28 +88,55 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.route.params.subscribe(params => {
+    this.sub.add(this.route.params.subscribe(params => {
       const eventId = params['id'];
       if (eventId) {
+        this.restoreOrResetBooking(eventId);
         this.fetchEventDetails(eventId);
       } else {
         // If no ID provided, maybe redirect or show default
         this.router.navigate(['/events']);
       }
-    });
+    }));
 
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     this.minDate = `${yyyy}-${mm}-${dd}`;
+  }
 
-    const existingBooking = this.bookingService.getEventBooking();
-    if (existingBooking) {
-      if (existingBooking.eventDate) this.eventDate = existingBooking.eventDate;
-      if (existingBooking.vegGuests) this.onVegChange(existingBooking.vegGuests);
-      if (existingBooking.nonVegGuests) this.onNonVegChange(existingBooking.nonVegGuests);
-      if (existingBooking.totalMembers) this.totalMembers = existingBooking.totalMembers;
+  /**
+   * Only restore saved details when the user comes back to the SAME event
+   * (e.g. Back from the menu page). Opening a different event, or a booking
+   * whose date has already passed, starts with a clean form.
+   */
+  private restoreOrResetBooking(eventId: any) {
+    const today = new Date();
+    const todayIso = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const existing = this.bookingService.getEventBooking();
+    const sameEvent = !!existing?.eventId && String(existing.eventId) === String(eventId);
+    const dateExpired = !!existing?.eventDate && existing.eventDate < todayIso;
+
+    // reset local form state
+    this.eventDate = '';
+    this.vegGuests = 0;
+    this.nonVegGuests = 0;
+    this.totalMembers = 0;
+    this.vegError = '';
+    this.nonVegError = '';
+
+    if (sameEvent && !dateExpired) {
+      if (existing.eventDate) this.eventDate = existing.eventDate;
+      if (existing.vegGuests) this.onVegChange(existing.vegGuests);
+      if (existing.nonVegGuests) this.onNonVegChange(existing.nonVegGuests);
+      this.updateTotal();
+      return;
+    }
+
+    // Different event (or stale booking): drop the previous event's details & menu
+    if (existing && (existing.eventId || existing.eventDate || existing.menuSelection?.length)) {
+      this.bookingService.clearEventBooking();
     }
   }
 

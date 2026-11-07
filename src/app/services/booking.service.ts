@@ -41,7 +41,18 @@ export class BookingService {
       eventBooking: this.eventBooking,
       serviceCart: this.serviceCart
     };
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {
+      // Storage quota exceeded (usually embedded base64 images) - retry without them
+      try {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data, (_key, value) =>
+          typeof value === 'string' && value.startsWith('data:') && value.length > 2048 ? null : value
+        ));
+      } catch (err) {
+        console.error('Unable to save cart to localStorage', err);
+      }
+    }
     this.updateCartCount();
   }
 

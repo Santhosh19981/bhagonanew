@@ -1,0 +1,65 @@
+<!-- Trigger -->
+<button #trigger type="button" class="tdp-trigger" [class.tdp-trigger--sm]="size === 'sm'"
+  [class.tdp-trigger--open]="isOpen" [class.tdp-trigger--filled]="!!value"
+  (click)="toggle()" [attr.aria-expanded]="isOpen" aria-haspopup="dialog">
+  <span class="tdp-trigger__icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="3" y="5" width="18" height="16" rx="3" />
+      <path stroke-linecap="round" d="M8 3v4M16 3v4M3 10h18" />
+    </svg>
+  </span>
+  <span class="tdp-trigger__text" [class.tdp-trigger__placeholder]="!value">
+    {{ value ? displayValue : placeholder }}
+  </span>
+  <svg class="tdp-trigger__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+  </svg>
+</button>
+
+<!-- Popup (moved to <body> at runtime) -->
+<div #panel class="tdp-layer" [class.tdp-layer--open]="isOpen" [class.tdp-layer--sheet]="isSheet">
+  <div *ngIf="isSheet" class="tdp-backdrop" (click)="close()"></div>
+
+  <div class="tdp-panel" [ngStyle]="panelStyle" role="dialog" aria-label="Choose date">
+    <div *ngIf="isSheet" class="tdp-grabber"></div>
+
+    <!-- Header -->
+    <div class="tdp-header">
+      <button type="button" class="tdp-nav" (click)="prevMonth()" [disabled]="!canGoPrev" aria-label="Previous month">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <div class="tdp-title">
+        <span class="tdp-title__month">{{ monthNames[viewMonth] }}</span>
+        <span class="tdp-title__year">{{ viewYear }}</span>
+      </div>
+      <button type="button" class="tdp-nav" (click)="nextMonth()" aria-label="Next month">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Week days -->
+    <div class="tdp-grid tdp-weekdays">
+      <span *ngFor="let w of weekDays; let i = index" [class.tdp-weekend]="i === 0">{{ w }}</span>
+    </div>
+
+    <!-- Days -->
+    <div class="tdp-grid tdp-days">
+      <button type="button" *ngFor="let d of days; trackBy: trackByIso" class="tdp-day"
+        [class.tdp-day--muted]="!d.inMonth" [class.tdp-day--today]="d.isToday"
+        [class.tdp-day--selected]="d.iso === value" [disabled]="d.disabled" (click)="select(d)">
+        {{ d.day }}
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="tdp-footer">
+      <button type="button" class="tdp-link" (click)="clear()" [disabled]="!value">Clear</button>
+      <button type="button" class="tdp-today" (click)="selectToday()">Today</button>
+    </div>
+  </div>
+</div>

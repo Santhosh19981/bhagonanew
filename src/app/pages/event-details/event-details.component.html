@@ -60,8 +60,7 @@
                               Date
                           </label>
                           <div class="relative group">
-                              <input type="date" [(ngModel)]="eventDate" [min]="minDate"
-                                  class="w-full px-6 py-4 rounded-3xl bg-gray-50 border border-gray-200/80 hover:border-amber-400 focus:border-[#e87f2c] focus:ring-4 focus:ring-[#e87f2c]/10 focus:bg-white transition-all outline-none text-sm font-extrabold text-gray-800 shadow-sm cursor-pointer">
+                              <app-theme-date-picker [(value)]="eventDate" [min]="minDate"></app-theme-date-picker>
                           </div>
                       </div>
 
@@ -218,8 +217,7 @@
           <span *ngIf="eventDate" class="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">Selected</span>
         </div>
         <div class="relative">
-          <input type="date" [(ngModel)]="eventDate" [min]="minDate"
-            class="w-full px-4 py-3.5 rounded-2xl bg-orange-50/20 border border-orange-100/40 text-xs font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#e87f2c]/20 focus:border-[#e87f2c] focus:bg-white transition-all shadow-sm cursor-pointer" />
+          <app-theme-date-picker [(value)]="eventDate" [min]="minDate" size="sm"></app-theme-date-picker>
         </div>
         <p class="text-[9px] text-gray-400 font-medium">Select celebration date</p>
       </div>

@@ -18,8 +18,33 @@
   <!-- Top Festive Celebration Stripe (Bhagona Signature) -->
   <div class="w-full h-[3px] fixed top-0 left-0 z-30" style="background: linear-gradient(90deg, #c8860a 0%, #e87f2c 25%, #f5c842 50%, #e87f2c 75%, #c8860a 100%);"></div>
 
+  <!-- Top Festive Announcement Alert Banner -->
+  <div class="w-full fixed top-[3px] left-0 z-30 top-festive-alert px-3 sm:px-6 py-2">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-3 text-xs sm:text-sm">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-amber-400 to-yellow-300 text-stone-950 shadow-sm shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-ping"></span>
+          OFFLINE ORDERS OPEN
+        </span>
+        <span class="font-medium text-amber-100 flex items-center gap-1.5 truncate">
+          <i class="bi bi-stars text-amber-300"></i>
+          <span>We have started accepting offline catering & chef orders for weddings & banquets!</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-2.5 font-bold shrink-0">
+        <a href="tel:+917416868881" class="text-amber-200 hover:text-white transition-colors hidden md:flex items-center gap-1">
+          <i class="bi bi-telephone-fill text-amber-400 phone-ring-anim"></i> 7416868881
+        </a>
+        <button (click)="scrollToOffline()" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-400 to-yellow-300 text-stone-950 hover:brightness-110 shadow-sm transition-all flex items-center gap-1">
+          <span>Inquire Now</span>
+          <i class="bi bi-arrow-down-short text-base"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Content Shell -->
-  <div class="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 flex flex-col items-center justify-center flex-grow">
+  <div class="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16 flex flex-col items-center justify-center flex-grow">
 
     <!-- Central Light Frosted Glass Showcase Card -->
     <div class="w-full glass-hero-card rounded-3xl p-6 sm:p-10 md:p-14 text-center relative overflow-hidden"
@@ -43,8 +68,8 @@
 
         <!-- Official Bhagona Logo Floating in the Warm Radiant Aura -->
         <img src="assets/bhagona-logo-official.png"
-             alt="Bhagona.in - One Platform • Endless Possibilities • Memorable Events"
-             class="relative z-10 h-28 sm:h-36 md:h-44 lg:h-52 w-auto object-contain transition-all duration-700 group-hover:scale-105 logo-in-aura">
+             alt="Bhagona.in - Plan • Book • Celebrate"
+             class="relative z-10 w-full max-w-[290px] sm:max-w-[420px] md:max-w-[520px] lg:max-w-[580px] h-auto object-contain transition-all duration-700 group-hover:scale-105 logo-in-aura">
       </div>
 
       <!-- 2. Radiant Pill Status Tag -->
@@ -76,6 +101,314 @@
         <p class="text-sm sm:text-base text-stone-600 leading-relaxed max-w-xl mx-auto font-normal">
           Something extraordinary is simmering. We are perfecting your seamless booking journey for master chefs, royal banquets, and unforgettable celebrations.
         </p>
+      </div>
+
+      <!-- ====================================================================
+           ★ MAGNIFICENT ROYAL OFFLINE ORDERS SHOWCASE CARD ★
+           ==================================================================== -->
+      <div id="offline-orders-section"
+           class="mt-10 sm:mt-14 relative w-full text-left"
+           data-aos="zoom-in" data-aos-duration="1000">
+
+        <!-- Animated Shimmering Gold Border Beam -->
+        <div class="gold-beam-border"></div>
+
+        <!-- Royal Maroon Silk Luxury Container -->
+        <div class="royal-offline-card p-6 sm:p-9 md:p-12 relative text-white">
+
+          <!-- Background Decorative Ambience & Golden Lights -->
+          <div class="absolute -top-20 -right-20 w-72 h-72 bg-gradient-to-bl from-amber-400/20 via-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-gradient-to-tr from-amber-300/15 via-red-600/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Subtle Royal Filigree Pattern Corner Accents -->
+          <div class="absolute top-3 left-4 text-amber-300/25 text-2xl select-none pointer-events-none">✦</div>
+          <div class="absolute top-3 right-4 text-amber-300/25 text-2xl select-none pointer-events-none">✦</div>
+
+          <!-- Top Status Pill & Urgency Badge -->
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-5 border-b border-amber-300/20">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-300/40 backdrop-blur-md vip-badge-bob">
+              <span class="text-amber-300 text-sm">👑</span>
+              <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-200">
+                Offline Orders & Event Bookings Active
+              </span>
+            </div>
+
+            <div class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-300 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/40">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              <span>Hotline & WhatsApp Live Now</span>
+            </div>
+          </div>
+
+          <!-- Grand Gold Headline Inspired by Reference Banner -->
+          <div class="text-center md:text-left mb-8">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight gold-title-shimmer font-serif">
+              For OFFLINE ORDERS Please Contact
+            </h2>
+            <p class="mt-2 text-sm sm:text-base text-amber-100/90 leading-relaxed max-w-3xl font-light">
+              Hosting a wedding, reception, royal banquet, or private chef gathering? Don't wait for our digital launch — our master chefs, traditional brass chafers, and event managers are actively taking bookings today!
+            </p>
+          </div>
+
+          <!-- Dual Contact Highlight Channels (Phone & Email) -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-8">
+
+            <!-- 1. PHONE & WHATSAPP CHANNEL -->
+            <div class="contact-block-glass rounded-2xl p-5 sm:p-7 relative overflow-hidden group">
+              <!-- Internal Subtle Gold Glow -->
+              <div class="absolute -right-10 -bottom-10 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+              <div class="flex items-start gap-4 sm:gap-5">
+                <!-- Golden Circular Medallion with Ringing Telephone -->
+                <div class="gold-circle-medallion w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-[#5c0d17] text-2xl sm:text-3xl shrink-0 radar-pulse-ring">
+                  <i class="bi bi-telephone-fill phone-ring-anim"></i>
+                </div>
+
+                <div class="flex-grow min-w-0">
+                  <span class="text-[11px] font-black uppercase tracking-widest text-amber-300 block">
+                    Direct Phone & WhatsApp Hotline
+                  </span>
+                  <!-- Phone Number Display -->
+                  <a href="tel:+917416868881"
+                     class="text-2xl sm:text-3xl md:text-4xl font-black tracking-wide gold-number-glow font-mono block hover:scale-[1.02] transition-transform select-all mt-1">
+                    7416868881
+                  </a>
+                  <span class="text-xs text-amber-200/80 font-medium block mt-1">
+                    Direct lines open 7 days a week • 8:00 AM - 11:00 PM
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Buttons for Phone -->
+              <div class="mt-5 pt-4 border-t border-amber-300/15 flex flex-wrap items-center gap-2.5">
+                <a href="tel:+917416868881"
+                   class="btn-gold-luxury px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                  <i class="bi bi-telephone-outbound-fill text-sm"></i>
+                  <span>Call Now</span>
+                </a>
+
+                <button (click)="openWhatsAppDirect()"
+                        class="btn-whatsapp-luxury px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                  <i class="bi bi-whatsapp text-sm"></i>
+                  <span>WhatsApp Us</span>
+                </button>
+
+                <button (click)="copyToClipboard(phoneNumber, 'phone')"
+                        class="px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 text-amber-200 border border-amber-300/30 transition-all flex items-center gap-1.5 ml-auto"
+                        title="Copy phone number">
+                  <i class="bi" [ngClass]="copiedType === 'phone' ? 'bi-check2-circle text-emerald-400' : 'bi-clipboard'"></i>
+                  <span>{{ copiedType === 'phone' ? 'Copied!' : 'Copy' }}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. OFFICIAL EMAIL & BESPOKE PROPOSAL CHANNEL -->
+            <div class="contact-block-glass rounded-2xl p-5 sm:p-7 relative overflow-hidden group">
+              <!-- Internal Subtle Gold Glow -->
+              <div class="absolute -right-10 -bottom-10 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+
+              <div class="flex items-start gap-4 sm:gap-5">
+                <!-- Golden Circular Medallion with Mail Envelope -->
+                <div class="gold-circle-medallion w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-[#5c0d17] text-2xl sm:text-3xl shrink-0 radar-pulse-ring">
+                  <i class="bi bi-envelope-fill mail-float-anim"></i>
+                </div>
+
+                <div class="flex-grow min-w-0">
+                  <span class="text-[11px] font-black uppercase tracking-widest text-amber-300 block">
+                    Official Catering & Inquiries Email
+                  </span>
+                  <!-- Email Display -->
+                  <a [href]="'mailto:' + emailAddress + '?subject=Offline%20Order%20Inquiry%20-%20Bhagona.in'"
+                     class="text-lg sm:text-xl md:text-2xl font-bold tracking-tight gold-number-glow block hover:scale-[1.01] transition-transform break-all select-all mt-1.5">
+                    {{ emailAddress }}
+                  </a>
+                  <span class="text-xs text-amber-200/80 font-medium block mt-1">
+                    Send guest counts, custom menu wishes & event dates
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Buttons for Email -->
+              <div class="mt-5 pt-4 border-t border-amber-300/15 flex flex-wrap items-center gap-2.5">
+                <a [href]="'mailto:' + emailAddress + '?subject=Offline%20Order%20Inquiry%20-%20Bhagona.in'"
+                   class="btn-gold-luxury px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                  <i class="bi bi-envelope-paper-fill text-sm"></i>
+                  <span>Send Email</span>
+                </a>
+
+                <button (click)="copyToClipboard(emailAddress, 'email')"
+                        class="px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 text-amber-200 border border-amber-300/30 transition-all flex items-center gap-1.5 ml-auto"
+                        title="Copy email address">
+                  <i class="bi" [ngClass]="copiedType === 'email' ? 'bi-check2-circle text-emerald-400' : 'bi-clipboard'"></i>
+                  <span>{{ copiedType === 'email' ? 'Copied!' : 'Copy' }}</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive 1-Minute Quick Inquiry & Callback Drawer -->
+          <div class="rounded-2xl bg-black/30 border border-amber-300/25 p-4 sm:p-6 backdrop-blur-md">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 class="text-base sm:text-lg font-bold text-amber-200 flex items-center gap-2">
+                  <i class="bi bi-clock-history text-amber-400"></i>
+                  <span>Prefer We Call You Back?</span>
+                </h4>
+                <p class="text-xs text-amber-100/70 mt-0.5 font-light">
+                  Tell us about your celebration — our Culinary Director will call you within 15 minutes.
+                </p>
+              </div>
+
+              <button (click)="toggleInquiry()"
+                      class="px-4 py-2 rounded-xl text-xs font-extrabold uppercase tracking-wider bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 border border-amber-300/40 transition-all flex items-center gap-2 shrink-0">
+                <span>{{ isInquiryOpen ? 'Close Quick Request' : '⚡ Request 15-Min Callback' }}</span>
+                <i class="bi" [ngClass]="isInquiryOpen ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+              </button>
+            </div>
+
+            <!-- Expandable Inquiry Form -->
+            <div *ngIf="isInquiryOpen" class="mt-6 pt-5 border-t border-amber-300/15" data-aos="fade-down">
+
+              <!-- Success State -->
+              <div *ngIf="inquirySubmitted" class="p-6 rounded-xl bg-emerald-950/80 border border-emerald-400/50 text-center">
+                <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-300 text-2xl flex items-center justify-center mx-auto mb-3">
+                  <i class="bi bi-check-lg"></i>
+                </div>
+                <h5 class="text-lg font-bold text-emerald-200">Thank You! Request Received</h5>
+                <p class="text-xs sm:text-sm text-emerald-100/80 mt-1 max-w-md mx-auto">
+                  Our chef concierge has received your request and will call you on <strong>{{ inquiryForm.phone }}</strong> shortly.
+                </p>
+                <button (click)="resetInquiry()" class="mt-4 text-xs font-bold text-amber-300 hover:underline">
+                  Submit another inquiry &rarr;
+                </button>
+              </div>
+
+              <!-- Form Inputs -->
+              <div *ngIf="!inquirySubmitted" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+
+                  <!-- Name -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">Your Name</label>
+                    <input type="text"
+                           [(ngModel)]="inquiryForm.name"
+                           placeholder="e.g. Rajesh Sharma"
+                           class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-amber-300/30 text-white placeholder-amber-200/40 text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                  </div>
+
+                  <!-- Phone Number -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">Phone Number *</label>
+                    <input type="tel"
+                           [(ngModel)]="inquiryForm.phone"
+                           placeholder="e.g. 9876543210"
+                           class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-amber-300/30 text-white placeholder-amber-200/40 text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                  </div>
+
+                  <!-- Event Type -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">Occasion / Event</label>
+                    <select [(ngModel)]="inquiryForm.eventType"
+                            class="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-amber-300/30 text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                      <option value="Royal Wedding & Reception">Royal Wedding & Reception</option>
+                      <option value="Private Master Chef Live Cooking">Private Master Chef Live Cooking</option>
+                      <option value="Grand Birthday / Anniversary">Grand Birthday / Anniversary</option>
+                      <option value="Traditional Puja / House Gathering">Traditional Puja / House Gathering</option>
+                      <option value="Corporate Banquet & Gala">Corporate Banquet & Gala</option>
+                    </select>
+                  </div>
+
+                  <!-- Expected Guests -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">Guest Count</label>
+                    <select [(ngModel)]="inquiryForm.guests"
+                            class="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-amber-300/30 text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                      <option value="20 - 50 Guests (Intimate Feast)">20 - 50 Guests (Intimate Feast)</option>
+                      <option value="50 - 150 Guests (Celebration)">50 - 150 Guests (Celebration)</option>
+                      <option value="150 - 500 Guests (Grand Banquet)">150 - 500 Guests (Grand Banquet)</option>
+                      <option value="500 - 2000+ Guests (Royal Wedding)">500 - 2000+ Guests (Royal Wedding)</option>
+                    </select>
+                  </div>
+
+                  <!-- Event Date -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">Event Date (Approx)</label>
+                    <input type="text"
+                           [(ngModel)]="inquiryForm.date"
+                           placeholder="e.g. Next Month / Nov 2026"
+                           class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-amber-300/30 text-white placeholder-amber-200/40 text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                  </div>
+
+                  <!-- City / Venue -->
+                  <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300 mb-1">City / Venue Location</label>
+                    <input type="text"
+                           [(ngModel)]="inquiryForm.city"
+                           placeholder="e.g. Hyderabad, Delhi, Bangalore..."
+                           class="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-amber-300/30 text-white placeholder-amber-200/40 text-xs sm:text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+                  </div>
+
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex flex-wrap items-center justify-end gap-3 pt-2">
+                  <button (click)="submitCallback()"
+                          class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all flex items-center gap-2">
+                    <i class="bi bi-telephone-inbound-fill text-amber-400"></i>
+                    <span>Request Callback</span>
+                  </button>
+
+                  <button (click)="submitInquiryViaWhatsApp()"
+                          class="btn-whatsapp-luxury px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider flex items-center gap-2 shadow-lg">
+                    <i class="bi bi-whatsapp text-base"></i>
+                    <span>Send Inquiry via WhatsApp &rarr;</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 4 Royal Quality Badges -->
+          <div class="mt-8 pt-6 border-t border-amber-300/20 grid grid-cols-2 md:grid-cols-4 gap-3 text-center sm:text-left">
+            <div class="flex items-center gap-2.5">
+              <span class="text-amber-400 text-lg">👑</span>
+              <div>
+                <strong class="text-xs font-bold text-amber-100 block">Royal Banquets</strong>
+                <span class="text-[10px] text-amber-200/70">50 to 5,000+ Guests</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <span class="text-amber-400 text-lg">👨‍🍳</span>
+              <div>
+                <strong class="text-xs font-bold text-amber-100 block">Master Artisanal Chefs</strong>
+                <span class="text-[10px] text-amber-200/70">Authentic Heritage Menus</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <span class="text-amber-400 text-lg">🍲</span>
+              <div>
+                <strong class="text-xs font-bold text-amber-100 block">Live Brass Chafers</strong>
+                <span class="text-[10px] text-amber-200/70">Royal Indian Presentation</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <span class="text-amber-400 text-lg">⚡</span>
+              <div>
+                <strong class="text-xs font-bold text-amber-100 block">15-Min Response</strong>
+                <span class="text-[10px] text-amber-200/70">Prompt Menu & Quotation</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <!-- 5. Sneak Peek Feature Teaser Cards -->
@@ -124,5 +457,53 @@
       <span>© 2026 Bhagona. All Rights Reserved.</span>
     </div>
   </footer>
+
+  <!-- Floating VIP Offline Orders Hotline Pill -->
+  <div class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 floating-hotline-pill max-w-[calc(100vw-2rem)]">
+    <div class="flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-[#3d070e] via-[#630f1b] to-[#3d070e] text-white p-2 sm:px-4 sm:py-2.5 rounded-full border border-amber-300/60 shadow-[0_12px_36px_rgba(61,7,14,0.5)] backdrop-blur-md">
+      
+      <!-- Phone Medallion -->
+      <a href="tel:+917416868881"
+         class="gold-circle-medallion w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[#5c0d17] text-base shrink-0 radar-pulse-ring cursor-pointer hover:scale-105 transition-transform"
+         title="Call Hotline">
+        <i class="bi bi-telephone-fill phone-ring-anim"></i>
+      </a>
+
+      <!-- Number Info -->
+      <div class="hidden sm:block text-left pr-1 cursor-pointer" (click)="scrollToOffline()">
+        <span class="text-[9px] font-black uppercase tracking-widest text-amber-300 block leading-none">
+          Offline Orders Live
+        </span>
+        <span class="text-sm font-black tracking-wide gold-number-glow font-mono leading-tight block">
+          7416868881
+        </span>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <a href="tel:+917416868881"
+           class="btn-gold-luxury px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-1 shadow-sm"
+           title="Call Now">
+          <i class="bi bi-telephone-outbound-fill text-xs"></i>
+          <span class="hidden xs:inline">Call</span>
+        </a>
+
+        <button (click)="openWhatsAppDirect()"
+                class="btn-whatsapp-luxury px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider flex items-center gap-1 shadow-sm"
+                title="Chat on WhatsApp">
+          <i class="bi bi-whatsapp text-xs"></i>
+          <span class="hidden xs:inline">WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Interactive Toast Notification for Copied Details -->
+  <div *ngIf="copiedType"
+       class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-5 py-2.5 rounded-full bg-stone-900/95 text-amber-300 border border-amber-400/60 shadow-[0_10px_35px_rgba(0,0,0,0.45)] flex items-center gap-2.5 text-xs sm:text-sm font-bold toast-copied backdrop-blur-md">
+    <i class="bi bi-check-circle-fill text-emerald-400 text-base"></i>
+    <span>{{ copiedMessage }}</span>
+  </div>
 
 </div>
