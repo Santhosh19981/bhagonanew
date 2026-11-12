@@ -1,7 +1,7 @@
 <!-- src/app/pages/checkoutpage/checkoutpage.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
   <div
-      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-20 pb-8 px-4">
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-8 px-4">
       <div class="max-w-6xl mx-auto">
           <!-- Back Button -->
           <button (click)="goBack()"
@@ -258,7 +258,7 @@
 
               <!-- Right: Order Summary -->
               <div class="lg:col-span-4">
-                  <div class="bg-[#0f172a] rounded-[2.5rem] p-8 shadow-2xl border border-white/5 sticky top-20"
+                  <div class="bg-[#0f172a] rounded-[2.5rem] p-8 shadow-2xl border border-white/5 sticky top-[110px]"
                       data-aos="fade-left">
                       <div class="flex items-center gap-2 mb-8">
                           <h2 class="text-2xl font-black text-white main-font">Order Summary</h2>
@@ -268,11 +268,21 @@
                       <div class="space-y-4 mb-8">
                           <div *ngIf="activeTab === 'event'" class="flex justify-between items-center">
                               <span class="text-gray-400 font-bold text-sm">Event Total</span>
-                              <span class="text-white font-black text-sm">₹{{eventTotal}}</span>
+                              <span class="text-white font-black text-sm">₹{{eventTotal | number:'1.0-0'}}</span>
                           </div>
                           <div *ngIf="activeTab === 'service'" class="flex justify-between items-center">
                               <span class="text-gray-400 font-bold text-sm">Service Total</span>
-                              <span class="text-white font-black text-sm">₹{{serviceTotal}}</span>
+                              <span class="text-white font-black text-sm">₹{{serviceTotal | number:'1.0-0'}}</span>
+                          </div>
+
+                          <!-- Discount (highlighted) -->
+                          <div *ngIf="discountAmount > 0"
+                              class="flex justify-between items-center rounded-xl bg-green-500/15 border border-green-400/30 px-3 py-2 -mx-3">
+                              <span class="text-green-400 font-bold text-sm">
+                                  <i class="bi bi-tag-fill mr-1"></i>Discount
+                                  <span *ngIf="discountLabel" class="text-[10px] font-semibold text-green-300/80 ml-1">{{ discountLabel }}</span>
+                              </span>
+                              <span class="text-green-400 font-black text-sm">−₹{{ discountAmount | number:'1.0-0' }}</span>
                           </div>
 
                           <div class="flex justify-between items-center">
@@ -527,6 +537,7 @@
         <span class="text-xl font-black text-white mt-1 block">
           ₹{{ totalValue * 1.23 | number:'1.0-0' }}
           <span class="text-[8px] text-gray-400 font-bold tracking-normal block leading-none mt-1">Gst & fees included</span>
+          <span *ngIf="discountAmount > 0" class="inline-block mt-1 px-1.5 py-0.5 rounded bg-green-500/20 text-[9px] text-green-400 font-black tracking-normal leading-none">You save ₹{{ discountAmount | number:'1.0-0' }}</span>
         </span>
       </div>
 

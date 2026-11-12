@@ -27,7 +27,10 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
   subtotal: number = 0;
   platformTax: number = 0;
   gst: number = 0;
+  serviceFee: number = 0;
   discount: number = 0;
+  discountTitle: string = '';
+  discountLabel: string = '';
 
   // UI State
   activeStep: number = 2; 
@@ -66,11 +69,57 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Auto-trigger Order Creation on Page Load
+    // Look up any volume discount first, then auto-trigger order creation.
+    // A failed lookup never blocks payment: the order just proceeds without a discount.
+    const started = Date.now();
+    this.apiService.getApplicableDiscount(this.discountVendorId, this.discountGuestCount, this.subtotal).subscribe({
+      next: (res: any) => {
+        this.setDiscount(res?.status ? res.data : null);
+        this.startOrderCreationAfter(started);
+      },
+      error: (err: any) => {
+        console.warn('Discount lookup failed, continuing without discount', err);
+        this.setDiscount(null);
+        this.startOrderCreationAfter(started);
+      }
+    });
+  }
+
+  private startOrderCreationAfter(started: number) {
+    const wait = Math.max(800 - (Date.now() - started), 0);
     setTimeout(() => {
       console.log('Initiating Payment Gateway...');
       this.initiateOrderCreation();
-    }, 800);
+    }, wait);
+  }
+
+  /** Vendor/chef whose discount rules apply to this order (platform-wide rules always apply). */
+  private get discountVendorId(): number | null {
+    const booking: any = this.bookingService.getEventBooking();
+    if (this.orderType === 'event' && booking.serviceType === 'chef') {
+      return booking.selectedChefs?.[0]?.user_id || null;
+    }
+    return booking.selectedVendor?.user_id || null;
+  }
+
+  /** Guest count only exists for event bookings; service orders can only match bill-amount rules. */
+  private get discountGuestCount(): number {
+    if (this.orderType !== 'event') return 0;
+    return Number(this.bookingService.getEventBooking().totalMembers) || 0;
+  }
+
+  private setDiscount(data: any) {
+    const amount = data?.applied ? Number(data.discount_amount) || 0 : 0;
+    this.discount = Math.min(Math.max(amount, 0), this.subtotal);
+    this.discountTitle = this.discount > 0 ? (data.rule?.title || 'Discount') : '';
+    this.discountLabel = '';
+    if (this.discount > 0 && data.rule) {
+      const r = data.rule;
+      const cond = r.rule_type === 'guest_count' ? `${r.min_value}+ guests` : `bill ₹${Number(r.min_value).toLocaleString('en-IN')}+`;
+      const val = r.discount_type === 'percentage' ? `${r.discount_value}% off` : `₹${Number(r.discount_value).toLocaleString('en-IN')} off`;
+      this.discountLabel = `${val} · ${cond}`;
+    }
+    this.recalculateTotals();
   }
 
   ngOnDestroy() {
@@ -90,9 +139,15 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
       this.subtotal = cart.reduce((acc, curr) => acc + (Number(curr.price) * Number(curr.quantity)), 0);
     }
     
-    const serviceFee = this.subtotal * 0.05;
-    this.gst = this.subtotal * 0.18;
-    this.totalAmount = this.subtotal + serviceFee + this.gst;
+    this.recalculateTotals();
+  }
+
+  /** Fees and GST are charged on the subtotal after the discount. */
+  private recalculateTotals() {
+    const taxable = Math.max(this.subtotal - this.discount, 0);
+    this.serviceFee = taxable * 0.05;
+    this.gst = taxable * 0.18;
+    this.totalAmount = taxable + this.serviceFee + this.gst;
   }
 
   loadBookingItems() {
@@ -125,33 +180,58 @@ export class PaymentPageComponent implements OnInit, OnDestroy {
           const booking_id = res.booking_id;
           const alphanumeric_order_id = res.order_id;
 
-          const payload = {
-            amount: this.totalAmount,
-            currency: 'INR',
-            booking_type: this.orderType,
-            booking_id: booking_id,
-            customer_id: this.authService.currentUserValue?.id,
-            items: this.bookingItems
-          };
-
-          this.apiService.createRazorpayOrder(payload).subscribe({
-            next: (rzpRes: any) => {
-              if (rzpRes.status) {
-                this.openRazorpayInline(rzpRes, booking_id, alphanumeric_order_id);
-              } else {
-                console.error('Razorpay order creation failed:', rzpRes.message);
-                this.isProcessingOrder = false;
-              }
+          // Record the discount on the booking. The server recomputes it, so the amount
+          // charged always matches what is stored (and what the vendor payout uses).
+          const discountVendorId = this.discountVendorId;
+          const discountGuestCount = this.discountGuestCount;
+          this.apiService.applyDiscountToBooking({
+            booking_id,
+            vendor_id: discountVendorId,
+            guest_count: discountGuestCount,
+            bill_amount: this.subtotal
+          }).subscribe({
+            next: (dRes: any) => {
+              if (dRes?.status) this.setDiscount(dRes.data);
+              this.createGatewayOrder(booking_id, alphanumeric_order_id);
             },
             error: (err: any) => {
-              console.error('Razorpay order API error:', err);
-              this.isProcessingOrder = false;
+              // Could not record it: charge the undiscounted amount so payment and payout stay consistent.
+              console.warn('Could not record discount; continuing without it', err);
+              this.setDiscount(null);
+              this.createGatewayOrder(booking_id, alphanumeric_order_id);
             }
           });
         }
       },
       error: (err: any) => {
         console.error('Booking creation failed', err);
+        this.isProcessingOrder = false;
+      }
+    });
+  }
+
+  private createGatewayOrder(booking_id: number, alphanumeric_order_id: string) {
+    const payload = {
+      amount: Math.round(this.totalAmount * 100) / 100,
+      currency: 'INR',
+      booking_type: this.orderType,
+      booking_id: booking_id,
+      customer_id: this.authService.currentUserValue?.id,
+      items: this.bookingItems,
+      discount_amount: this.discount
+    };
+
+    this.apiService.createRazorpayOrder(payload).subscribe({
+      next: (rzpRes: any) => {
+        if (rzpRes.status) {
+          this.openRazorpayInline(rzpRes, booking_id, alphanumeric_order_id);
+        } else {
+          console.error('Razorpay order creation failed:', rzpRes.message);
+          this.isProcessingOrder = false;
+        }
+      },
+      error: (err: any) => {
+        console.error('Razorpay order API error:', err);
         this.isProcessingOrder = false;
       }
     });

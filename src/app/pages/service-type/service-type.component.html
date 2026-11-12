@@ -1,11 +1,11 @@
 <!-- src/app/pages/service-type/service-type.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
   <div
-      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4">
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-12 px-4">
       <div class="max-w-5xl mx-auto">
           <!-- Back Button -->
           <button (click)="goBack()"
-              class="mb-8 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[10px] tracking-widest group">
+              class="mb-4 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[10px] tracking-widest group">
               <svg xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
                   viewBox="0 0 24 24" stroke="currentColor">
@@ -13,18 +13,18 @@
               </svg>
               Back
           </button>
-          <div class="text-center mb-16" data-aos="fade-down">
-              <h1 class="text-5xl font-bold text-gray-900 main-font mb-4">Choose Your <span class="text-[#e87f2c]">Service
+          <div class="text-center mb-10" data-aos="fade-down">
+              <h1 class="text-4xl md:text-5xl font-bold text-gray-900 main-font mb-3">Choose Your <span class="text-[#e87f2c]">Service
                       Type</span></h1>
-              <p class="text-xl text-gray-600 font-medium">Select how you would like your event to be served.</p>
+              <p class="text-base md:text-lg text-gray-600 font-medium">Select how you would like your event to be served.</p>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-12">
+          <div class="grid md:grid-cols-2 gap-8">
               <!-- Book a Chef -->
               <div (click)="selectService('chef')"
                   class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
                   data-aos="fade-right">
-                  <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
+                  <div class="h-64 rounded-[2rem] overflow-hidden mb-6 relative">
                       <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800" alt="Chef"
                           class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
                       <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -56,7 +56,7 @@
               <div (click)="selectService('catering')"
                   class="group relative bg-white rounded-[3rem] p-8 shadow-xl cursor-pointer hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-2 border-transparent hover:border-[#e87f2c]"
                   data-aos="fade-left">
-                  <div class="h-80 rounded-[2rem] overflow-hidden mb-8 relative">
+                  <div class="h-64 rounded-[2rem] overflow-hidden mb-6 relative">
                       <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=800" alt="Catering"
                           class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
                       <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

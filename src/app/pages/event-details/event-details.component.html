@@ -1,7 +1,7 @@
 <!-- src/app/pages/event-details/event-details.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
   <div
-      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4 flex items-center justify-center relative">
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-8 px-4 flex items-center justify-center relative">
 
       <!-- Loader Overlay -->
       <div *ngIf="isLoading"
@@ -47,6 +47,19 @@
                               class="text-[#e87f2c]">Details</span></h1>
                       <p *ngIf="selectedEvent" class="text-sm text-gray-400 font-medium mt-2">Personalizing your <span
                               class="font-bold text-gray-600">{{selectedEvent.name}}</span> journey.</p>
+                  </div>
+
+                  <!-- Came from a partner offer: tell them what to add -->
+                  <div *ngIf="offerGuestsNeeded" class="mb-8 rounded-3xl border border-dashed border-orange-200 bg-orange-50/70 px-6 py-4 text-left">
+                      <p class="text-sm font-bold text-[#c2410c]">
+                          <i class="bi bi-gift-fill mr-1"></i>
+                          Add {{ offerGuestsNeeded | number }} more guests to unlock the offer
+                      </p>
+                      <p class="text-xs font-semibold text-orange-700/80 mt-1">
+                          Currently {{ totalMembers | number }} · target {{ offerTargetGuests | number }} guests.
+                          <span *ngIf="offerGuestsRemaining > 0">{{ offerGuestsRemaining | number }} to go — update the veg / non-veg counts below.</span>
+                          <span *ngIf="offerGuestsRemaining === 0" class="text-green-700">Offer unlocked!</span>
+                      </p>
                   </div>
 
                   <!-- Row 1: Date + Veg -->
@@ -151,7 +164,7 @@
                   <div>
                       <button (click)="selectMenu()" [disabled]="!isValid"
                           class="w-full px-12 py-5 bg-[#e87f2c] hover:bg-[#af6429] text-white rounded-3xl font-black text-base shadow-2xl shadow-orange-500/30 hover:-translate-y-1 active:scale-95 transition-all disabled:opacity-40 disabled:translate-y-0 disabled:scale-100 flex items-center justify-center gap-4 group cursor-pointer disabled:cursor-not-allowed">
-                          Proceed to Menu
+                          {{ returnTo ? 'Update & View Partners' : 'Proceed to Menu' }}
                           <svg xmlns="http://www.w3.org/2000/svg"
                               class="h-5 w-5 group-hover:translate-x-2 transition-transform" fill="none"
                               viewBox="0 0 24 24" stroke="currentColor">
@@ -160,7 +173,7 @@
                           </svg>
                       </button>
                       <p class="text-gray-400 text-[10px] font-black uppercase tracking-[0.5em] mt-6 text-center italic">
-                          Next Step: Culinary Selections</p>
+                          Next Step: {{ returnTo ? 'Catering Partners' : 'Culinary Selections' }}</p>
                   </div>
               </div>
           </div>
@@ -194,6 +207,18 @@
     </div>
 
     <div *ngIf="!isLoading && selectedEvent" class="space-y-6">
+
+      <!-- Came from a partner offer: tell them what to add -->
+      <div *ngIf="offerGuestsNeeded" class="rounded-2xl border border-dashed border-orange-200 bg-orange-50/70 px-4 py-3 text-left">
+        <p class="text-[12px] font-bold text-[#c2410c] leading-snug">
+          <i class="bi bi-gift-fill mr-1"></i> Add {{ offerGuestsNeeded | number }} more guests to unlock the offer
+        </p>
+        <p class="text-[10px] font-semibold text-orange-700/80 mt-1">
+          Currently {{ totalMembers | number }} · target {{ offerTargetGuests | number }}.
+          <span *ngIf="offerGuestsRemaining > 0">{{ offerGuestsRemaining | number }} to go.</span>
+          <span *ngIf="offerGuestsRemaining === 0" class="text-green-700">Offer unlocked!</span>
+        </p>
+      </div>
       
       <!-- Mini Event Preview Card -->
       <div class="bg-white rounded-[2rem] p-4 border border-orange-50/50 shadow-[0_8px_30px_rgb(0,0,0,0.01)] flex gap-4 items-center">
@@ -330,10 +355,10 @@
       <div class="fixed bottom-[60px] left-0 right-0 bg-[#FDF9F4]/95 backdrop-blur-md px-4 py-4 border-t border-orange-100/20 z-40 flex flex-col gap-1.5 shadow-[0_-8px_20px_rgba(0,0,0,0.015)] text-center">
         <button (click)="selectMenu()" [disabled]="!isValid" 
           class="w-full py-4 bg-[#964F08] hover:bg-[#af6429] text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-orange-500/10 disabled:opacity-40 transition-all flex items-center justify-center gap-2 select-none active:scale-95 cursor-pointer disabled:cursor-not-allowed">
-          Select Menu
+          {{ returnTo ? 'Update & View Partners' : 'Select Menu' }}
           <i class="bi bi-arrow-right text-sm"></i>
         </button>
-        <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.25em] italic leading-none">Next Step: Culinary Selections</p>
+        <p class="text-[8px] text-gray-400 font-black uppercase tracking-[0.25em] italic leading-none">Next Step: {{ returnTo ? 'Catering Partners' : 'Culinary Selections' }}</p>
       </div>
 
     </div>

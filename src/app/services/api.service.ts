@@ -121,10 +121,13 @@ export class ApiService {
         return this.http.get(`${this.baseUrl}/customer/service-items/${id}`, { params });
     }
 
-    getVendorsByServiceId(serviceId: string): Observable<any> {
-        return this.http.get(`${this.baseUrl}/customer/partners/vendors`, {
-            params: { service_id: serviceId }
-        });
+    /** Vendors for a service. With menuItemIds (catering), each vendor also gets `menu_pricing` for that menu. */
+    getVendorsByServiceId(serviceId: string, menuItemIds: number[] = [], guestCount: number = 0): Observable<any> {
+        const params: any = { service_id: serviceId };
+        if (menuItemIds.length) params.menu_item_ids = menuItemIds.join(',');
+        // With a guest count each vendor also gets `pricing_summary` (total, discount, upcoming offers)
+        if (menuItemIds.length && guestCount > 0) params.guest_count = guestCount;
+        return this.http.get(`${this.baseUrl}/customer/partners/vendors`, { params });
     }
 
     getBanners(vendorId?: any, serviceId?: any): Observable<any> {
@@ -156,6 +159,18 @@ export class ApiService {
             });
         }
         return this.http.get(`${this.baseUrl}/reviews/vendor/${vendorId}`);
+    }
+
+    /** Best volume discount (guest count / bill amount) for an order. Not cached: depends on the cart. */
+    getApplicableDiscount(vendorId: any, guestCount: number, billAmount: number): Observable<any> {
+        const params: any = { guest_count: guestCount || 0, bill_amount: billAmount || 0 };
+        if (vendorId) params.vendor_id = vendorId;
+        return this.http.get(`${this.baseUrl}/discounts/applicable`, { params });
+    }
+
+    /** Records the discount on a booking; the server recomputes it and returns the final amount. */
+    applyDiscountToBooking(data: { booking_id: number; vendor_id: any; guest_count: number; bill_amount: number }): Observable<any> {
+        return this.http.post(`${this.baseUrl}/discounts/apply`, data);
     }
 
     createRazorpayOrder(data: any): Observable<any> {

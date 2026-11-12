@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { AuthService } from '../../services/auth.service';
+import { ApiService } from '../../services/api.service';
 import { ResponsiveService } from '../../services/responsive.service';
 import { Subscription } from 'rxjs';
 
@@ -24,11 +25,14 @@ export class CheckoutpageComponent implements OnInit, OnDestroy {
   };
   formError: string = '';
   isMobile: boolean = false;
+  /** Volume discount for the current tab: { applied, discount_amount, rule } */
+  discount: any = null;
   private sub = new Subscription();
 
   constructor(
     private bookingService: BookingService,
     private authService: AuthService,
+    private apiService: ApiService,
     private router: Router,
     private location: Location,
     private responsiveService: ResponsiveService
@@ -49,6 +53,7 @@ export class CheckoutpageComponent implements OnInit, OnDestroy {
     }
 
     this.prepareGroupedServices();
+    this.loadDiscount();
   }
 
   ngOnDestroy() {
@@ -72,6 +77,7 @@ export class CheckoutpageComponent implements OnInit, OnDestroy {
 
   setTab(tab: 'event' | 'service') {
     this.activeTab = tab;
+    this.loadDiscount();
   }
 
   goBack() {
@@ -80,7 +86,9 @@ export class CheckoutpageComponent implements OnInit, OnDestroy {
 
   get eventTotal() {
     if (!this.eventBooking?.menuSelection) return 0;
-    return this.eventBooking.menuSelection.reduce((sum: number, item: any) => sum + (item.price * (item.quantity || 1)), 0);
+    // Plate price x guests, matching what the payment page charges
+    const guests = Number(this.eventBooking.totalMembers) || 1;
+    return this.eventBooking.menuSelection.reduce((sum: number, item: any) => sum + (Number(item.price) || 0) * guests, 0);
   }
 
   get serviceTotal() {
@@ -91,9 +99,42 @@ export class CheckoutpageComponent implements OnInit, OnDestroy {
     return this.activeTab === 'event' ? this.eventTotal : this.serviceTotal;
   }
 
+  /** Discount on the current tab's subtotal, capped at the subtotal. */
+  get discountAmount(): number {
+    const amount = this.discount?.applied ? Number(this.discount.discount_amount) || 0 : 0;
+    return Math.min(Math.max(amount, 0), this.currentSubtotal);
+  }
+
+  get discountLabel(): string {
+    const r = this.discount?.rule;
+    if (!r) return '';
+    const val = r.discount_type === 'percentage' ? `${r.discount_value}% off` : `₹${Number(r.discount_value).toLocaleString('en-IN')} off`;
+    const cond = r.rule_type === 'guest_count' ? `${r.min_value}+ guests` : `bill ₹${Number(r.min_value).toLocaleString('en-IN')}+`;
+    return `${val} · ${cond}`;
+  }
+
+  /**
+   * Amount that fees and GST are charged on: the current tab's subtotal after the discount.
+   * Matches the payment page, so the total shown here is what the customer pays.
+   */
   get totalValue() {
-    // Total reflects only the currently selected tab (Event or Service)
-    return this.activeTab === 'event' ? this.eventTotal : this.serviceTotal;
+    return Math.max(this.currentSubtotal - this.discountAmount, 0);
+  }
+
+  /** Same lookup the payment page does, so both pages show the same discount. */
+  private loadDiscount() {
+    const tab = this.activeTab;
+    const booking = this.eventBooking || {};
+    const vendorId = tab === 'event' && booking.serviceType === 'chef'
+      ? booking.selectedChefs?.[0]?.user_id || null
+      : booking.selectedVendor?.user_id || null;
+    const guests = tab === 'event' ? Number(booking.totalMembers) || 0 : 0;
+    this.discount = null;
+    if (this.currentSubtotal <= 0) return;
+    this.apiService.getApplicableDiscount(vendorId, guests, this.currentSubtotal).subscribe({
+      next: (res: any) => { if (this.activeTab === tab) this.discount = res?.status ? res.data : null; },
+      error: () => { if (this.activeTab === tab) this.discount = null; }
+    });
   }
 
   confirmOrder() {

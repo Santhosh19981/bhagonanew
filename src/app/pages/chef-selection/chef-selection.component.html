@@ -1,7 +1,7 @@
 <!-- src/app/pages/chef-selection/chef-selection.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
   <div
-      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-8 px-4 relative">
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-8 px-4 relative">
 
       <!-- Loader Overlay -->
       <div *ngIf="isLoading"
@@ -28,7 +28,7 @@
               </button>
           </div>
           <!-- Sticky Selection Summary -->
-          <div class="sticky top-24 z-40 mb-10" data-aos="fade-down">
+          <div class="relative z-10 mb-10" data-aos="fade-down">
               <div
                   class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-4 shadow-xl border border-white/50 flex flex-col md:flex-row items-center justify-between gap-4">
                   <div class="flex items-center gap-6">

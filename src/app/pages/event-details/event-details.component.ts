@@ -26,6 +26,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   nonVegError: string = '';
   minDate: string = '';
 
+  /** Set when the customer came from a vendor offer ("Add N guests"): save returns to vendor selection. */
+  returnTo: string | null = null;
+  /** Guests needed to unlock the offer, and the guest count when the page opened. */
+  offerGuestsNeeded: number = 0;
+  private guestsAtOpen: number = 0;
+
   private sub = new Subscription();
   events = [
     {
@@ -88,10 +94,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       })
     );
 
+    const qp = this.route.snapshot.queryParamMap;
+    this.returnTo = qp.get('returnTo') === 'vendor-selection' ? 'vendor-selection' : null;
+    this.offerGuestsNeeded = this.returnTo ? Math.max(Math.floor(Number(qp.get('addGuests')) || 0), 0) : 0;
+
     this.sub.add(this.route.params.subscribe(params => {
       const eventId = params['id'];
       if (eventId) {
         this.restoreOrResetBooking(eventId);
+        this.guestsAtOpen = this.totalMembers;
         this.fetchEventDetails(eventId);
       } else {
         // If no ID provided, maybe redirect or show default
@@ -408,6 +419,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       vegGuests: Number(this.vegGuests) || 0,
       nonVegGuests: Number(this.nonVegGuests) || 0
     });
-    this.router.navigate(['/menu-selection']);
+    // Came from a vendor offer: the menu is already chosen, so go straight back to re-priced partners.
+    this.router.navigate([this.returnTo === 'vendor-selection' ? '/vendor-selection' : '/menu-selection']);
+  }
+
+  /** Guest total that unlocks the offer the customer clicked. */
+  get offerTargetGuests(): number {
+    return this.guestsAtOpen + this.offerGuestsNeeded;
+  }
+
+  /** Guests still to add before the offer unlocks (0 once reached). */
+  get offerGuestsRemaining(): number {
+    return Math.max(this.offerTargetGuests - this.totalMembers, 0);
   }
 }

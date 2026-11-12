@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-24 pb-12 px-4 relative">
+    class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-12 px-4 relative">
 
     <!-- Loader Overlay -->
     <div *ngIf="isLoading"
@@ -15,7 +15,7 @@
     <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
         <!-- Back Button -->
         <button (click)="goBack()"
-            class="mb-8 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[11px] tracking-widest group">
+            class="mb-4 flex items-center gap-2 text-gray-400 hover:text-[#e87f2c] transition-colors font-black uppercase text-[11px] tracking-widest group">
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
@@ -24,16 +24,16 @@
             Back
         </button>
         <!-- Header -->
-        <div class="text-center mb-16" data-aos="fade-down">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 main-font mb-6 leading-tight"><span
+        <div class="text-center mb-10" data-aos="fade-down">
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 main-font mb-3 leading-tight"><span
                     class="text-[#e87f2c]">Events</span></h1>
-            <p class="text-base md:text-lg lg:text-xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">From
+            <p class="text-base md:text-lg text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">From
                 intimate celebrations to
                 grand milestones, we craft culinary magic for every moment.</p>
         </div>
 
         <!-- Events Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div *ngFor="let event of events"
                 class="group bg-white rounded-[3.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 border border-gray-100 flex flex-col h-full"
                 data-aos="fade-up">

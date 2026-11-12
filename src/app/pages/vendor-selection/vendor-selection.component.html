@@ -1,7 +1,7 @@
 <!-- src/app/pages/vendor-selection/vendor-selection.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
   <div
-      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-16 pb-8 px-4">
+      class="min-h-screen bg-repeat bg-center bg-[url('https://augest.wpbingosite.com/wp-content/uploads/2024/09/back-17.jpg')] pt-6 pb-12 px-4 relative">
       <!-- Loader Overlay -->
       <div *ngIf="isLoading"
           class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center min-h-[400px]">
@@ -16,7 +16,7 @@
       <div *ngIf="!isLoading" class="max-w-7xl mx-auto">
           <!-- Back Button -->
           <button (click)="goBack()"
-              class="mt-6 mb-6 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
+              class="mb-4 flex items-center gap-1.5 text-gray-500 hover:text-[#e87f2c] transition-colors font-bold uppercase text-[9px] tracking-widest group">
               <svg xmlns="http://www.w3.org/2000/svg"
                   class="h-3 w-3 transform group-hover:-translate-x-1 transition-transform" fill="none"
                   viewBox="0 0 24 24" stroke="currentColor">
@@ -26,7 +26,7 @@
           </button>
 
           <!-- Selected Service Display (Context) -->
-          <div *ngIf="selectedService" class="mb-10" data-aos="zoom-in">
+          <div *ngIf="selectedService && !isCateringFlow" class="mb-8" data-aos="zoom-in">
               <div
                   class="bg-white/95 backdrop-blur-xl rounded-[3rem] overflow-hidden shadow-2xl border border-white/50 grid grid-cols-1 lg:grid-cols-3 gap-0">
                   <!-- Service Image -->
@@ -69,14 +69,18 @@
               </div>
           </div>
           <!-- Sticky Header -->
-          <div class="sticky top-16 z-40 mb-10" data-aos="fade-down">
+          <div class="relative z-10 mb-8" data-aos="fade-down">
               <div
                   class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-4 shadow-xl border border-white/50 flex flex-col lg:flex-row items-center justify-between gap-4">
                   <div class="flex flex-col sm:flex-row items-center gap-6">
                       <div>
                           <h1 class="text-xl font-bold text-gray-900 main-font">{{vendorTitle}} <span
                                   class="text-[#e87f2c]">Partners</span></h1>
-                          <p class="text-gray-500 text-[11px] font-medium leading-none">Choose a partner to view their exclusive menu</p>
+                          <p class="text-gray-500 text-[11px] font-medium leading-none">
+                              {{ isCateringFlow && selectedMenuCount
+                                  ? 'Prices for your ' + selectedMenuCount + ' selected dishes' + (guestCount ? ' · ' + guestCount + ' guests' : '')
+                                  : 'Choose a partner to view their exclusive menu' }}
+                          </p>
                       </div>
 
                       <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
@@ -93,7 +97,8 @@
           <!-- Vendors Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
               <div *ngFor="let vendor of vendors" (click)="selectVendor(vendor)"
-                  class="group relative rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border-2 border-gray-100 bg-white/90 cursor-pointer flex flex-col h-full"
+                  [ngClass]="vendor.offersFullMenu === false ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:shadow-xl'"
+                  class="group relative rounded-[2rem] overflow-hidden shadow-sm transition-all duration-500 border-2 border-gray-100 bg-white/90 flex flex-col h-full"
                   data-aos="fade-up">
 
                   <!-- Image Container -->
@@ -133,26 +138,90 @@
 
                   <!-- Vendor Info -->
                   <div class="p-6 space-y-4 flex flex-col flex-grow">
-                      <div class="space-y-2 flex-grow">
-                          <div class="flex items-center gap-2 text-gray-600">
-                              <div
-                                  class="w-5 h-5 bg-green-100 rounded-full flex justify-center items-center text-green-600 text-[8px]">
-                                  ✓</div>
-                              <span class="text-[11px] font-medium">Full Buffet Setup Included</span>
-                          </div>
-                          <div class="flex items-center gap-2 text-gray-600">
-                              <div
-                                  class="w-5 h-5 bg-green-100 rounded-full flex justify-center items-center text-green-600 text-[8px]">
-                                  ✓</div>
-                              <span class="text-[11px] font-medium">Professional Serving Staff</span>
-                          </div>
-                      </div>
+                      <!-- Price for the customer's order at this partner -->
+                      <ng-container *ngIf="vendor.menuPricing">
+                          <!-- Can serve the whole menu -->
+                          <div *ngIf="vendor.offersFullMenu" class="space-y-3 flex-grow">
+                              <div class="flex items-center justify-between gap-3">
+                                  <p class="text-sm font-bold text-gray-700">
+                                      ₹{{ vendor.pricePerPlate | number:'1.0-2' }}<span class="text-xs font-semibold text-gray-400"> / plate</span>
+                                  </p>
+                                  <span class="px-2.5 py-1 rounded-lg bg-green-50 text-green-600 text-[10px] font-black whitespace-nowrap">
+                                      All {{ vendor.menuPricing.total_count }} dishes
+                                  </span>
+                              </div>
 
-                      <div class="w-full py-3.5 bg-gray-900 text-white rounded-xl font-black uppercase text-[9px] tracking-[0.2em] transition-all border-2 border-transparent mt-2 text-center shadow-lg group-hover:bg-[#e87f2c]">
-                          View Menu &amp; Book
+                              <div *ngIf="vendor.summary" class="rounded-2xl bg-gray-50 px-4 py-3">
+                                  <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                      Total for {{ vendor.summary.guests | number }} guests
+                                  </p>
+                                  <div class="flex items-baseline gap-2 flex-wrap mt-0.5">
+                                      <span class="text-2xl font-black text-gray-900 leading-tight">
+                                          ₹{{ vendor.summary.total_after_discount | number:'1.0-0' }}
+                                      </span>
+                                      <span *ngIf="vendor.summary.applied" class="text-sm font-bold text-gray-400 line-through">
+                                          ₹{{ vendor.summary.subtotal | number:'1.0-0' }}
+                                      </span>
+                                  </div>
+                                  <p *ngIf="vendor.summary.applied" class="mt-1.5 inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-green-100 text-green-700 text-[11px] font-bold">
+                                      <i class="bi bi-tag-fill"></i>
+                                      You save ₹{{ vendor.summary.discount_amount | number:'1.0-0' }} · {{ vendor.summary.rule.value }} on {{ vendor.summary.rule.cond }}
+                                  </p>
+                                  <p class="text-[10px] text-gray-400 font-medium mt-1.5">Service fee &amp; GST added at checkout</p>
+                              </div>
+
+                              <!-- Offers the customer can still unlock -->
+                              <div *ngFor="let offer of vendor.summary?.upcoming"
+                                  class="flex items-center justify-between gap-3 rounded-2xl border border-dashed border-orange-200 bg-orange-50/60 px-3.5 py-2.5">
+                                  <div class="min-w-0">
+                                      <p class="text-[12px] font-bold text-[#c2410c] leading-snug">
+                                          <i class="bi bi-gift-fill mr-1"></i>{{ offer.message }}
+                                      </p>
+                                      <p class="text-[10px] font-semibold text-orange-700/70 mt-0.5">
+                                          Save ₹{{ offer.projected_discount | number:'1.0-0' }}{{ offer.scope === 'platform' ? ' · Bhagona offer' : '' }}
+                                      </p>
+                                  </div>
+                                  <button *ngIf="offer.guests_needed" (click)="addGuestsForOffer(offer.guests_needed, $event)"
+                                      class="shrink-0 px-3 py-1.5 rounded-xl bg-[#e87f2c] hover:bg-[#d06a1a] text-white text-[10px] font-black uppercase tracking-wider transition-colors">
+                                      Add {{ offer.guests_needed }}
+                                  </button>
+                              </div>
+                          </div>
+
+                          <!-- Can't serve everything selected -->
+                          <div *ngIf="!vendor.offersFullMenu" class="space-y-2 flex-grow">
+                              <span class="inline-block px-2.5 py-1 rounded-lg bg-red-50 text-red-500 text-[10px] font-black">
+                                  Serves {{ vendor.menuPricing.offered_count }} of {{ vendor.menuPricing.total_count }} dishes
+                              </span>
+                              <p class="text-[11px] font-medium text-red-500 leading-snug">
+                                  Doesn't serve: {{ vendor.menuPricing.missing.join(', ') }}
+                              </p>
+                          </div>
+                      </ng-container>
+                      <div *ngIf="!vendor.menuPricing" class="flex-grow"></div>
+
+                      <div *ngIf="vendor.offersFullMenu !== false"
+                          class="w-full py-3.5 bg-gray-900 text-white rounded-xl font-black uppercase text-[9px] tracking-[0.2em] transition-all border-2 border-transparent mt-2 text-center shadow-lg group-hover:bg-[#e87f2c]">
+                          <span *ngIf="isCateringFlow && selectedMenuCount">Choose Partner</span>
+                          <span *ngIf="!(isCateringFlow && selectedMenuCount)">View Menu &amp; Book</span>
+                      </div>
+                      <div *ngIf="vendor.offersFullMenu === false"
+                          class="w-full py-3.5 bg-gray-100 text-gray-400 rounded-xl font-black uppercase text-[9px] tracking-[0.2em] mt-2 text-center">
+                          Menu not fully available
                       </div>
                   </div>
               </div>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="vendors.length === 0"
+              class="bg-white/90 rounded-[2rem] border border-gray-100 shadow-sm py-16 px-6 text-center">
+              <p class="text-lg font-bold text-gray-800 main-font">No {{vendorTitle | lowercase}} partners available yet</p>
+              <p class="text-sm text-gray-500 mt-2">Please check back soon or explore other services.</p>
+              <button (click)="goBack()"
+                  class="mt-6 px-8 py-3 bg-orange-50 text-[#e87f2c] hover:bg-[#e87f2c] hover:text-white rounded-xl font-bold text-sm transition-all">
+                  Go Back
+              </button>
           </div>
       </div>
   </div>
@@ -196,10 +265,12 @@
       <!-- Vendor Card -->
       <div *ngFor="let vendor of vendors"
         (click)="selectVendor(vendor)"
-        class="bg-white rounded-3xl p-4 border cursor-pointer transition-all duration-200 flex items-center gap-4 relative select-none active:scale-[0.99]"
+        class="bg-white rounded-3xl p-4 border transition-all duration-200 flex items-center gap-4 relative select-none"
         [ngClass]="{
           'border-[#964F08] shadow-md shadow-orange-100/60': isVendorSelected(vendor),
-          'border-gray-100 shadow-sm': !isVendorSelected(vendor)
+          'border-gray-100 shadow-sm': !isVendorSelected(vendor),
+          'opacity-60 cursor-not-allowed': vendor.offersFullMenu === false,
+          'cursor-pointer active:scale-[0.99]': vendor.offersFullMenu !== false
         }">
 
         <!-- Square Thumbnail + Rating badge -->
@@ -230,9 +301,42 @@
           </p>
           <!-- Thin divider + description -->
           <div class="border-t border-gray-100 mt-2 pt-2">
-            <p class="text-[11px] text-gray-400 font-medium leading-snug line-clamp-2">
-              {{ vendor.description || 'Buffet &amp; servers included' }}
-            </p>
+            <ng-container *ngIf="vendor.menuPricing; else plainDesc">
+              <ng-container *ngIf="vendor.offersFullMenu">
+                <!-- Total for the order, with discount -->
+                <div *ngIf="vendor.summary; else perPlateOnly" class="flex items-baseline gap-1.5 flex-wrap">
+                  <span class="text-[15px] font-black text-[#1a0800] leading-tight">₹{{ vendor.summary.total_after_discount | number:'1.0-0' }}</span>
+                  <span *ngIf="vendor.summary.applied" class="text-[10px] font-bold text-gray-400 line-through">₹{{ vendor.summary.subtotal | number:'1.0-0' }}</span>
+                  <span class="text-[9px] font-bold text-gray-400">· ₹{{ vendor.pricePerPlate | number:'1.0-0' }}/plate × {{ vendor.summary.guests }}</span>
+                </div>
+                <ng-template #perPlateOnly>
+                  <p class="text-[13px] font-black text-[#1a0800] leading-tight">
+                    ₹{{ vendor.pricePerPlate | number:'1.0-2' }}<span class="text-[10px] font-bold text-gray-400"> / plate</span>
+                  </p>
+                </ng-template>
+                <p *ngIf="vendor.summary?.applied" class="text-[10px] font-bold text-green-600 leading-snug mt-0.5">
+                  <i class="bi bi-tag-fill"></i> Save ₹{{ vendor.summary.discount_amount | number:'1.0-0' }} · {{ vendor.summary.rule.value }}
+                </p>
+                <!-- Closest offer they can unlock -->
+                <div *ngIf="vendor.summary?.upcoming?.length" class="mt-1.5 flex items-center justify-between gap-2 rounded-xl bg-orange-50 px-2.5 py-1.5">
+                  <p class="text-[10px] font-bold text-[#c2410c] leading-snug">
+                    <i class="bi bi-gift-fill"></i> {{ vendor.summary.upcoming[0].message }}
+                  </p>
+                  <button *ngIf="vendor.summary.upcoming[0].guests_needed" (click)="addGuestsForOffer(vendor.summary.upcoming[0].guests_needed, $event)"
+                    class="shrink-0 px-2 py-1 rounded-lg bg-[#964F08] text-white text-[9px] font-black uppercase">
+                    Add {{ vendor.summary.upcoming[0].guests_needed }}
+                  </button>
+                </div>
+              </ng-container>
+              <p *ngIf="!vendor.offersFullMenu" class="text-[10px] font-bold text-red-500 leading-snug line-clamp-2">
+                Doesn't serve: {{ vendor.menuPricing.missing.join(', ') }}
+              </p>
+            </ng-container>
+            <ng-template #plainDesc>
+              <p class="text-[11px] text-gray-400 font-medium leading-snug line-clamp-2">
+                {{ vendor.description || 'Buffet &amp; servers included' }}
+              </p>
+            </ng-template>
           </div>
         </div>
 

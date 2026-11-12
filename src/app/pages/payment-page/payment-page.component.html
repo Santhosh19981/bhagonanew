@@ -1,6 +1,6 @@
 <!-- src/app/pages/payment-page/payment-page.component.html -->
 <ng-container *ngIf="!isMobile; else mobileLayout">
-  <div class="min-h-screen bg-slate-50/50 pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
+  <div class="min-h-screen bg-slate-50/50 pt-6 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
       <div class="max-w-6xl mx-auto">
           
           <!-- Step Indicator -->
@@ -106,6 +106,14 @@
                           <div class="h-px bg-slate-100 my-8"></div>
                           <div class="space-y-4 text-sm font-medium text-slate-400">
                               <div class="flex justify-between"><span>Subtotal</span><span class="text-slate-700 font-bold">₹{{ subtotal | number:'1.2-2' }}</span></div>
+                              <div *ngIf="discount > 0" class="flex justify-between items-start gap-4">
+                                  <span>
+                                      <span class="text-green-600 font-bold">Discount</span>
+                                      <span class="block text-[11px] text-slate-400">{{ discountTitle }}<span *ngIf="discountLabel"> · {{ discountLabel }}</span></span>
+                                  </span>
+                                  <span class="text-green-600 font-bold whitespace-nowrap">−₹{{ discount | number:'1.2-2' }}</span>
+                              </div>
+                              <div class="flex justify-between"><span>Service Fee (5%)</span><span class="text-slate-700 font-bold">₹{{ serviceFee | number:'1.2-2' }}</span></div>
                               <div class="flex justify-between"><span>Tax (GST 18%)</span><span class="text-slate-700 font-bold">₹{{ gst | number:'1.2-2' }}</span></div>
                           </div>
                           <div class="h-px bg-slate-100 my-8"></div>
@@ -195,6 +203,9 @@
         <div>
           <span class="text-[8px] text-gray-400 font-bold uppercase tracking-widest leading-none block">Total Payable</span>
           <span class="text-2xl font-black text-[#e87f2c] block mt-1">₹{{ totalAmount | number:'1.0-0' }}</span>
+          <span *ngIf="discount > 0" class="text-[10px] font-bold text-green-600 block mt-1">
+            <i class="bi bi-tag-fill"></i> You save ₹{{ discount | number:'1.0-0' }} · {{ discountTitle }}
+          </span>
         </div>
         <div class="flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-600 rounded-lg text-[9px] font-black uppercase tracking-wider">
           <i class="bi bi-shield-fill-check"></i>
